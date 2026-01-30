@@ -142,35 +142,75 @@
         
         let plantPositions = {}; // ← MÉMOIRE DES POSITIONS
 
+let plantElements = {}; // Cache des éléments existants
+
 function generateGarden() {
     const svg = document.getElementById('garden');
     
-    // NE RECRÉE QUE les NOUVELLES plantes
+    // AJOUTE UNIQUEMENT les NOUVELLES plantes
     gardenData.slice(0, 20).forEach((plant, index) => {
-        if (!svg.querySelector(`[data-plant-id="${plant.id}"]`)) {
-            const x = 80 + (index % 10) * 110;
-            const y = 420 + Math.floor(index / 10) * 80;
-            plantPositions[plant.id] = {x, y};
+        if (!plantElements[plant.id]) {
+            const x = 100 + (index % 10) * 110;
+            const y = 450 + Math.floor(index / 10) * 75;
             
-            let emoji = plant.activite === 'Réunion équipe' ? '🌿' : 
-                       plant.activite === 'Appel client' ? '🌸' : '🌱';
-                       
-            svg.innerHTML += `
-                <g class="plant" data-plant-id="${plant.id}" 
-                   transform="translate(${x},${y})" onclick="showPlant(${plant.id})">
-                    <circle cx="0" cy="0" r="30" fill="#4CAF50" stroke="#2E7D32" stroke-width="3"/>
-                    <text x="0" y="8" font-size="32" text-anchor="middle" fill="white">${emoji}</text>
-                    <circle cx="0" cy="-28" r="8" fill="#FFD700" opacity="0.8"/>
-                </g>
-            `;
+            let emoji = '🌱';
+            if (plant.activite === 'Réunion équipe') emoji = '🌿';
+            else if (plant.activite === 'Appel client') emoji = '🌸';
+            else if (plant.activite === 'Tâche solo') emoji = '🍃';
+            
+            const plantG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            plantG.setAttribute('class', 'plant');
+            plantG.setAttribute('data-plant-id', plant.id);
+            plantG.setAttribute('transform', `translate(${x},${y})`);
+            plantG.onclick = () => showPlant(plant.id);
+            
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', '0');
+            circle.setAttribute('cy', '0');
+            circle.setAttribute('r', '30');
+            circle.setAttribute('fill', '#4CAF50');
+            circle.setAttribute('stroke', '#2E7D32');
+            circle.setAttribute('stroke-width', '3');
+            
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', '0');
+            text.setAttribute('y', '8');
+            text.setAttribute('font-size', '32');
+            text.setAttribute('text-anchor', 'middle');
+            text.setAttribute('fill', 'white');
+            text.setAttribute('font-weight', 'bold');
+            text.textContent = emoji;
+            
+            const star = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            star.setAttribute('cx', '0');
+            star.setAttribute('cy', '-28');
+            star.setAttribute('r', '8');
+            star.setAttribute('fill', '#FFD700');
+            star.setAttribute('opacity', '0.8');
+            
+            plantG.appendChild(circle);
+            plantG.appendChild(text);
+            plantG.appendChild(star);
+            svg.appendChild(plantG);
+            
+            plantElements[plant.id] = plantG;
+        }
+    });
+    
+    // Nettoie les anciennes plantes
+    Object.keys(plantElements).forEach(id => {
+        if (!gardenData.slice(0, 20).find(p => p.id == id)) {
+            const element = plantElements[id];
+            if (element && element.parentNode) element.parentNode.removeChild(element);
+            delete plantElements[id];
         }
     });
     
     if (gardenData.length === 0) {
-        svg.innerHTML = '<text x="600" y="300" font-size="28" text-anchor="middle" fill="#4CAF50">Plante ta première force ! 🌱</text>';
+        svg.innerHTML = '<text x="600" y="300" font-size="28" text-anchor="middle" fill="#4CAF50" opacity="0.6">Plante ta première force ! 🌱</text>';
+        plantElements = {};
     }
-}
-        
+} 
         function showPlant(id) {
             const plant = gardenData.find(p => p.id === id);
             if (plant) {
