@@ -2,333 +2,316 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<title>Nout Karro Fler — Jardin attentionnel</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nout Karro Fler 🌱</title>
 
 <style>
-* { box-sizing: border-box; }
-
+/* ----------------- AMBIANCE GÉNÉRALE ----------------- */
 body {
     margin: 0;
-    padding: 20px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", serif;
-    background: #0a0a0a;
-    color: #e6e6e6;
+    font-family: "Georgia", serif;
+    background: url("assets/bg-paper.jpg") center/cover fixed;
+    color: #2f3e34;
+    overflow-x: hidden;
 }
 
-/* ---------- LOGIN ---------- */
+h1,h2,h3 {
+    font-weight: normal;
+}
+
+/* ----------------- LOGIN ----------------- */
 #login {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.95);
+    background: rgba(245,245,240,0.96);
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 1000;
+    justify-content: center;
+    z-index: 100;
 }
 
 #loginBox {
-    background: linear-gradient(145deg,#1a1a1a,#2a2a2a);
+    background: rgba(255,255,255,0.85);
     padding: 40px;
-    border-radius: 24px;
-    width: min(90%,380px);
+    border-radius: 20px;
     text-align: center;
-    box-shadow: 0 30px 60px rgba(0,0,0,.8);
-    border: 1px solid rgba(76,175,80,.4);
-}
-
-#loginBox h1 {
-    margin-top: 0;
-    color: #4CAF50;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
 }
 
 #loginBox input {
+    padding: 14px;
     width: 100%;
-    padding: 16px;
-    border-radius: 14px;
-    border: none;
-    margin-top: 20px;
+    border-radius: 12px;
+    border: 1px solid #aaa;
     font-size: 16px;
 }
 
 #loginBox button {
-    width: 100%;
     margin-top: 20px;
-    padding: 16px;
-    border-radius: 30px;
+    padding: 14px 30px;
     border: none;
-    font-size: 18px;
-    background: linear-gradient(135deg,#4CAF50,#43a047);
+    border-radius: 30px;
+    background: #6fa58c;
     color: white;
+    font-size: 16px;
     cursor: pointer;
 }
 
-/* ---------- MAIN ---------- */
-#main { display: none; max-width: 1400px; margin: auto; }
+/* ----------------- PAGE PRINCIPALE ----------------- */
+#main {
+    display: none;
+    padding: 40px;
+}
 
-/* Blackboard */
-#blackboard {
-    background: linear-gradient(145deg,#1a1a1a,#2a2a2a);
-    padding: 30px;
-    border-radius: 24px;
-    margin-bottom: 30px;
+#quote {
     text-align: center;
-    border: 1px solid rgba(76,175,80,.3);
+    font-style: italic;
+    opacity: 0.8;
+    margin-bottom: 30px;
 }
 
-#blackboard h2 {
-    margin: 0 0 10px;
-    color: #4CAF50;
-}
-
-#quote { font-style: italic; opacity: .85; }
-
-/* Add button */
+/* ----------------- BOUTON AJOUT ----------------- */
 #addBtn {
     display: block;
     margin: 30px auto;
-    padding: 18px 40px;
+    padding: 16px 36px;
     border-radius: 40px;
     border: none;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    background: linear-gradient(135deg,#4CAF50,#43a047);
+    background: #8bbf9f;
     color: white;
+    font-size: 18px;
+    cursor: pointer;
 }
 
-/* ---------- FORM ---------- */
-#formOverlay {
+/* ----------------- JARDIN ----------------- */
+#garden {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.35);
+    overflow: hidden;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.08);
+}
+
+.plant {
+    position: absolute;
+    width: 90px;
+    animation: breathe 8s ease-in-out infinite;
+    cursor: pointer;
+}
+
+.plant.latest {
+    filter: drop-shadow(0 0 20px rgba(255,215,130,0.9));
+}
+
+@keyframes breathe {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+}
+
+/* ----------------- EAU & SOLEIL ----------------- */
+.water, .sun {
+    position: absolute;
+    pointer-events: none;
+    animation: fade 2s ease-out forwards;
+}
+
+@keyframes fade {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-30px); }
+}
+
+/* ----------------- FORMULAIRE ----------------- */
+#overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.9);
+    background: rgba(250,250,245,0.96);
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 999;
+    z-index: 90;
 }
 
-#formOverlay form {
-    background: linear-gradient(145deg,#1a1a1a,#2a2a2a);
+form {
+    background: white;
     padding: 40px;
-    border-radius: 24px;
-    width: min(90%,500px);
-    border: 1px solid rgba(76,175,80,.3);
+    border-radius: 25px;
+    width: 420px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
 }
 
-#formOverlay h3 {
-    margin-top: 0;
-    text-align: center;
-    color: #4CAF50;
-}
-
-#formOverlay input,
-#formOverlay select,
-#formOverlay textarea {
+form select, form textarea, form input {
     width: 100%;
-    margin-top: 14px;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    margin-top: 20px;
     padding: 14px;
-    border-radius: 14px;
-    border: none;
-    background: rgba(255,255,255,.05);
-    color: white;
-}
-
-#formOverlay button {
     width: 100%;
-    margin-top: 24px;
-    padding: 16px;
     border-radius: 30px;
     border: none;
-    font-size: 18px;
-    background: linear-gradient(135deg,#4CAF50,#43a047);
+    background: #6fa58c;
     color: white;
-    cursor: pointer;
-}
-
-/* ---------- GARDEN ---------- */
-h2 {
-    text-align: center;
-    color: #4CAF50;
-}
-
-#garden {
-    width: 100%;
-    height: 600px;
-    background: radial-gradient(ellipse at center,#1b1b1b 0%,#0a0a0a 70%);
-    border-radius: 24px;
-    border: 2px solid rgba(76,175,80,.5);
-}
-
-/* Plants */
-.plant {
-    cursor: pointer;
-    transition: filter .3s ease, opacity .3s ease;
-    filter: drop-shadow(0 4px 12px rgba(76,175,80,.3));
-}
-
-.plant:hover {
-    filter: drop-shadow(0 8px 24px rgba(76,175,80,.7)) brightness(1.2);
-    opacity: .95;
+    font-size: 16px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
 <div id="login">
-  <div id="loginBox">
-    <h1>🌱 Nout Karro Fler</h1>
-    <p>Entre dans le jardin attentionnel</p>
-    <input type="password" id="pwd" placeholder="Mot de passe">
-    <button onclick="checkPassword()">Entrer</button>
-  </div>
+    <div id="loginBox">
+        <h2>🌱 Nout Karro Fler</h2>
+        <p>Entre dans le jardin</p>
+        <input id="pwd" type="password" placeholder="mot de passe">
+        <button onclick="checkPassword()">Entrer</button>
+    </div>
 </div>
 
-<!-- MAIN -->
 <div id="main">
+    <h1>Le jardin de l’attention</h1>
+    <div id="quote"></div>
 
-  <div id="blackboard">
-    <h2>📜 Citation du jardin</h2>
-    <p id="quote"></p>
-  </div>
+    <button id="addBtn" onclick="openForm()">➕ Planter une expérience</button>
 
-  <button id="addBtn" onclick="openForm()">➕ Nouvelle contribution</button>
-
-  <div id="formOverlay">
-    <form id="contribForm">
-      <h3>🌿 Planter une expérience</h3>
-
-      <select name="activite" required>
-        <option value="">Activité</option>
-        <option value="collectif">Temps collectif</option>
-        <option value="accompagnement">Accompagnement / soin</option>
-        <option value="relation">Relation usager / famille</option>
-        <option value="organisation">Organisation / coordination</option>
-        <option value="solo">Travail en autonomie</option>
-        <option value="imprevu">Gestion d’imprévu</option>
-      </select>
-
-      <textarea name="situation" rows="3" placeholder="Situation vécue" required></textarea>
-
-      <input name="forces" list="forcesList" placeholder="Force mobilisée" required>
-      <datalist id="forcesList">
-        <option>Empathie</option><option>Écoute active</option><option>Patience</option>
-        <option>Créativité</option><option>Résilience</option><option>Adaptabilité</option>
-        <option>Coopération</option><option>Leadership calme</option>
-        <option>Responsabilité</option><option>Humour</option>
-        <option>Espoir</option><option>Justesse</option>
-      </datalist>
-
-      <input name="pourQui" placeholder="Pour qui ?" required>
-
-      <button type="submit">🌱 Planter</button>
-    </form>
-  </div>
-
-  <h2>🌳 Jardin des forces</h2>
-  <svg id="garden" viewBox="0 0 1400 700"></svg>
-
+    <div id="garden"></div>
 </div>
 
-<script>
-/* ---------- DATA ---------- */
-const PASSWORD = atob("bm91dGthcnJv");
-let gardenData = JSON.parse(localStorage.getItem("garden") || "[]");
+<div id="overlay">
+<form id="form">
+  <h3>🌿 Planter une expérience</h3>
 
-/* ---------- LOGIN ---------- */
+  <select name="activite" required>
+    <option value="">Contexte / activité</option>
+    <option>Soin / accompagnement</option>
+    <option>Échange / relation</option>
+    <option>Création / réflexion</option>
+    <option>Transmission</option>
+    <option>Autre</option>
+  </select>
+
+  <textarea name="experience"
+   placeholder="Décris l’expérience vécue, simplement…"
+   required></textarea>
+
+  <textarea name="ressenti"
+   placeholder="Ce que cela a provoqué, appris, transformé…"></textarea>
+
+  <select name="force">
+    <option value="">Force mobilisée (VIA)</option>
+    <option>Bienveillance</option>
+    <option>Curiosité</option>
+    <option>Persévérance</option>
+    <option>Espoir</option>
+    <option>Gratitude</option>
+    <option>Humour</option>
+    <option>Intelligence sociale</option>
+  </select>
+
+  <input name="forceLibre"
+   placeholder="Autre force (si différente)">
+
+  <select name="valeur">
+    <option value="">Valeur en jeu (Schwartz)</option>
+    <option>Bienveillance</option>
+    <option>Universalisme</option>
+    <option>Autonomie</option>
+    <option>Sécurité</option>
+    <option>Stimulation</option>
+    <option>Accomplissement</option>
+  </select>
+
+  <input name="pourQui"
+   placeholder="Pour qui cette expérience a compté ?">
+
+  <button type="submit">🌸 Planter</button>
+</form>
+ 
+</div>  
+<script>
+const PASSWORD = "jardin";
+
+const quotes = [
+    "Ce à quoi tu prêtes attention grandit.",
+    "Chaque geste nourrit une racine invisible.",
+    "Le vivant se cultive par la présence.",
+    "Un jardin est une mémoire qui respire."
+];
+
+const plantImages = [
+    "assets/plants/fleur1.png",
+    "assets/plants/fleur2.png",
+    "assets/plants/arbuste1.png",
+    "assets/plants/arbre1.png",
+    "assets/plants/fruit1.png"
+];
+
+let data = JSON.parse(localStorage.getItem("garden") || "[]");
+
 function checkPassword() {
-    if (document.getElementById("pwd").value === PASSWORD) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("main").style.display = "block";
-        loadQuote();
-        generateGarden();
+    if (pwd.value === PASSWORD) {
+        login.style.display = "none";
+        main.style.display = "block";
+        quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
+        renderGarden();
     }
 }
 
-/* ---------- QUOTES ---------- */
-function loadQuote() {
-    const quotes = [
-        "Ce qu’on arrose pousse.",
-        "Chaque attention est une graine.",
-        "Le collectif fleurit quand on le regarde.",
-        "Une force reconnue grandit."
-    ];
-    document.getElementById("quote").textContent =
-        quotes[Math.floor(Math.random() * quotes.length)];
-}
-
-/* ---------- FORM ---------- */
 function openForm() {
-    document.getElementById("formOverlay").style.display = "flex";
+    overlay.style.display = "flex";
 }
 
-document.getElementById("contribForm").addEventListener("submit", e => {
+form.addEventListener("submit", e => {
     e.preventDefault();
-    const fd = new FormData(e.target);
-    gardenData.unshift({
+    const f = new FormData(form);
+    data.unshift({
         id: Date.now(),
-        activite: fd.get("activite"),
-        situation: fd.get("situation"),
-        forces: fd.get("forces"),
-        pourQui: fd.get("pourQui"),
-        date: new Date().toLocaleDateString("fr-FR")
+        activite: f.get("activite"),
+        experience: f.get("experience"),
+        force: f.get("force") || f.get("forceLibre"),
+        valeur: f.get("valeur"),
+        img: plantImages[Math.floor(Math.random()*plantImages.length)],
+        x: Math.random()*85,
+        y: Math.random()*75,
+        eau: 0,
+        soleil: 0
     });
-    localStorage.setItem("garden", JSON.stringify(gardenData));
-    e.target.reset();
-    document.getElementById("formOverlay").style.display = "none";
-    generateGarden();
+    localStorage.setItem("garden", JSON.stringify(data));
+    overlay.style.display = "none";
+    form.reset();
+    renderGarden();
 });
 
-/* ---------- GARDEN ---------- */
-function generateGarden() {
-    const svg = document.getElementById("garden");
-    svg.innerHTML = "";
-
-    if (!gardenData.length) {
-        svg.innerHTML =
-          `<text x="700" y="350" text-anchor="middle" fill="#4CAF50" font-size="32">
-            Plante ta première force 🌱
-          </text>`;
-        return;
-    }
-
-    gardenData.slice(0,24).forEach((p,i)=>{
-        const col = i % 8;
-        const row = Math.floor(i / 8);
-        const x = 150 + col * 150;
-        const y = 550 - row * 120;
-
-        let emoji = "🌱";
-        if (p.activite==="collectif") emoji="🌳";
-        if (p.activite==="accompagnement") emoji="🌸";
-        if (p.activite==="relation") emoji="🌿";
-        if (p.activite==="organisation") emoji="🌾";
-        if (p.activite==="solo") emoji="🍃";
-        if (p.activite==="imprevu") emoji="🌵";
-
-        svg.insertAdjacentHTML("beforeend",`
-        <g class="plant" transform="translate(${x},${y})"
-           onclick="showPlant(${p.id})">
-            <line x1="0" y1="0" x2="0" y2="-40"
-                  stroke="#4CAF50" stroke-width="4"/>
-            <text x="0" y="-50" font-size="36" text-anchor="middle">${emoji}</text>
-        </g>
-        `);
+function renderGarden() {
+    garden.innerHTML = "";
+    data.forEach((p,i)=>{
+        const img = document.createElement("img");
+        img.src = p.img;
+        img.className = "plant" + (i===0 ? " latest" : "");
+        img.style.left = p.x+"%";
+        img.style.top = p.y+"%";
+        img.onclick = () => react(p);
+        garden.appendChild(img);
     });
 }
 
-function showPlant(id) {
-    const p = gardenData.find(x=>x.id===id);
-    if(p){
-        alert(
-          `🌿 Activité : ${p.activite}\n`+
-          `📝 ${p.situation}\n`+
-          `💪 ${p.forces}\n`+
-          `👥 ${p.pourQui}\n`+
-          `📅 ${p.date}`
-        );
+function react(p) {
+    if (Math.random() > 0.5) drop("💧");
+    else drop("☀️");
+
+    function drop(symbol){
+        const s = document.createElement("div");
+        s.className = symbol==="💧"?"water":"sun";
+        s.innerText = symbol;
+        s.style.left = Math.random()*80+"%";
+        s.style.top = "80%";
+        garden.appendChild(s);
+        setTimeout(()=>s.remove(),2000);
     }
 }
 </script>
