@@ -270,17 +270,33 @@ form.addEventListener("submit", e => {
     e.preventDefault();
     const f = new FormData(form);
     data.unshift({
-        id: Date.now(),
-        activite: f.get("activite"),
-        experience: f.get("experience"),
-        force: f.get("force") || f.get("forceLibre"),
-        valeur: f.get("valeur"),
-        img: plantImages[Math.floor(Math.random()*plantImages.length)],
-        x: Math.random()*85,
-        y: Math.random()*75,
-        eau: 0,
-        soleil: 0
-    });
+    id: Date.now(),
+
+    // 🌿 CONTEXTE
+    activite: f.get("activite"),
+
+    // 📝 EXPÉRIENCE VÉCUE
+    experience: f.get("experience"),
+    ressenti: f.get("ressenti"),
+
+    // 💪 RESSOURCES MOBILISÉES
+    force: f.get("force") || f.get("forceLibre"),
+    valeur: f.get("valeur"),
+
+    // 👥 DESTINATAIRE
+    pourQui: f.get("pourQui"),
+
+    // 🌱 FORME VIVANTE
+    img: plantImages[Math.floor(Math.random()*plantImages.length)],
+    x: Math.random()*85,
+    y: Math.random()*75,
+
+    // 💧 INTERACTIONS
+    eau: 0,
+    soleil: 0,
+
+    date: new Date().toLocaleDateString("fr-FR")
+});
     localStorage.setItem("garden", JSON.stringify(data));
     overlay.style.display = "none";
     form.reset();
