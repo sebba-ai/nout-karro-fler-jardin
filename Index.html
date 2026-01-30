@@ -5,91 +5,263 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nout Karro fler ! 🌱 Jardin Attentionnel</title>
     <style>
-        <style>
-    body { 
-        font-family: 'Georgia', serif; 
-        background: #000 !important; 
-        color: #F0F8FF; margin: 0; padding: 20px; min-height: 100vh; 
-    }
-    /* ... reste du CSS noir que je t'ai donné ... */
-</style>
-<style>
-    body { 
-        font-family: 'Georgia', serif; 
-        background: #000 !important; 
-        color: #F0F8FF; margin: 0; padding: 20px; min-height: 100vh; }
-        #login { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-        #login div { background: white; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        #login input { font-size: 20px; padding: 15px; width: 250px; margin: 10px; border: 2px solid #90EE90; border-radius: 10px; }
-        #login button { font-size: 20px; padding: 15px 30px; background: #4CAF50; color: white; border: none; border-radius: 10px; cursor: pointer; transition: background 0.3s; }
-        #login button:hover { background: #45a049; }
-        #main { max-width: 1200px; margin: 0 auto; display: none; }
-        #blackboard { background: #2F4F4F; color: #F0F8FF; padding: 30px; border-radius: 15px; text-align: center; margin: 20px 0; box-shadow: inset 0 0 20px rgba(0,0,0,0.3); }
-        #addBtn { font-size: 24px; padding: 20px 40px; background: linear-gradient(45deg, #FFEB3B, #FFD700); border: none; border-radius: 50px; cursor: pointer; display: block; margin: 30px auto; font-weight: bold; transition: transform 0.3s; }
-        #addBtn:hover { transform: scale(1.05); }
-        #formOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 999; }
-        #formOverlay form { background: white; padding: 40px; border-radius: 20px; width: min(90%, 500px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-        #formOverlay input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #90EE90; border-radius: 10px; box-sizing: border-box; font-family: inherit; }
-        #formOverlay button { width: 100%; font-size: 18px; padding: 15px; background: #4CAF50; color: white; border: none; border-radius: 10px; cursor: pointer; }
-        h2 { text-align: center; color: #2F4F2F; }
-        #garden { width: 100%; height: 500px; border: 5px solid #8B4513; border-radius: 20px; background: linear-gradient(to bottom, #87CEEB 0%, #90EE90 50%, #228B22 100%); overflow: hidden; }
-        .plant { cursor: pointer; transition: all 0.4s ease; }
-        .plant:hover { filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); transform: scale(1.2) rotate(5deg); }
-        @media (max-width: 768px) { #garden { height: 400px; } }
+        * { box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Georgia, serif; 
+            background: #0a0a0a; 
+            color: #e0e0e0; 
+            margin: 0; 
+            padding: 20px; 
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* LOGIN MODAL */
+        #login { 
+            position: fixed; inset: 0; 
+            background: rgba(0,0,0,0.95); 
+            backdrop-filter: blur(10px);
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 1000; 
+        }
+        #login > div { 
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a); 
+            padding: 50px 40px; 
+            border-radius: 24px; 
+            text-align: center; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+            border: 1px solid rgba(76,175,80,0.3);
+            max-width: 400px;
+            width: 90%;
+        }
+        #login h2 { 
+            background: linear-gradient(135deg, #4CAF50, #81C784); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            font-size: 2.2em; 
+            margin: 0 0 20px 0;
+            font-weight: 700;
+        }
+        #login input { 
+            width: 100%; 
+            padding: 18px 20px; 
+            font-size: 18px; 
+            border: 2px solid transparent; 
+            border-radius: 16px; 
+            background: rgba(255,255,255,0.05); 
+            color: white; 
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        #login input:focus { 
+            outline: none; 
+            border-color: #4CAF50; 
+            box-shadow: 0 0 0 3px rgba(76,175,80,0.1);
+            background: rgba(255,255,255,0.08);
+        }
+        #login button { 
+            width: 100%; 
+            padding: 18px; 
+            margin-top: 20px;
+            font-size: 18px; 
+            font-weight: 600;
+            background: linear-gradient(135deg, #4CAF50, #45a049); 
+            color: white; 
+            border: none; 
+            border-radius: 16px; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(76,175,80,0.3);
+        }
+        #login button:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 12px 35px rgba(76,175,80,0.4);
+        }
+
+        /* MAIN CONTENT */
+        #main { max-width: 1400px; margin: 0 auto; display: none; }
+        #blackboard { 
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a); 
+            padding: 40px; 
+            border-radius: 24px; 
+            text-align: center; 
+            margin: 30px 0; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border: 1px solid rgba(76,175,80,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        #blackboard::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+        }
+        #blackboard h1 { 
+            font-size: 2.5em; 
+            background: linear-gradient(135deg, #4CAF50, #81C784); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            margin: 0 0 20px 0;
+        }
+        #quote { font-size: 1.4em; font-style: italic; opacity: 0.9; }
+        
+        #addBtn { 
+            display: block; 
+            margin: 40px auto; 
+            padding: 22px 50px; 
+            font-size: 20px; 
+            font-weight: 700;
+            background: linear-gradient(135deg, #4CAF50, #45a049); 
+            color: white; 
+            border: none; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            box-shadow: 0 12px 30px rgba(76,175,80,0.4);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        #addBtn:hover { 
+            transform: translateY(-4px) scale(1.02); 
+            box-shadow: 0 20px 40px rgba(76,175,80,0.5);
+        }
+
+        /* FORM */
+        #formOverlay { 
+            position: fixed; inset: 0; 
+            background: rgba(0,0,0,0.9); 
+            backdrop-filter: blur(15px);
+            display: none; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 999; 
+        }
+        #formOverlay form { 
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a); 
+            padding: 50px; 
+            border-radius: 24px; 
+            width: min(90%, 550px); 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            border: 1px solid rgba(76,175,80,0.3);
+        }
+        #formOverlay h3 { 
+            color: #4CAF50; 
+            font-size: 1.8em; 
+            margin: 0 0 30px 0; 
+            text-align: center;
+        }
+        #formOverlay input, select, textarea { 
+            width: 100%; 
+            padding: 16px 20px; 
+            margin: 12px 0; 
+            border: 2px solid rgba(255,255,255,0.1); 
+            border-radius: 16px; 
+            background: rgba(255,255,255,0.03); 
+            color: white; 
+            font-family: inherit;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        #formOverlay input:focus, select:focus, textarea:focus { 
+            outline: none; 
+            border-color: #4CAF50; 
+            box-shadow: 0 0 0 3px rgba(76,175,80,0.1);
+            background: rgba(255,255,255,0.05);
+        }
+        #formOverlay button[type="submit"] { 
+            margin-top: 20px; 
+            padding: 20px; 
+            font-size: 18px; 
+            font-weight: 700;
+            background: linear-gradient(135deg, #4CAF50, #45a049); 
+        }
+
+        /* JARDIN */
+        h2 { 
+            text-align: center; 
+            color: #4CAF50; 
+            font-size: 2.2em; 
+            margin: 40px 0 20px 0;
+            text-shadow: 0 0 20px rgba(76,175,80,0.5);
+        }
+        #garden { 
+            width: 100%; 
+            height: 600px; 
+            border: 3px solid rgba(76,175,80,0.5); 
+            border-radius: 24px; 
+            background: radial-gradient(ellipse at center, rgba(26,26,26,0.9) 0%, #0a0a0a 70%); 
+            overflow: hidden;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 20px 40px rgba(0,0,0,0.6);
+            position: relative;
+        }
+        #garden::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+        }
+        
+        .plant { 
+            cursor: pointer; 
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
+            filter: drop-shadow(0 4px 12px rgba(76,175,80,0.3));
+        }
+        .plant:hover { 
+            transform: scale(1.2) rotate(5deg) translateY(-10px) !important; 
+            filter: drop-shadow(0 8px 25px rgba(76,175,80,0.6)) brightness(1.2);
+        }
+        
+        @media (max-width: 768px) { 
+            #garden { height: 450px; } 
+            #login > div, #formOverlay form { padding: 30px; margin: 20px; }
+        }
     </style>
 </head>
 <body>
     <div id="login">
         <div>
             <h2>🌱 Nout Karro fler !</h2>
-            <p>Entre dans le Jardin Attentionnel</p>
+            <p style="margin: 0 0 30px 0; opacity: 0.8;">Entre dans le Jardin Attentionnel</p>
             <input type="password" id="pwd" placeholder="Ton mot de passe secret...">
-            <br><button onclick="checkPassword()">Entrer au jardin</button>
+            <button onclick="checkPassword()">🌿 Entrer au jardin</button>
         </div>
     </div>
     
     <div id="main">
         <div id="blackboard">
-            <h1>📜 Citation du jour</h1>
+            <h1>📜 Citation du Jardinier</h1>
             <p id="quote">Le jardin pousse quand on lui prête attention.</p>
-            <small>Actualisé chaque visite</small>
+            <small style="opacity: 0.7;">Actualisé à chaque visite ✨</small>
         </div>
         
-        <button id="addBtn" onclick="showForm()">➕ Plante une nouvelle contribution !</button>
+        <button id="addBtn" onclick="showForm()">➕ Nouvelle contribution</button>
         
         <div id="formOverlay">
             <form id="contribForm">
-                <h3>🌿 Que veux-tu planter aujourd'hui ?</h3>
+                <h3>🌿 Que veux-tu planter ?</h3>
                 <select name="activite" required>
-                    <option value="">Choisis une activité...</option>
+                    <option value="">Choisis une activité</option>
                     <option>Réunion équipe</option>
                     <option>Tâche solo</option>
                     <option>Appel client</option>
                     <option>Autre</option>
                 </select>
-                <textarea name="situation" placeholder="Situation vécue (ex: réunion tendue)..." rows="3" required></textarea>
-                <input name="forces" placeholder="Force utilisée (ex: empathie, écoute)..." list="forcesList" required>
-                <input name="pourQui" placeholder="Pour qui ? (équipe, client, soi...)" required>
+                <textarea name="situation" placeholder="Situation vécue..." rows="3" required></textarea>
+                <input name="forces" placeholder="Force utilisée (empathie, écoute...)" list="forcesList" required>
+                <input name="pourQui" placeholder="Pour qui ? (équipe, client, soi)" required>
                 <datalist id="forcesList">
-                    <option>Empathie</option>
-                    <option>Écoute active</option>
-                    <option>Créativité</option>
-                    <option>Résilience</option>
-                    <option>Humour</option>
-                    <option>Leadership</option>
+                    <option>Empathie</option><option>Écoute active</option><option>Créativité</option>
+                    <option>Résilience</option><option>Humour</option><option>Leadership</option>
                 </datalist>
-                <button type="submit">🌱 Planter cette force !</button>
+                <button type="submit">🌱 Planter !</button>
             </form>
         </div>
         
-        <h2>🌳 Le Jardin des Forces</h2>
-        <svg id="garden" viewBox="0 0 1200 600"></svg>
-        <p style="text-align:center; color:#666; font-style:italic;">Clique sur une plante pour voir les détails ✨</p>
+        <h2>🌳 Jardin des Forces</h2>
+        <svg id="garden" viewBox="0 0 1400 700"></svg>
     </div>
 
     <script>
         const PASSWORD = atob('bm91dHphcmRpbjIwMjY=');
         let gardenData = JSON.parse(localStorage.getItem('noutKarroGarden') || '[]');
+        let gardenReady = false;
         
         function checkPassword() {
             const pwd = document.getElementById('pwd').value;
@@ -97,11 +269,14 @@
                 document.getElementById('login').style.display = 'none';
                 document.getElementById('main').style.display = 'block';
                 loadQuote();
-                generateGarden();
+                if (!gardenReady) {
+                    generateGarden();
+                    gardenReady = true;
+                }
             } else {
-                alert('❌ Mot de passe incorrect. Essaie encore !');
                 document.getElementById('pwd').value = '';
                 document.getElementById('pwd').focus();
+                new Audio('audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMc').play().catch(()=>{}); // bip erreur
             }
         }
         
@@ -110,7 +285,7 @@
                 '"Nout karro fler pou bann zoli zoli !" - Jardinier créole',
                 '"Le bonheur se cultive comme un jardin." - Aristote',
                 '"Ce qu’on arrose pousse." - Psychologie positive',
-                '"Chaque plante est une victoire d’attention." - Toi-même'
+                '"Chaque plante est une victoire d’attention." - Nout Karro'
             ];
             document.getElementById('quote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
         }
@@ -129,100 +304,56 @@
                 situation: formData.get('situation'),
                 forces: formData.get('forces'),
                 pourQui: formData.get('pourQui'),
-                reactions: { eau: 0, soleil: 0 }, // À développer plus tard
+                reactions: { eau: 0, soleil: 0 },
                 date: new Date().toLocaleDateString('fr-FR')
             };
-            gardenData.unshift(plant); // Ajoute en haut pour récence
+            gardenData.unshift(plant);
             localStorage.setItem('noutKarroGarden', JSON.stringify(gardenData));
             e.target.reset();
             document.getElementById('formOverlay').style.display = 'none';
-            generateGarden();
-            alert('🌿 Planté avec succès ! Regarde ton jardin pousser.');
         });
         
-        let plantPositions = {}; // ← MÉMOIRE DES POSITIONS
-
-let plantElements = {}; // Cache des éléments existants
-
-function generateGarden() {
-    const svg = document.getElementById('garden');
-    
-    // AJOUTE UNIQUEMENT les NOUVELLES plantes
-    gardenData.slice(0, 20).forEach((plant, index) => {
-        if (!plantElements[plant.id]) {
-            const x = 100 + (index % 10) * 110;
-            const y = 450 + Math.floor(index / 10) * 75;
+        function generateGarden() {
+            const svg = document.getElementById('garden');
+            svg.innerHTML = '';
             
-            let emoji = '🌱';
-            if (plant.activite === 'Réunion équipe') emoji = '🌿';
-            else if (plant.activite === 'Appel client') emoji = '🌸';
-            else if (plant.activite === 'Tâche solo') emoji = '🍃';
+            gardenData.slice(0, 24).forEach((plant, index) => {
+                const x = 120 + (index % 12) * 110;
+                const y = 500 + Math.floor(index / 12) * 90;
+                
+                let emoji = '🌱';
+                if (plant.activite === 'Réunion équipe') emoji = '🌿';
+                else if (plant.activite === 'Appel client') emoji = '🌸';
+                else if (plant.activite === 'Tâche solo') emoji = '🍃';
+                
+                svg.innerHTML += `
+                    <g class="plant" transform="translate(${x},${y})" onclick="showPlant(${plant.id})">
+                        <path d="M0,-35 Q15,-20 30,0 Q20,15 0,25 Q-20,15 -30,0 Q-15,-20 0,-35 Z" fill="#4CAF50" opacity="0.9"/>
+                        <text x="0" y="5" font-size="34" text-anchor="middle" fill="#fff" font-weight="700">${emoji}</text>
+                        <circle cx="0" cy="-32" r="6" fill="#FFD700"/>
+                        <circle cx="12" cy="-38" r="3" fill="#FF5722"/>
+                    </g>
+                `;
+            });
             
-            const plantG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            plantG.setAttribute('class', 'plant');
-            plantG.setAttribute('data-plant-id', plant.id);
-            plantG.setAttribute('transform', `translate(${x},${y})`);
-            plantG.onclick = () => showPlant(plant.id);
-            
-            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            circle.setAttribute('cx', '0');
-            circle.setAttribute('cy', '0');
-            circle.setAttribute('r', '30');
-            circle.setAttribute('fill', '#4CAF50');
-            circle.setAttribute('stroke', '#2E7D32');
-            circle.setAttribute('stroke-width', '3');
-            
-            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            text.setAttribute('x', '0');
-            text.setAttribute('y', '8');
-            text.setAttribute('font-size', '32');
-            text.setAttribute('text-anchor', 'middle');
-            text.setAttribute('fill', 'white');
-            text.setAttribute('font-weight', 'bold');
-            text.textContent = emoji;
-            
-            const star = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            star.setAttribute('cx', '0');
-            star.setAttribute('cy', '-28');
-            star.setAttribute('r', '8');
-            star.setAttribute('fill', '#FFD700');
-            star.setAttribute('opacity', '0.8');
-            
-            plantG.appendChild(circle);
-            plantG.appendChild(text);
-            plantG.appendChild(star);
-            svg.appendChild(plantG);
-            
-            plantElements[plant.id] = plantG;
-        }
-    });
-    
-    // Nettoie les anciennes plantes
-    Object.keys(plantElements).forEach(id => {
-        if (!gardenData.slice(0, 20).find(p => p.id == id)) {
-            const element = plantElements[id];
-            if (element && element.parentNode) element.parentNode.removeChild(element);
-            delete plantElements[id];
-        }
-    });
-    
-    if (gardenData.length === 0) {
-        svg.innerHTML = '<text x="600" y="300" font-size="28" text-anchor="middle" fill="#4CAF50" opacity="0.6">Plante ta première force ! 🌱</text>';
-        plantElements = {};
-    }
-} 
-        function showPlant(id) {
-            const plant = gardenData.find(p => p.id === id);
-            if (plant) {
-                const details = `🌿 ${plant.activite}\n📝 ${plant.situation}\n💪 Force: ${plant.forces}\n👥 Pour: ${plant.pourQui}\n📅 ${plant.date}`;
-                alert(details);
+            if (gardenData.length === 0) {
+                svg.innerHTML = '<text x="700" y="350" font-size="32" text-anchor="middle" fill="#4CAF50" opacity="0.7" font-weight="500">Plante ta première force ! 🌱</text>';
             }
         }
         
-        // Enter pour login
-        document.getElementById('pwd').addEventListener('keypress', function(e) {
+        function showPlant(id) {
+            const plant = gardenData.find(p => p.id === id);
+            if (plant) {
+                alert(`🌿 ${plant.activite}\n📝 ${plant.situation}\n💪 ${plant.forces}\n👥 ${plant.pourQui}\n📅 ${plant.date}`);
+            }
+        }
+        
+        document.getElementById('pwd').addEventListener('keypress', e => {
             if (e.key === 'Enter') checkPassword();
         });
+        
+        // Auto-focus mot de passe
+        window.addEventListener('load', () => document.getElementById('pwd').focus());
     </script>
 </body>
 </html>
