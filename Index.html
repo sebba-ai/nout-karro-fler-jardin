@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nout Karro fler ! 🌱 Jardin Attentionnel</title>
+    <title>Nout Karro fler ! 🌱 Jardin Attentionnel</
+        title>
     <style>
         body { font-family: 'Georgia', serif; background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%); margin: 0; padding: 20px; min-height: 100vh; }
         #login { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 1000; }
@@ -129,35 +130,36 @@
         });
         
         function generateGarden() {
-            const svg = document.getElementById('garden');
-            svg.innerHTML = '';
-            
-            gardenData.slice(0, 20).forEach((plant, index) => { // Limite à 20 pour perf
-                const x = 80 + (index % 10) * 110;
-                const row = Math.floor(index / 10);
-                const yBase = 450 + row * 80;
-                const growth = Math.min((plant.reactions.eau + plant.reactions.soleil + 2) * 10, 80); // Croissance simulée
-                const y = yBase - growth;
-                
-                let emoji = '🌱';
-                if (plant.activite === 'Réunion équipe') emoji = '🌿';
-                else if (plant.activite === 'Appel client') emoji = '🌸';
-                else if (plant.activite === 'Tâche solo') emoji = '🍃';
-                
-                svg.innerHTML += `
-                    <g class="plant" transform="translate(${x},${y})" onclick="showPlant(${plant.id})">
-                        <circle cx="0" cy="0" r="30" fill="#228B22" stroke="#006400" stroke-width="3" opacity="0.9"/>
-                        <text x="0" y="10" font-size="28" text-anchor="middle" fill="white" font-weight="bold">${emoji}</text>
-                        <text x="0" y="42" font-size="14" text-anchor="middle" fill="#EEE" font-weight="bold">${plant.pourQui.substring(0,3).toUpperCase()}</text>
-                        <circle cx="0" cy="-25" r="8" fill="#FFD700" opacity="0.7"/> <!-- Étoile force -->
-                    </g>
-                `;
-            });
-            
-            if (gardenData.length === 0) {
-                svg.innerHTML = '<text x="600" y="300" font-size="32" text-anchor="middle" fill="#666" opacity="0.5">Plante ta première force ! 🌱</text>';
-            }
-        }
+    const svg = document.getElementById('garden');
+    svg.innerHTML = '';
+    
+    gardenData.slice(0, 20).forEach((plant, index) => {
+        const x = 80 + (index % 10) * 110;
+        const row = Math.floor(index / 10);
+        const yBase = 450 + row * 80;
+        const growth = Math.min((plant.reactions.eau + plant.reactions.soleil + 2) * 10, 80);
+        const y = yBase - growth;
+        
+        let emoji = '🌱';
+        if (plant.activite === 'Réunion équipe') emoji = '🌿';
+        else if (plant.activite === 'Appel client') emoji = '🌸';
+        else if (plant.activite === 'Tâche solo') emoji = '🍃';
+        
+        // SUPPRIME le texte sous l'image → SEULEMENT l'emoji + cercle
+        svg.innerHTML += `
+            <g class="plant" transform="translate(${x},${y})" onclick="showPlant(${plant.id})">
+                <circle cx="0" cy="0" r="30" fill="#4CAF50" stroke="#2E7D32" stroke-width="3" opacity="0.95"/>
+                <text x="0" y="8" font-size="32" text-anchor="middle" fill="white" font-weight="bold">${emoji}</text>
+                <!-- TEXTE SUPPRIMÉ -->
+                <circle cx="0" cy="-28" r="8" fill="#FFD700" opacity="0.8"/>
+            </g>
+        `;
+    });
+    
+    if (gardenData.length === 0) {
+        svg.innerHTML = '<text x="600" y="300" font-size="28" text-anchor="middle" fill="#4CAF50" opacity="0.6">Plante ta première force ! 🌱</text>';
+    }
+}
         
         function showPlant(id) {
             const plant = gardenData.find(p => p.id === id);
