@@ -76,7 +76,7 @@
     </div>
 
     <script>
-        const PASSWORD = 'karro2026fler'; // CHANGE ÇA IMMÉDIATEMENT après premier test !
+        const PASSWORD = (function(a,b,c){return btoa(a.split('').reverse().join('')).split('')[c]+atob('bm91dHphcmRpbjIwMjY=').split('').reverse().join('');})('!ednI202','n','2');
         let gardenData = JSON.parse(localStorage.getItem('noutKarroGarden') || '[]');
         
         function checkPassword() {
