@@ -76,7 +76,7 @@
     </div>
 
     <script>
-        const PASSWORD = (function(a,b,c){return btoa(a.split('').reverse().join('')).split('')[c]+atob('bm91dHphcmRpbjIwMjY=').split('').reverse().join('');})('!ednI202','n','2');
+        const PASSWORD = atob('bm91dHphcmRpbjIwMjY=');
         let gardenData = JSON.parse(localStorage.getItem('noutKarroGarden') || '[]');
         
         function checkPassword() {
