@@ -140,32 +140,35 @@
             alert('🌿 Planté avec succès ! Regarde ton jardin pousser.');
         });
         
-        function generateGarden() {
+        let plantPositions = {}; // ← MÉMOIRE DES POSITIONS
+
+function generateGarden() {
     const svg = document.getElementById('garden');
     
-    // FIXE les positions une bonne fois pour toutes
+    // NE RECRÉE QUE les NOUVELLES plantes
     gardenData.slice(0, 20).forEach((plant, index) => {
-        const x = 80 + (index % 10) * 110;  // ← POSITIONS FIXES
-        const row = Math.floor(index / 10);
-        const y = 420 + row * 80;           // ← Y FIXE (pas de calcul growth)
-        
-        let emoji = '🌱';
-        if (plant.activite === 'Réunion équipe') emoji = '🌿';
-        else if (plant.activite === 'Appel client') emoji = '🌸';
-        else if (plant.activite === 'Tâche solo') emoji = '🍃';
-        
-        // CRÉE ou MET À JOUR (sans recréer)
-        let plantElement = svg.querySelector(`[data-plant-id="${plant.id}"]`);
-        if (!plantElement) {
+        if (!svg.querySelector(`[data-plant-id="${plant.id}"]`)) {
+            const x = 80 + (index % 10) * 110;
+            const y = 420 + Math.floor(index / 10) * 80;
+            plantPositions[plant.id] = {x, y};
+            
+            let emoji = plant.activite === 'Réunion équipe' ? '🌿' : 
+                       plant.activite === 'Appel client' ? '🌸' : '🌱';
+                       
             svg.innerHTML += `
-                <g class="plant" data-plant-id="${plant.id}" transform="translate(${x},${y})" onclick="showPlant(${plant.id})">
-                    <circle cx="0" cy="0" r="30" fill="#4CAF50" stroke="#2E7D32" stroke-width="3" opacity="0.95"/>
-                    <text x="0" y="8" font-size="32" text-anchor="middle" fill="white" font-weight="bold">${emoji}</text>
+                <g class="plant" data-plant-id="${plant.id}" 
+                   transform="translate(${x},${y})" onclick="showPlant(${plant.id})">
+                    <circle cx="0" cy="0" r="30" fill="#4CAF50" stroke="#2E7D32" stroke-width="3"/>
+                    <text x="0" y="8" font-size="32" text-anchor="middle" fill="white">${emoji}</text>
                     <circle cx="0" cy="-28" r="8" fill="#FFD700" opacity="0.8"/>
                 </g>
             `;
         }
     });
+    
+    if (gardenData.length === 0) {
+        svg.innerHTML = '<text x="600" y="300" font-size="28" text-anchor="middle" fill="#4CAF50">Plante ta première force ! 🌱</text>';
+    }
 }
         
         function showPlant(id) {
