@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nout Karro fler ! 🌱 Jardin Attentionnel</title>
+    <style>
+        body { font-family: 'Georgia', serif; background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%); margin: 0; padding: 20px; min-height: 100vh; }
+        #login { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        #login div { background: white; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        #login input { font-size: 20px; padding: 15px; width: 250px; margin: 10px; border: 2px solid #90EE90; border-radius: 10px; }
+        #login button { font-size: 20px; padding: 15px 30px; background: #4CAF50; color: white; border: none; border-radius: 10px; cursor: pointer; transition: background 0.3s; }
+        #login button:hover { background: #45a049; }
+        #main { max-width: 1200px; margin: 0 auto; display: none; }
+        #blackboard { background: #2F4F4F; color: #F0F8FF; padding: 30px; border-radius: 15px; text-align: center; margin: 20px 0; box-shadow: inset 0 0 20px rgba(0,0,0,0.3); }
+        #addBtn { font-size: 24px; padding: 20px 40px; background: linear-gradient(45deg, #FFEB3B, #FFD700); border: none; border-radius: 50px; cursor: pointer; display: block; margin: 30px auto; font-weight: bold; transition: transform 0.3s; }
+        #addBtn:hover { transform: scale(1.05); }
+        #formOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 999; }
+        #formOverlay form { background: white; padding: 40px; border-radius: 20px; width: min(90%, 500px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        #formOverlay input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #90EE90; border-radius: 10px; box-sizing: border-box; font-family: inherit; }
+        #formOverlay button { width: 100%; font-size: 18px; padding: 15px; background: #4CAF50; color: white; border: none; border-radius: 10px; cursor: pointer; }
+        h2 { text-align: center; color: #2F4F2F; }
+        #garden { width: 100%; height: 500px; border: 5px solid #8B4513; border-radius: 20px; background: linear-gradient(to bottom, #87CEEB 0%, #90EE90 50%, #228B22 100%); overflow: hidden; }
+        .plant { cursor: pointer; transition: all 0.4s ease; }
+        .plant:hover { filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); transform: scale(1.2) rotate(5deg); }
+        @media (max-width: 768px) { #garden { height: 400px; } }
+    </style>
+</head>
+<body>
+    <div id="login">
+        <div>
+            <h2>🌱 Nout Karro fler !</h2>
+            <p>Entre dans le Jardin Attentionnel</p>
+            <input type="password" id="pwd" placeholder="Ton mot de passe secret...">
+            <br><button onclick="checkPassword()">Entrer au jardin</button>
+        </div>
+    </div>
+    
+    <div id="main">
+        <div id="blackboard">
+            <h1>📜 Citation du jour</h1>
+            <p id="quote">Le jardin pousse quand on lui prête attention.</p>
+            <small>Actualisé chaque visite</small>
+        </div>
+        
+        <button id="addBtn" onclick="showForm()">➕ Plante une nouvelle contribution !</button>
+        
+        <div id="formOverlay">
+            <form id="contribForm">
+                <h3>🌿 Que veux-tu planter aujourd'hui ?</h3>
+                <select name="activite" required>
+                    <option value="">Choisis une activité...</option>
+                    <option>Réunion équipe</option>
+                    <option>Tâche solo</option>
+                    <option>Appel client</option>
+                    <option>Autre</option>
+                </select>
+                <textarea name="situation" placeholder="Situation vécue (ex: réunion tendue)..." rows="3" required></textarea>
+                <input name="forces" placeholder="Force utilisée (ex: empathie, écoute)..." list="forcesList" required>
+                <input name="pourQui" placeholder="Pour qui ? (équipe, client, soi...)" required>
+                <datalist id="forcesList">
+                    <option>Empathie</option>
+                    <option>Écoute active</option>
+                    <option>Créativité</option>
+                    <option>Résilience</option>
+                    <option>Humour</option>
+                    <option>Leadership</option>
+                </datalist>
+                <button type="submit">🌱 Planter cette force !</button>
+            </form>
+        </div>
+        
+        <h2>🌳 Le Jardin des Forces</h2>
+        <svg id="garden" viewBox="0 0 1200 600"></svg>
+        <p style="text-align:center; color:#666; font-style:italic;">Clique sur une plante pour voir les détails ✨</p>
+    </div>
+
+    <script>
+        const PASSWORD = 'karro2026fler'; // CHANGE ÇA IMMÉDIATEMENT après premier test !
+        let gardenData = JSON.parse(localStorage.getItem('noutKarroGarden') || '[]');
+        
+        function checkPassword() {
+            const pwd = document.getElementById('pwd').value;
+            if (pwd === PASSWORD) {
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('main').style.display = 'block';
+                loadQuote();
+                generateGarden();
+            } else {
+                alert('❌ Mot de passe incorrect. Essaie encore !');
+                document.getElementById('pwd').value = '';
+                document.getElementById('pwd').focus();
+            }
+        }
+        
+        function loadQuote() {
+            const quotes = [
+                '"Nout karro fler pou bann zoli zoli !" - Jardinier créole',
+                '"Le bonheur se cultive comme un jardin." - Aristote',
+                '"Ce qu’on arrose pousse." - Psychologie positive',
+                '"Chaque plante est une victoire d’attention." - Toi-même'
+            ];
+            document.getElementById('quote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+        }
+        
+        function showForm() {
+            document.getElementById('formOverlay').style.display = 'flex';
+            document.querySelector('#contribForm textarea').focus();
+        }
+        
+        document.getElementById('contribForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const plant = {
+                id: Date.now(),
+                activite: formData.get('activite'),
+                situation: formData.get('situation'),
+                forces: formData.get('forces'),
+                pourQui: formData.get('pourQui'),
+                reactions: { eau: 0, soleil: 0 }, // À développer plus tard
+                date: new Date().toLocaleDateString('fr-FR')
+            };
+            gardenData.unshift(plant); // Ajoute en haut pour récence
+            localStorage.setItem('noutKarroGarden', JSON.stringify(gardenData));
+            e.target.reset();
+            document.getElementById('formOverlay').style.display = 'none';
+            generateGarden();
+            alert('🌿 Planté avec succès ! Regarde ton jardin pousser.');
+        });
+        
+        function generateGarden() {
+            const svg = document.getElementById('garden');
+            svg.innerHTML = '';
+            
+            gardenData.slice(0, 20).forEach((plant, index) => { // Limite à 20 pour perf
+                const x = 80 + (index % 10) * 110;
+                const row = Math.floor(index / 10);
+                const yBase = 450 + row * 80;
+                const growth = Math.min((plant.reactions.eau + plant.reactions.soleil + 2) * 10, 80); // Croissance simulée
+                const y = yBase - growth;
+                
+                let emoji = '🌱';
+                if (plant.activite === 'Réunion équipe') emoji = '🌿';
+                else if (plant.activite === 'Appel client') emoji = '🌸';
+                else if (plant.activite === 'Tâche solo') emoji = '🍃';
+                
+                svg.innerHTML += `
+                    <g class="plant" transform="translate(${x},${y})" onclick="showPlant(${plant.id})">
+                        <circle cx="0" cy="0" r="30" fill="#228B22" stroke="#006400" stroke-width="3" opacity="0.9"/>
+                        <text x="0" y="10" font-size="28" text-anchor="middle" fill="white" font-weight="bold">${emoji}</text>
+                        <text x="0" y="42" font-size="14" text-anchor="middle" fill="#EEE" font-weight="bold">${plant.pourQui.substring(0,3).toUpperCase()}</text>
+                        <circle cx="0" cy="-25" r="8" fill="#FFD700" opacity="0.7"/> <!-- Étoile force -->
+                    </g>
+                `;
+            });
+            
+            if (gardenData.length === 0) {
+                svg.innerHTML = '<text x="600" y="300" font-size="32" text-anchor="middle" fill="#666" opacity="0.5">Plante ta première force ! 🌱</text>';
+            }
+        }
+        
+        function showPlant(id) {
+            const plant = gardenData.find(p => p.id === id);
+            if (plant) {
+                const details = `🌿 ${plant.activite}\n📝 ${plant.situation}\n💪 Force: ${plant.forces}\n👥 Pour: ${plant.pourQui}\n📅 ${plant.date}`;
+                alert(details);
+            }
+        }
+        
+        // Enter pour login
+        document.getElementById('pwd').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+    </script>
+</body>
+</html>
