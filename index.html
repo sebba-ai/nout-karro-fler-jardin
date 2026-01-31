@@ -71,6 +71,28 @@ h1,h2,h3 {
     min-height: 100vh;
     box-sizing: border-box;
 }
+    #main h2 {
+    font-size: 1.1rem; 
+    line-height: 1.5;
+    text-align: center;
+    margin: 10px auto 20px auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 600px; /* Évite qu'il soit trop large sur tablette */
+
+    /* Effet de flou "Glass" */
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    
+    color: #2f3e34;
+    font-weight: normal;
+}
+
 
 #quote {
     text-align: center;
