@@ -371,13 +371,11 @@ form button {
     <h1>Si nous plante carotte nous récolté carotte, si nou plante banane nous recolté banane</h1>
     <div id="quote"></div>
 
-```
 <button id="addBtn" onclick="openForm()">➕ Planter une expérience</button>
 
 <div id="garden">
     <div class="loading">🌱 Chargement du jardin...</div>
 </div>
-```
 
 </div>
 
@@ -404,7 +402,6 @@ form button {
   <select name="force">
     <option value="">Force mobilisée (VIA)</option>
 
-```
 <optgroup label="🧠 SAGESSE ET CONNAISSANCE">
   <option>Curiosité</option>
   <option>Amour de l'apprentissage</option>
@@ -446,7 +443,7 @@ form button {
   <option>Humour</option>
   <option>Spiritualité / Foi</option>
 </optgroup>
-```
+
 
   </select>
 
@@ -456,7 +453,6 @@ placeholder="Autre force (si différente)">
   <select name="valeur">
     <option value="">Valeur en jeu (Schwartz)</option>
 
-```
 <optgroup label="🌍 OUVERTURE AU CHANGEMENT">
   <option>Autodétermination-pensée</option>
   <option>Autodétermination-action</option>
@@ -486,7 +482,6 @@ placeholder="Autre force (si différente)">
   <option>Universalisme-nature</option>
   <option>Universalisme-tolérance</option>
 </optgroup>
-```
 
   </select>
 
@@ -738,33 +733,33 @@ placeholder="Pour qui cette expérience a compté ?">
                   <div class="section-content">${p.experience || "—"}</div>
               </div>
               
-              ${p.ressenti ? `
+              ${p.ressenti ? 
               <div class="notebook-section">
                   <div class="section-label">💭 Ressenti & transformation</div>
                   <div class="section-content">${p.ressenti}</div>
               </div>
-              ` : ''}
+        
               
-              ${p.force ? `
+              ${p.force ? 
               <div class="notebook-section">
                   <div class="section-label">💪 Force mobilisée</div>
                   <div class="section-content">${p.force}</div>
               </div>
-              ` : ''}
+            
               
-              ${p.valeur ? `
+              ${p.valeur ? 
               <div class="notebook-section">
                   <div class="section-label">⭐ Valeur en jeu</div>
                   <div class="section-content">${p.valeur}</div>
               </div>
-              ` : ''}
               
-              ${p.pourQui ? `
+              
+              ${p.pourQui ? 
               <div class="notebook-section">
                   <div class="section-label">👥 Pour qui</div>
                   <div class="section-content">${p.pourQui}</div>
               </div>
-              ` : ''}
+              
               
               <div class="interaction-stats">
                   <div class="stat-item">💧 Eau : ${p.eau}</div>
@@ -772,7 +767,7 @@ placeholder="Pour qui cette expérience a compté ?">
                   <div class="stat-item">🌱 Croissance : ${Math.round((1 + (p.eau + p.soleil) * 0.1) * 100)}%</div>
               </div>
           </div>
-      `;
+    
       
       updatePageNav();
   }
