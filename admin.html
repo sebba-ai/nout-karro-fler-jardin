@@ -3,7 +3,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Admin — Nout Karro Fler</title>
+<title>Admin — Despire</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -99,6 +99,58 @@ body {
 .stat-card .label {
     color: #666;
     margin-top: 5px;
+}
+
+/* Statistiques forces et valeurs */
+.analytics {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.analytics h2 {
+    color: #667eea;
+    margin-top: 0;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+}
+
+.chart-item {
+    margin-bottom: 15px;
+}
+
+.chart-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.chart-bar-container {
+    background: #f0f0f0;
+    border-radius: 10px;
+    height: 25px;
+    overflow: hidden;
+}
+
+.chart-bar {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
 }
 
 .actions {
@@ -259,6 +311,21 @@ body {
     </div>
 </div>
 
+<!-- Statistiques Forces et Valeurs -->
+<div class="analytics">
+    <h2>📊 Statistiques Forces & Valeurs</h2>
+    <div class="charts-grid">
+        <div>
+            <h3>💪 Forces mobilisées</h3>
+            <div id="forcesChart"></div>
+        </div>
+        <div>
+            <h3>⭐ Valeurs en jeu</h3>
+            <div id="valeursChart"></div>
+        </div>
+    </div>
+</div>
+
 <div class="actions">
     <button class="btn-refresh" onclick="loadPlants()">🔄 Actualiser</button>
     <button class="btn-danger" onclick="deleteAllPlants()">🗑️ Tout supprimer</button>
@@ -278,30 +345,23 @@ body {
 
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-  import { getDatabase, ref, onValue, remove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-
+  import { getDatabase, ref, onValue, remove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
-    // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+  const firebaseConfig = {
+    apiKey: "AIzaSyADBlPY8lK_52mFTWWHdoEBcPXa4Dk3FVA",
+    authDomain: "jardin-3f127.firebaseapp.com",
+    databaseURL: "https://jardin-3f127-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "jardin-3f127",
+    storageBucket: "jardin-3f127.firebasestorage.app",
+    messagingSenderId: "371927426307",
+    appId: "1:371927426307:web:dba165b1aaf4b8179e3536"
+  };
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyADBlPY8lK_52mFTWWHdoEBcPXa4Dk3FVA",
-  authDomain: "jardin-3f127.firebaseapp.com",
-  databaseURL: "https://jardin-3f127-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "jardin-3f127",
-  storageBucket: "jardin-3f127.firebasestorage.app",
-  messagingSenderId: "371927426307",
-  appId: "1:371927426307:web:dba165b1aaf4b8179e3536"
-};
-
-// Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
   const plantsRef = ref(database, 'plants');
 
-  const ADMIN_PASSWORD = "admin2025"; // ⚠️ CHANGE CE MOT DE PASSE
+  const ADMIN_PASSWORD = "admin2025";
 
   let plants = [];
 
@@ -327,6 +387,7 @@ const firebaseConfig = {
           plants.sort((a, b) => b.id - a.id);
           
           updateStats();
+          updateAnalytics();
           renderPlantsList();
       });
   }
@@ -343,6 +404,59 @@ const firebaseConfig = {
           }, 0) / plants.length;
           avgGrowth.textContent = Math.round(avgGrowthVal * 100) + "%";
       }
+  }
+
+  function updateAnalytics() {
+      // Compter les forces
+      const forcesCount = {};
+      plants.forEach(p => {
+          if (p.force) {
+              forcesCount[p.force] = (forcesCount[p.force] || 0) + 1;
+          }
+      });
+
+      // Compter les valeurs
+      const valeursCount = {};
+      plants.forEach(p => {
+          if (p.valeur) {
+              valeursCount[p.valeur] = (valeursCount[p.valeur] || 0) + 1;
+          }
+      });
+
+      // Créer les graphiques
+      renderChart('forcesChart', forcesCount);
+      renderChart('valeursChart', valeursCount);
+  }
+
+  function renderChart(containerId, data) {
+      const container = document.getElementById(containerId);
+      
+      if (Object.keys(data).length === 0) {
+          container.innerHTML = "<div class='empty'>Aucune donnée disponible</div>";
+          return;
+      }
+
+      const total = Object.values(data).reduce((sum, val) => sum + val, 0);
+      
+      // Trier par fréquence
+      const sorted = Object.entries(data).sort((a, b) => b[1] - a[1]);
+      
+      container.innerHTML = sorted.map(([name, count]) => {
+          const percentage = Math.round((count / total) * 100);
+          return `
+              <div class="chart-item">
+                  <div class="chart-label">
+                      <span>${name}</span>
+                      <span>${percentage}%</span>
+                  </div>
+                  <div class="chart-bar-container">
+                      <div class="chart-bar" style="width: ${percentage}%">
+                          ${count}
+                      </div>
+                  </div>
+              </div>
+          `;
+      }).join('');
   }
 
   function renderPlantsList() {
