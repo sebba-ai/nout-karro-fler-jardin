@@ -601,53 +601,51 @@ form button {
         height: 300px; /* Évite que le jardin soit trop grand en mode paysage court */
     }
 }
-
 #thermo-container {
     position: fixed;
-    top: 50%; /* On le centre verticalement */
-    left: 20px;
-    transform: translateY(-50%); /* Centrage vertical précis */
+    top: 50%; /* Centre verticalement */
+    left: 15px; /* Collé à gauche */
+    transform: translateY(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 999; /* Priorité maximale */
+    z-index: 1000; /* Passe au-dessus de tout */
     opacity: 0;
-    /* On réduit le délai à 2s pour qu'il apparaisse plus vite */
-    animation: fadeIn 1s ease-out 2s forwards; 
+    animation: fadeIn 1s ease-out 2s forwards;
 }
 
 #thermo-cadre {
-    width: 30px; /* Un peu plus large pour mieux le voir */
-    height: 220px;
-    background: rgba(255, 255, 255, 0.4); /* Fond plus clair */
+    width: 24px; /* Largeur bien définie */
+    height: 180px; /* Hauteur bien définie */
+    background: rgba(255, 255, 255, 0.5); /* Fond blanc plus visible */
     backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    border-radius: 25px;
+    border: 2px solid #ffffff; /* Bordure blanche solide */
+    border-radius: 15px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 #thermo-niveau {
     position: absolute;
     bottom: 0;
+    left: 0;
     width: 100%;
-    height: 0%; /* Commence à 0 pour l'animation */
+    height: 0%; /* Sera modifié par le script */
     background: linear-gradient(to top, #6fa58c, #a8e6cf);
-    transition: height 2.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    transition: height 2s ease-out;
 }
 
 #thermo-label {
-    margin-top: 12px;
-    font-size: 11px;
+    margin-top: 10px;
+    font-size: 10px;
+    color: white; /* Texte en blanc pour mieux trancher */
+    background: rgba(47, 62, 52, 0.7); /* Petit fond sombre pour la lisibilité */
+    padding: 3px 8px;
+    border-radius: 5px;
     font-weight: bold;
-    color: #2f3e34;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    background: rgba(255,255,255,0.6);
-    padding: 4px 8px;
-    border-radius: 10px;
 }
+
 /* L'animation de la vaguelette */
 .wave {
     position: absolute;
