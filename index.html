@@ -601,29 +601,36 @@ form button {
         height: 300px; /* Évite que le jardin soit trop grand en mode paysage court */
     }
 }
+/* ----------------- THERMOMÈTRE (VERSION FORCÉE À GAUCHE) ----------------- */
 #thermo-container {
-    position: fixed;
-    top: 50%; /* Centre verticalement */
-    left: 15px; /* Collé à gauche */
-    transform: translateY(-50%);
-    display: flex;
+    /* "fixed" avec des coordonnées précises pour sortir du centrage du menu #main */
+    position: fixed !important; 
+    top: 50% !important;
+    left: 20px !important;
+    transform: translateY(-50%) !important;
+    
+    display: flex !important;
     flex-direction: column;
     align-items: center;
-    z-index: 1000; /* Passe au-dessus de tout */
+    width: 60px; /* Largeur de la zone */
+    z-index: 9999; /* Au-dessus de TOUT */
+    
+    /* Animation */
     opacity: 0;
     animation: fadeIn 1s ease-out 2s forwards;
 }
 
 #thermo-cadre {
-    width: 24px; /* Largeur bien définie */
-    height: 180px; /* Hauteur bien définie */
-    background: rgba(255, 255, 255, 0.5); /* Fond blanc plus visible */
+    width: 20px;
+    height: 180px;
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
-    border: 2px solid #ffffff; /* Bordure blanche solide */
-    border-radius: 15px;
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid white;
+    border-radius: 20px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 #thermo-niveau {
@@ -631,33 +638,46 @@ form button {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 0%; /* Sera modifié par le script */
+    height: 0%; /* Piloté par JS */
     background: linear-gradient(to top, #6fa58c, #a8e6cf);
     transition: height 2s ease-out;
 }
 
-#thermo-label {
-    margin-top: 10px;
-    font-size: 10px;
-    color: white; /* Texte en blanc pour mieux trancher */
-    background: rgba(47, 62, 52, 0.7); /* Petit fond sombre pour la lisibilité */
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-/* L'animation de la vaguelette */
+/* La petite vaguelette dont tu parlais */
 .wave {
     position: absolute;
     top: -10px;
     left: 0;
     width: 200%;
     height: 20px;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.4);
     border-radius: 40%;
-    animation: waveAnim 4s infinite linear;
-    transform: translateX(-25%);
+    animation: waveAnim 3s infinite linear;
 }
+
+@keyframes waveAnim {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+#thermo-label {
+    margin-top: 10px;
+    font-size: 10px;
+    color: #2f3e34;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.5);
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap; /* Empêche le texte de revenir à la ligne */
+}
+
+
+
+
+
+    
+
 
 @keyframes waveAnim {
     from { transform: translateX(-50%) rotate(0deg); }
@@ -686,8 +706,6 @@ form button {
     );
     pointer-events: none;
 }
-
-
 </style>
 
 </head>
