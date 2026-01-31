@@ -865,15 +865,27 @@ placeholder="Pour qui cette expérience a compté ?">
       msgEl.classList.remove('show');
     }, 4000);
   }
+window.checkPassword = function() {
+    const pwd = document.getElementById('pwd');
+    const login = document.getElementById('login');
+    const main = document.getElementById('main');
 
-    window.checkPassword = function() {
     if (pwd.value === PASSWORD) {
-        login.style.display = "none";
-        // On utilise 'flex' ici pour activer le centrage automatique du CSS
-        main.style.display = "flex"; 
-        quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
+        // On prépare le terrain
         setRandomBackground();
         loadPlants();
+        quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
+
+        // On rend le main prêt (invisible car derrière le login)
+        main.style.display = "flex"; 
+
+        // On lance la disparition lente
+        login.classList.add('fade-out');
+
+        // On attend la fin des 3 secondes de transition avant de supprimer l'élément
+        setTimeout(() => {
+            login.style.display = "none";
+        }, 3000); 
     }
 }
 
