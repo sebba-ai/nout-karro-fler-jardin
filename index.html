@@ -67,6 +67,7 @@ h1,h2,h3 {
     cursor: pointer;
 }
 /* ----------------- THERMOMÈTRE STYLE RÉALISTE ----------------- */
+
 #thermo-container {
     position: absolute; /* Il restera en haut de la page */
     left: 20px;
@@ -706,17 +707,13 @@ form button {
 </head>
 
 <body>
-
 <div id="thermo-container">
     <div id="thermo-cadre">
-        <div id="thermo-niveau">
-            <div class="wave"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-        </div>
+        <div id="thermo-niveau"></div>
     </div>
-    <div id="thermo-label">Énergie</div>
+    <div id="thermo-reservoir">
+        <div id="thermo-liquide-bas"></div>
+    </div>
 </div>
 
 <div id="login">
