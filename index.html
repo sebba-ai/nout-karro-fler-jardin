@@ -602,22 +602,30 @@ form button {
     }
 }
 /* ----------------- THERMOMÈTRE (VERSION FORCÉE À GAUCHE) ----------------- */
-#thermo-container {
-    /* "fixed" avec des coordonnées précises pour sortir du centrage du menu #main */
+    #thermo-container {
     position: fixed !important; 
     top: 50% !important;
     left: 20px !important;
     transform: translateY(-50%) !important;
-    
     display: flex !important;
-    flex-direction: column;
-    align-items: center;
-    width: 60px; /* Largeur de la zone */
-    z-index: 9999; /* Au-dessus de TOUT */
-    
-    /* Animation */
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 50px !important; /* Taille fixe pour éviter les décalages */
+    z-index: 9999 !important;
     opacity: 0;
     animation: fadeIn 1s ease-out 2s forwards;
+}
+
+#thermo-label {
+    margin-top: 10px;
+    font-size: 10px;
+    color: white !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: rgba(47, 62, 52, 0.8); /* Fond foncé pour bien voir le texte */
+    padding: 4px 8px;
+    border-radius: 5px;
+    text-align: center;
 }
 
 #thermo-cadre {
@@ -658,18 +666,6 @@ form button {
 @keyframes waveAnim {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
-}
-
-#thermo-label {
-    margin-top: 10px;
-    font-size: 10px;
-    color: #2f3e34;
-    font-weight: bold;
-    text-transform: uppercase;
-    background: rgba(255,255,255,0.5);
-    padding: 2px 6px;
-    border-radius: 4px;
-    white-space: nowrap; /* Empêche le texte de revenir à la ligne */
 }
 
 /* Graduations visuelles */
