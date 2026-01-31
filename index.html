@@ -450,6 +450,38 @@ form button {
     font-size: 20px;
     cursor: pointer;
 }
+
+    /* ----------------- ADAPTATION MOBILE ----------------- */
+
+/* Si l'écran est petit (téléphones) */
+@media (max-width: 600px) {
+    #main {
+        padding: 15px; /* Moins de vide sur les côtés */
+    }
+
+    #garden {
+        height: 70vh; /* Utilise 70% de la hauteur de l'écran disponible */
+        min-height: 400px;
+    }
+
+    h2 {
+        font-size: 1.2rem; /* Titre plus petit pour mobile */
+    }
+
+    /* On réduit la taille des boutons pour gagner de la place */
+    #addBtn {
+        padding: 12px 24px;
+        font-size: 16px;
+    }
+}
+
+/* Ajustement spécifique pour les tablettes ou mobiles en paysage */
+@media (max-height: 500px) {
+    #garden {
+        height: 300px; /* Évite que le jardin soit trop grand en mode paysage court */
+    }
+}
+
 </style>
 
 </head>
