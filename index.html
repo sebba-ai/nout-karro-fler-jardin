@@ -601,6 +601,81 @@ form button {
         height: 300px; /* Évite que le jardin soit trop grand en mode paysage court */
     }
 }
+    #thermo-container {
+    position: fixed;
+    top: 150px;
+    left: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 80;
+    /* On le fait apparaître après la transition du login */
+    animation: fadeIn 2s ease-out 3s forwards;
+    opacity: 0;
+}
+
+#thermo-cadre {
+    width: 20px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden; /* Coupe la vague qui dépasse */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+#thermo-niveau {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50%; /* Ce chiffre sera piloté par ton code plus bas */
+    background: linear-gradient(to top, #6fa58c, #8bbf9f);
+    transition: height 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* L'animation de la vaguelette */
+.wave {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 200%;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 40%;
+    animation: waveAnim 4s infinite linear;
+    transform: translateX(-25%);
+}
+
+@keyframes waveAnim {
+    from { transform: translateX(-50%) rotate(0deg); }
+    to { transform: translateX(0%) rotate(360deg); }
+}
+
+#thermo-label {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #2f3e34;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+/* Graduations visuelles */
+#thermo-cadre::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        transparent,
+        transparent 19px,
+        rgba(255,255,255,0.4) 19px,
+        rgba(255,255,255,0.4) 20px
+    );
+    pointer-events: none;
+}
+
 
 </style>
 
@@ -618,7 +693,27 @@ form button {
 </div>
 
 <div id="main">
+    <div id="thermo-container">
+        <div id="thermo-cadre">
+            <div id="thermo-niveau">
+                <div class="wave"></div>
+            </div>
+        </div>
+        <div id="thermo-label">Énergie</div>
+    </div>
+    <h2>Si nous plant' brinzell...</h2>
+    ...
+
     <h2>Si nou plant' brinzell nous sa pas kéyir babafig / si nou plant' banann' nous sa pa manz' kaviar ! <br> Alé tir in feye/ récolte leu tempo</h2>
+    <div id="thermo-container">
+    <div id="thermo-cadre">
+        <div id="thermo-niveau">
+            <div class="wave"></div>
+        </div>
+    </div>
+    <div id="thermo-label">Énergie du Jardin</div>
+</div>
+
     <div id="quote"></div>
 
 ```
@@ -865,6 +960,34 @@ placeholder="Pour qui cette expérience a compté ?">
       msgEl.classList.remove('show');
     }, 4000);
   }
+    // --- COPIE CECI ICI ---
+const NIVEAU_ENERGIE = 65; 
+
+function initThermometre() {
+    const niveau = document.getElementById('thermo-niveau');
+    if(niveau) {
+        setTimeout(() => {
+            niveau.style.height = NIVEAU_ENERGIE + "%";
+        }, 3500); 
+    }
+}
+// ----------------------
+
+window.checkPassword = function() {
+    if (pwd.value === PASSWORD) {
+        login.style.display = "none";
+        main.style.display = "flex";
+        
+        // --- AJOUTE CETTE LIGNE ICI ---
+        initThermometre(); 
+        // ------------------------------
+
+        quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
+        setRandomBackground();
+        loadPlants();
+    }
+}
+
 window.checkPassword = function() {
     const pwd = document.getElementById('pwd');
     const login = document.getElementById('login');
