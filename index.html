@@ -535,7 +535,7 @@ form button {
 </div>
 
 <div id="main">
-    <h2>Si nous plant' brinzell nous sa pas kéyir babafig, si nou plant' banann nous sa pa manz' kaviar ! <br> Alé tir in feye...récolte leu tempo</h2>
+    <h2>Si nou plant' brinzell nous sa pas kéyir babafig / si nou plant' banann' nous sa pa manz' kaviar ! <br> Alé tir in feye/ récolte leu tempo</h2>
     <div id="quote"></div>
 
 ```
@@ -786,7 +786,7 @@ placeholder="Pour qui cette expérience a compté ?">
   window.checkPassword = function() {
       if (pwd.value === PASSWORD) {
           login.style.display = "none";
-          main.style.display = "block";
+          main.style.display = "flex";
           quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
           setRandomBackground();
           loadPlants();
