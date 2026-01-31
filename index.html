@@ -61,9 +61,15 @@ h1,h2,h3 {
 }
 
 /* ----------------- PAGE PRINCIPALE ----------------- */
-#main {
-    display: none;
-    padding: 40px;
+    #main {
+    display: none; /* Reste masqué jusqu'au login */
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Aligne les éléments de haut en bas */
+    align-items: center;    /* Centre horizontalement */
+    justify-content: flex-start;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 #quote {
