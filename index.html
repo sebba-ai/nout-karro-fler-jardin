@@ -982,31 +982,25 @@ form button {
     const niveau = document.getElementById('thermo-niveau');
 
     if (pwd.value === PASSWORD) {
-        // 1. Préparer le jardin
+        main.style.display = "flex";
+        thermo.style.display = "flex"; // Affiche le thermo
+
         setRandomBackground();
         loadPlants();
-        quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
 
-        // 2. Afficher le contenu principal
-        main.style.display = "flex"; 
-        
-        // 3. Activer le thermomètre
-        thermo.classList.add('visible');
-        
-        // 4. Lancer l'animation du liquide après un délai,
+        // On déclenche la montée du liquide
         setTimeout(() => {
-            niveau.style.height = NIVEAU_ENERGIE + "%";
-        }, 2000);
+            niveau.style.height = "75%"; // Change ici le niveau désiré
+        }, 800);
 
-        // 5. Faire disparaître le login
         login.classList.add('fade-out');
         setTimeout(() => {
             login.style.display = "none";
-        }, 3000); 
+        }, 2500);
     } else {
         alert("Mot de passe incorrect");
     }
-  }
+}
 
   window.openForm = function() {
       overlay.style.display = "flex";
