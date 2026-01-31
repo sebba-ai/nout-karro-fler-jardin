@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Admin — Nout Karro Fler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: "Georgia", serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #2f3e34;
+    padding: 20px;
+}
+
+#login {
+    position: fixed;
+    inset: 0;
+    background: rgba(102, 126, 234, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+#loginBox {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+#loginBox h2 {
+    color: #667eea;
+}
+
+#loginBox input {
+    padding: 14px;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #aaa;
+    font-size: 16px;
+}
+
+#loginBox button {
+    margin-top: 20px;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 30px;
+    background: #667eea;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#main {
+    display: none;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.header h1 {
+    margin: 0 0 10px 0;
+    color: #667eea;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.stat-card .number {
+    font-size: 36px;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.stat-card .label {
+    color: #666;
+    margin-top: 5px;
+}
+
+.actions {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    display: flex;
+    gap: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.actions button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+.btn-refresh {
+    background: #3498db;
+    color: white;
+}
+
+.btn-refresh:hover {
+    background: #2980b9;
+}
+
+.plants-list {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.plant-item {
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    transition: all 0.3s;
+}
+
+.plant-item:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.plant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #667eea;
+}
+
+.plant-date {
+    color: #667eea;
+    font-weight: bold;
+}
+
+.plant-stats {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    color: #666;
+}
+
+.plant-content {
+    margin: 10px 0;
+}
+
+.plant-label {
+    font-weight: bold;
+    color: #667eea;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+
+.plant-text {
+    margin: 5px 0;
+    line-height: 1.6;
+}
+
+.delete-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.delete-btn:hover {
+    background: #c0392b;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #667eea;
+    font-size: 18px;
+}
+
+.empty {
+    text-align: center;
+    padding: 60px;
+    color: #999;
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="login">
+    <div id="loginBox">
+        <h2>🔐 Admin — Jardin</h2>
+        <p>Accès administrateur</p>
+        <input id="adminPwd" type="password" placeholder="mot de passe admin">
+        <button onclick="checkAdminPassword()">Connexion</button>
+    </div>
+</div>
+
+<div id="main">
+    <div class="header">
+        <h1>🛠️ Administration du Jardin</h1>
+        <p>Gestion et modération des expériences plantées</p>
+    </div>
+
+```
+<div class="stats">
+    <div class="stat-card">
+        <div class="number" id="totalPlants">0</div>
+        <div class="label">Plantes totales</div>
+    </div>
+    <div class="stat-card">
+        <div class="number" id="totalInteractions">0</div>
+        <div class="label">Interactions (💧☀️)</div>
+    </div>
+    <div class="stat-card">
+        <div class="number" id="avgGrowth">100%</div>
+        <div class="label">Croissance moyenne</div>
+    </div>
+</div>
+
+<div class="actions">
+    <button class="btn-refresh" onclick="loadPlants()">🔄 Actualiser</button>
+    <button class="btn-danger" onclick="deleteAllPlants()">🗑️ Tout supprimer</button>
+</div>
+
+<div class="plants-list">
+    <h2>📋 Liste des plantes</h2>
+    <div id="plantsList">
+        <div class="loading">Chargement...</div>
+    </div>
+</div>
+```
+
+</div>
+
+<!-- Firebase SDK -->
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getDatabase, ref, onValue, remove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+  // ⚠️ REMPLACE PAR LES MÊMES VALEURS QUE DANS jardin-firebase.html
+  const firebaseConfig = {
+    apiKey: "METTRE_TA_CLE_API_ICI",
+    authDomain: "METTRE_TON_AUTH_DOMAIN_ICI",
+    databaseURL: "METTRE_TON_DATABASE_URL_ICI",
+    projectId: "METTRE_TON_PROJECT_ID_ICI",
+    storageBucket: "METTRE_TON_STORAGE_BUCKET_ICI",
+    messagingSenderId: "METTRE_TON_MESSAGING_SENDER_ID_ICI",
+    appId: "METTRE_TON_APP_ID_ICI"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const plantsRef = ref(database, 'plants');
+
+  const ADMIN_PASSWORD = "admin2025"; // ⚠️ CHANGE CE MOT DE PASSE
+
+  let plants = [];
+
+  window.checkAdminPassword = function() {
+      if (adminPwd.value === ADMIN_PASSWORD) {
+          login.style.display = "none";
+          main.style.display = "block";
+          loadPlants();
+      } else {
+          alert("Mot de passe incorrect");
+      }
+  }
+
+  window.loadPlants = function() {
+      onValue(plantsRef, (snapshot) => {
+          plants = [];
+          snapshot.forEach((childSnapshot) => {
+              const plant = childSnapshot.val();
+              plant.firebaseId = childSnapshot.key;
+              plants.push(plant);
+          });
+          
+          plants.sort((a, b) => b.id - a.id);
+          
+          updateStats();
+          renderPlantsList();
+      });
+  }
+
+  function updateStats() {
+      totalPlants.textContent = plants.length;
+      
+      const totalInt = plants.reduce((sum, p) => sum + (p.eau || 0) + (p.soleil || 0), 0);
+      totalInteractions.textContent = totalInt;
+      
+      if (plants.length > 0) {
+          const avgGrowthVal = plants.reduce((sum, p) => {
+              return sum + (1 + ((p.eau || 0) + (p.soleil || 0)) * 0.1);
+          }, 0) / plants.length;
+          avgGrowth.textContent = Math.round(avgGrowthVal * 100) + "%";
+      }
+  }
+
+  function renderPlantsList() {
+      if (plants.length === 0) {
+          plantsList.innerHTML = "<div class='empty'>Aucune plante dans le jardin</div>";
+          return;
+      }
+
+      plantsList.innerHTML = plants.map(p => `
+          <div class="plant-item">
+              <div class="plant-header">
+                  <div class="plant-date">📅 ${p.date}</div>
+                  <div class="plant-stats">
+                      <span>💧 ${p.eau || 0}</span>
+                      <span>☀️ ${p.soleil || 0}</span>
+                      <span>🌱 ${Math.round((1 + ((p.eau || 0) + (p.soleil || 0)) * 0.1) * 100)}%</span>
+                  </div>
+              </div>
+              
+              <div class="plant-content">
+                  <div class="plant-label">🌍 Contexte</div>
+                  <div class="plant-text">${p.activite || "—"}</div>
+                  
+                  <div class="plant-label">✨ Expérience</div>
+                  <div class="plant-text">${p.experience || "—"}</div>
+                  
+                  ${p.ressenti ? `
+                      <div class="plant-label">💭 Ressenti</div>
+                      <div class="plant-text">${p.ressenti}</div>
+                  ` : ''}
+                  
+                  ${p.force ? `
+                      <div class="plant-label">💪 Force</div>
+                      <div class="plant-text">${p.force}</div>
+                  ` : ''}
+                  
+                  ${p.valeur ? `
+                      <div class="plant-label">⭐ Valeur</div>
+                      <div class="plant-text">${p.valeur}</div>
+                  ` : ''}
+                  
+                  ${p.pourQui ? `
+                      <div class="plant-label">👥 Pour qui</div>
+                      <div class="plant-text">${p.pourQui}</div>
+                  ` : ''}
+              </div>
+              
+              <button class="delete-btn" onclick="deletePlant('${p.firebaseId}')">
+                  🗑️ Supprimer cette plante
+              </button>
+          </div>
+      `).join('');
+  }
+
+  window.deletePlant = function(firebaseId) {
+      if (confirm("Supprimer définitivement cette plante ?")) {
+          const plantRef = ref(database, 'plants/' + firebaseId);
+          remove(plantRef)
+              .then(() => {
+                  alert("Plante supprimée ✓");
+              })
+              .catch((error) => {
+                  alert("Erreur : " + error.message);
+              });
+      }
+  }
+
+  window.deleteAllPlants = function() {
+      const confirmText = "SUPPRIMER TOUT";
+      const userInput = prompt(
+          `⚠️ ATTENTION : Cette action supprimera TOUTES les plantes du jardin.\n\n` +
+          `Cette action est IRRÉVERSIBLE.\n\n` +
+          `Pour confirmer, tape : ${confirmText}`
+      );
+      
+      if (userInput === confirmText) {
+          remove(plantsRef)
+              .then(() => {
+                  alert("Toutes les plantes ont été supprimées ✓");
+              })
+              .catch((error) => {
+                  alert("Erreur : " + error.message);
+              });
+      } else if (userInput !== null) {
+          alert("Annulé - texte incorrect");
+      }
+  }
+</script>
+
+</body>
+</html>
