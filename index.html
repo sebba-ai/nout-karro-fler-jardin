@@ -602,92 +602,42 @@ form button {
         height: 300px; /* Évite que le jardin soit trop grand en mode paysage court */
     }
 }
-
-/* ----------------- THERMOMÈTRE (CORRECTIF TOTAL) ----------------- */
 #thermo-container {
-    position: fixed !important; 
-    top: 50% !important;
+    position: fixed !important;
     left: 20px !important;
+    top: 50% !important;
     transform: translateY(-50%) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    width: 60px !important;
     z-index: 9999 !important;
-    opacity: 0; /* Caché au début */
-    pointer-events: none;
-}
-
-/* Cette classe sera ajoutée par le JS pour le faire apparaître */
-#thermo-container.visible {
-    opacity: 1;
-    pointer-events: auto;
-    transition: opacity 1s ease-in 2s; /* Apparaît après 2s */
+    display: none; /* On l'affichera par JS */
+    flex-direction: column;
+    align-items: center;
 }
 
 #thermo-cadre {
-    width: 20px;
-    height: 180px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 2px solid white;
+    width: 25px !important;
+    height: 200px !important;
+    border: 3px solid #2f3e34 !important; /* Bordure foncée pour être SÛR de la voir */
+    background: white !important;
     border-radius: 20px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 #thermo-niveau {
     position: absolute;
     bottom: 0;
-    left: 0;
     width: 100%;
-    height: 0%; 
-    background: linear-gradient(to top, #6fa58c, #a8e6cf);
-    transition: height 2.5s ease-out;
-}
-
-.wave {
-    position: absolute;
-    top: -10px;
-    left: -50%;
-    width: 200%;
-    height: 20px;
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 40%;
-    animation: waveAnim 3s infinite linear;
-}
-
-@keyframes waveAnim {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    height: 0%; /* Piloté par JS */
+    background: #6fa58c !important;
+    transition: height 2s ease-in-out;
 }
 
 #thermo-label {
-    margin-top: 10px;
-    font-size: 11px;
-    color: white !important;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
     font-weight: bold;
-    text-transform: uppercase;
-    background: rgba(47, 62, 52, 0.7);
-    padding: 4px 8px;
-    border-radius: 5px;
-    white-space: nowrap;
-}
-
-/* Graduations visuelles */
-#thermo-cadre::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: repeating-linear-gradient(
-        transparent,
-        transparent 19px,
-        rgba(255,255,255,0.4) 19px,
-        rgba(255,255,255,0.4) 20px
-    );
-    pointer-events: none;
+    margin-top: 5px;
+    color: #2f3e34;
 }
 </style>
 
