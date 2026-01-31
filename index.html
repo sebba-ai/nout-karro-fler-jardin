@@ -215,21 +215,32 @@ form button {
 }
 
 /* ----------------- CARNET DE JARDINIER ----------------- */
+/* ----------------- CARNET DE JARDINIER (CORRIGÉ) ----------------- */
 #notebook {
     position: fixed;
-    right: -600px;
+    right: -100%; /* Sort complètement de l'écran peu importe la taille */
     top: 0;
     bottom: 0;
-    width: 550px;
+    width: 100%;  /* Prend toute la largeur sur mobile */
+    max-width: 550px; /* Mais ne dépasse pas 550px sur tablette/PC */
     background: linear-gradient(to right, #8b7355 0%, #8b7355 20px, #f9f7f1 20px);
     box-shadow: -10px 0 30px rgba(0,0,0,0.3);
-    z-index: 95;
+    z-index: 150; /* Augmenté pour passer au-dessus de tout */
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
 }
 
 #notebook.open {
     right: 0;
+}
+
+/* Ajustement du contenu pour mobile */
+#notebookContent {
+    margin-left: 25px;
+    padding: 20px; /* Moins de padding sur mobile */
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box; /* Important pour que le padding ne dépasse pas */
 }
 
 #notebook::before {
