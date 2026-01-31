@@ -3,7 +3,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Nout Karro Fler — Jardin attentionnel</title>
+<title>Nout Karro Fler — Jardin attentionnel partagé</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -146,6 +146,8 @@ form {
     border-radius: 25px;
     width: 420px;
     box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 form select, form textarea, form input {
@@ -343,6 +345,13 @@ form button {
     color: #6fa58c;
     font-weight: bold;
 }
+
+/* Loading indicator */
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #6fa58c;
+}
 </style>
 
 </head>
@@ -365,7 +374,9 @@ form button {
 ```
 <button id="addBtn" onclick="openForm()">➕ Planter une expérience</button>
 
-<div id="garden"></div>
+<div id="garden">
+    <div class="loading">🌱 Chargement du jardin...</div>
+</div>
 ```
 
 </div>
@@ -392,13 +403,51 @@ form button {
 
   <select name="force">
     <option value="">Force mobilisée (VIA)</option>
-    <option>Bienveillance</option>
-    <option>Curiosité</option>
-    <option>Persévérance</option>
-    <option>Espoir</option>
-    <option>Gratitude</option>
-    <option>Humour</option>
-    <option>Intelligence sociale</option>
+
+```
+<optgroup label="🧠 SAGESSE ET CONNAISSANCE">
+  <option>Curiosité</option>
+  <option>Amour de l'apprentissage</option>
+  <option>Jugement / Pensée critique</option>
+  <option>Ingéniosité / Créativité</option>
+  <option>Perspective / Sagesse</option>
+</optgroup>
+
+<optgroup label="💪 COURAGE">
+  <option>Bravoure</option>
+  <option>Persévérance</option>
+  <option>Intégrité / Honnêteté</option>
+  <option>Enthousiasme</option>
+</optgroup>
+
+<optgroup label="❤️ HUMANITÉ">
+  <option>Amour</option>
+  <option>Gentillesse</option>
+  <option>Intelligence sociale / Empathie</option>
+</optgroup>
+
+<optgroup label="⚖️ JUSTICE">
+  <option>Équité</option>
+  <option>Leadership</option>
+  <option>Travail d'équipe / Esprit de citoyenneté</option>
+</optgroup>
+
+<optgroup label="🧘 TEMPÉRANCE">
+  <option>Pardon / Indulgence</option>
+  <option>Humilité / Modestie</option>
+  <option>Prudence / Prévenance</option>
+  <option>Autocontrôle / Régulation de soi</option>
+</optgroup>
+
+<optgroup label="✨ TRANSCENDANCE">
+  <option>Appréciation de la beauté et de l'excellence</option>
+  <option>Gratitude</option>
+  <option>Espoir / Optimisme</option>
+  <option>Humour</option>
+  <option>Spiritualité / Foi</option>
+</optgroup>
+```
+
   </select>
 
 <input name="forceLibre"
@@ -406,12 +455,39 @@ placeholder="Autre force (si différente)">
 
   <select name="valeur">
     <option value="">Valeur en jeu (Schwartz)</option>
-    <option>Bienveillance</option>
-    <option>Universalisme</option>
-    <option>Autonomie</option>
-    <option>Sécurité</option>
-    <option>Stimulation</option>
-    <option>Accomplissement</option>
+
+```
+<optgroup label="🌍 OUVERTURE AU CHANGEMENT">
+  <option>Autodétermination-pensée</option>
+  <option>Autodétermination-action</option>
+  <option>Stimulation</option>
+  <option>Hédonisme</option>
+</optgroup>
+
+<optgroup label="🎯 CROISSANCE PERSONNELLE">
+  <option>Réalisation</option>
+  <option>Pouvoir-dominance</option>
+  <option>Pouvoir-ressources</option>
+</optgroup>
+
+<optgroup label="🛡️ CONSERVATION">
+  <option>Image publique</option>
+  <option>Sécurité-personnel</option>
+  <option>Tradition</option>
+  <option>Conformité-règles</option>
+  <option>Conformité-interpersonnelle</option>
+  <option>Humilité</option>
+</optgroup>
+
+<optgroup label="💗 DÉPASSEMENT DE SOI">
+  <option>Bienveillance-soins</option>
+  <option>Bienveillance-fiabilité</option>
+  <option>Universalisme-préoccupation</option>
+  <option>Universalisme-nature</option>
+  <option>Universalisme-tolérance</option>
+</optgroup>
+```
+
   </select>
 
 <input name="pourQui"
@@ -434,245 +510,296 @@ placeholder="Pour qui cette expérience a compté ?">
     </div>
 </div>
 
-<script>
-const PASSWORD = "jardin";
+<!-- Firebase SDK -->
 
-const quotes = [
-    "Ce à quoi tu prêtes attention grandit.",
-    "Chaque geste nourrit une racine invisible.",
-    "Le vivant se cultive par la présence.",
-    "Un jardin est une mémoire qui respire."
-];
+<script type="module">
+  // 🔥 CONFIGURATION FIREBASE - À REMPLACER PAR TES PROPRES CLÉS
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getDatabase, ref, push, set, onValue, update, remove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
-const plantImages = [
-    "assets/plants/fleur1.png",
-    "assets/plants/fleur2.png",
-    "assets/plants/arbuste1.png",
-    "assets/plants/arbre1.png",
-    "assets/plants/fruit1.png"
-];
+  // ⚠️ REMPLACE CES VALEURS PAR CELLES DE TON PROJET FIREBASE
+  const firebaseConfig = {
+    apiKey: "METTRE_TA_CLE_API_ICI",
+    authDomain: "METTRE_TON_AUTH_DOMAIN_ICI",
+    databaseURL: "METTRE_TON_DATABASE_URL_ICI",
+    projectId: "METTRE_TON_PROJECT_ID_ICI",
+    storageBucket: "METTRE_TON_STORAGE_BUCKET_ICI",
+    messagingSenderId: "METTRE_TON_MESSAGING_SENDER_ID_ICI",
+    appId: "METTRE_TON_APP_ID_ICI"
+  };
 
-let data = JSON.parse(localStorage.getItem("garden") || "[]");
-let currentPage = 0;
+  // Initialiser Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const plantsRef = ref(database, 'plants');
 
-function checkPassword() {
-    if (pwd.value === PASSWORD) {
-        login.style.display = "none";
-        main.style.display = "block";
-        quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
-        renderGarden();
-    }
-}
+  // Variables globales
+  window.db = database;
+  window.plantsRef = plantsRef;
 
-function openForm() {
-    overlay.style.display = "flex";
-}
+  const PASSWORD = "jardin";
 
-// Fonction pour vérifier les chevauchements
-function findNonOverlappingPosition(size) {
-    const maxAttempts = 100;
-    const minDistance = 15; // Distance minimale entre plantes (en %)
-    
-    for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        const x = Math.random() * (95 - size);
-        const y = Math.random() * (85 - size);
-        
-        let overlapping = false;
-        for (let p of data) {
-            const distance = Math.sqrt(
-                Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2)
-            );
-            
-            if (distance < minDistance) {
-                overlapping = true;
-                break;
-            }
-        }
-        
-        if (!overlapping) {
-            return { x, y };
-        }
-    }
-    
-    // Si on ne trouve pas de position, on place quand même (jardin plein)
-    return { 
-        x: Math.random() * 85, 
-        y: Math.random() * 75 
-    };
-}
+  const quotes = [
+      "Ce à quoi tu prêtes attention grandit.",
+      "Chaque geste nourrit une racine invisible.",
+      "Le vivant se cultive par la présence.",
+      "Un jardin est une mémoire qui respire."
+  ];
 
-form.addEventListener("submit", e => {
-    e.preventDefault();
-    const f = new FormData(form);
-    
-    const position = findNonOverlappingPosition(10);
-    
-    data.unshift({
-        id: Date.now(),
-        activite: f.get("activite"),
-        experience: f.get("experience"),
-        ressenti: f.get("ressenti"),
-        force: f.get("force") || f.get("forceLibre"),
-        valeur: f.get("valeur"),
-        pourQui: f.get("pourQui"),
-        img: plantImages[Math.floor(Math.random()*plantImages.length)],
-        x: position.x,
-        y: position.y,
-        eau: 0,
-        soleil: 0,
-        size: 1, // Taille initiale
-        date: new Date().toLocaleDateString("fr-FR")
-    });
-    
-    localStorage.setItem("garden", JSON.stringify(data));
-    overlay.style.display = "none";
-    form.reset();
-    renderGarden();
-});
+  const plantImages = [
+      "assets/plants/fleur1.png",
+      "assets/plants/fleur2.png",
+      "assets/plants/arbuste1.png",
+      "assets/plants/arbre1.png",
+      "assets/plants/fruit1.png"
+  ];
 
-function renderGarden() {
-    garden.innerHTML = "";
-    data.forEach((p, i) => {
-        const img = document.createElement("img");
-        img.src = p.img;
-        img.className = "plant" + (i === 0 ? " latest" : "");
-        
-        // Calculer la taille en fonction des interactions
-        const scale = 1 + (p.eau + p.soleil) * 0.1;
-        const size = Math.min(90 * scale, 150); // Max 150px
-        
-        img.style.width = size + "px";
-        img.style.left = p.x + "%";
-        img.style.top = p.y + "%";
-        img.style.setProperty('--scale', scale);
-        
-        img.onclick = () => openNotebook(i);
-        
-        garden.appendChild(img);
-    });
-}
+  let data = [];
+  let currentPage = 0;
 
-function react(plantIndex) {
-    const p = data[plantIndex];
-    const isWater = Math.random() > 0.5;
-    
-    if (isWater) {
-        p.eau++;
-        drop("💧", p.x, p.y);
-    } else {
-        p.soleil++;
-        drop("☀️", p.x, p.y);
-    }
-    
-    localStorage.setItem("garden", JSON.stringify(data));
-    renderGarden();
+  window.checkPassword = function() {
+      if (pwd.value === PASSWORD) {
+          login.style.display = "none";
+          main.style.display = "block";
+          quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
+          loadPlants();
+      }
+  }
 
-    function drop(symbol, x, y) {
-        const s = document.createElement("div");
-        s.className = symbol === "💧" ? "water" : "sun";
-        s.innerText = symbol;
-        s.style.left = x + "%";
-        s.style.top = y + "%";
-        garden.appendChild(s);
-        setTimeout(() => s.remove(), 2000);
-    }
-}
+  window.openForm = function() {
+      overlay.style.display = "flex";
+  }
 
-// Ouvrir le carnet sur une plante spécifique
-function openNotebook(index) {
-    currentPage = index;
-    react(index); // Ajouter eau ou soleil
-    renderNotebook();
-    notebook.classList.add("open");
-}
+  // Charger les plantes depuis Firebase
+  function loadPlants() {
+      onValue(plantsRef, (snapshot) => {
+          data = [];
+          snapshot.forEach((childSnapshot) => {
+              const plant = childSnapshot.val();
+              plant.firebaseId = childSnapshot.key;
+              data.push(plant);
+          });
+          
+          // Trier par date (plus récent en premier)
+          data.sort((a, b) => b.id - a.id);
+          
+          renderGarden();
+      });
+  }
 
-function closeNotebook() {
-    notebook.classList.remove("open");
-}
+  // Fonction pour vérifier les chevauchements
+  function findNonOverlappingPosition(size) {
+      const maxAttempts = 100;
+      const minDistance = 15;
+      
+      for (let attempt = 0; attempt < maxAttempts; attempt++) {
+          const x = Math.random() * (95 - size);
+          const y = Math.random() * (85 - size);
+          
+          let overlapping = false;
+          for (let p of data) {
+              const distance = Math.sqrt(
+                  Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2)
+              );
+              
+              if (distance < minDistance) {
+                  overlapping = true;
+                  break;
+              }
+          }
+          
+          if (!overlapping) {
+              return { x, y };
+          }
+      }
+      
+      return { 
+          x: Math.random() * 85, 
+          y: Math.random() * 75 
+      };
+  }
 
-function renderNotebook() {
-    if (data.length === 0) {
-        notebookContent.innerHTML = "<p style='text-align:center; padding:40px;'>Aucune expérience plantée pour l'instant...</p>";
-        return;
-    }
-    
-    const p = data[currentPage];
-    
-    notebookContent.innerHTML = `
-        <div class="notebook-page">
-            <div class="page-header">
-                <div class="page-date">📅 ${p.date}</div>
-                <div class="page-number">Page ${currentPage + 1}/${data.length}</div>
-            </div>
-            
-            <div class="notebook-section">
-                <div class="section-label">🌍 Contexte</div>
-                <div class="section-content">${p.activite || "—"}</div>
-            </div>
-            
-            <div class="notebook-section">
-                <div class="section-label">✨ Expérience vécue</div>
-                <div class="section-content">${p.experience || "—"}</div>
-            </div>
-            
-            ${p.ressenti ? `
-            <div class="notebook-section">
-                <div class="section-label">💭 Ressenti & transformation</div>
-                <div class="section-content">${p.ressenti}</div>
-            </div>
-            ` : ''}
-            
-            ${p.force ? `
-            <div class="notebook-section">
-                <div class="section-label">💪 Force mobilisée</div>
-                <div class="section-content">${p.force}</div>
-            </div>
-            ` : ''}
-            
-            ${p.valeur ? `
-            <div class="notebook-section">
-                <div class="section-label">⭐ Valeur en jeu</div>
-                <div class="section-content">${p.valeur}</div>
-            </div>
-            ` : ''}
-            
-            ${p.pourQui ? `
-            <div class="notebook-section">
-                <div class="section-label">👥 Pour qui</div>
-                <div class="section-content">${p.pourQui}</div>
-            </div>
-            ` : ''}
-            
-            <div class="interaction-stats">
-                <div class="stat-item">💧 Eau : ${p.eau}</div>
-                <div class="stat-item">☀️ Soleil : ${p.soleil}</div>
-                <div class="stat-item">🌱 Croissance : ${Math.round((1 + (p.eau + p.soleil) * 0.1) * 100)}%</div>
-            </div>
-        </div>
-    `;
-    
-    updatePageNav();
-}
+  // Soumettre le formulaire
+  form.addEventListener("submit", e => {
+      e.preventDefault();
+      const f = new FormData(form);
+      
+      const position = findNonOverlappingPosition(10);
+      
+      const newPlant = {
+          id: Date.now(),
+          activite: f.get("activite"),
+          experience: f.get("experience"),
+          ressenti: f.get("ressenti"),
+          force: f.get("force") || f.get("forceLibre"),
+          valeur: f.get("valeur"),
+          pourQui: f.get("pourQui"),
+          img: plantImages[Math.floor(Math.random()*plantImages.length)],
+          x: position.x,
+          y: position.y,
+          eau: 0,
+          soleil: 0,
+          size: 1,
+          date: new Date().toLocaleDateString("fr-FR")
+      };
+      
+      // Ajouter à Firebase
+      push(plantsRef, newPlant);
+      
+      overlay.style.display = "none";
+      form.reset();
+  });
 
-function updatePageNav() {
-    prevBtn.disabled = currentPage === 0;
-    nextBtn.disabled = currentPage === data.length - 1;
-    pageInfo.textContent = `${currentPage + 1} / ${data.length}`;
-}
+  function renderGarden() {
+      garden.innerHTML = "";
+      
+      if (data.length === 0) {
+          garden.innerHTML = "<div class='loading'>🌱 Le jardin est vide... Plante la première expérience !</div>";
+          return;
+      }
+      
+      data.forEach((p, i) => {
+          const img = document.createElement("img");
+          img.src = p.img;
+          img.className = "plant" + (i === 0 ? " latest" : "");
+          
+          const scale = 1 + (p.eau + p.soleil) * 0.1;
+          const size = Math.min(90 * scale, 150);
+          
+          img.style.width = size + "px";
+          img.style.left = p.x + "%";
+          img.style.top = p.y + "%";
+          img.style.setProperty('--scale', scale);
+          
+          img.onclick = () => openNotebook(i);
+          
+          garden.appendChild(img);
+      });
+  }
 
-function prevPage() {
-    if (currentPage > 0) {
-        currentPage--;
-        renderNotebook();
-    }
-}
+  function react(plantIndex) {
+      const p = data[plantIndex];
+      const isWater = Math.random() > 0.5;
+      
+      if (isWater) {
+          p.eau++;
+          drop("💧", p.x, p.y);
+      } else {
+          p.soleil++;
+          drop("☀️", p.x, p.y);
+      }
+      
+      // Mettre à jour Firebase
+      const plantRef = ref(database, 'plants/' + p.firebaseId);
+      update(plantRef, { eau: p.eau, soleil: p.soleil });
+      
+      renderGarden();
 
-function nextPage() {
-    if (currentPage < data.length - 1) {
-        currentPage++;
-        renderNotebook();
-    }
-}
+      function drop(symbol, x, y) {
+          const s = document.createElement("div");
+          s.className = symbol === "💧" ? "water" : "sun";
+          s.innerText = symbol;
+          s.style.left = x + "%";
+          s.style.top = y + "%";
+          garden.appendChild(s);
+          setTimeout(() => s.remove(), 2000);
+      }
+  }
+
+  window.openNotebook = function(index) {
+      currentPage = index;
+      react(index);
+      renderNotebook();
+      notebook.classList.add("open");
+  }
+
+  window.closeNotebook = function() {
+      notebook.classList.remove("open");
+  }
+
+  function renderNotebook() {
+      if (data.length === 0) {
+          notebookContent.innerHTML = "<p style='text-align:center; padding:40px;'>Aucune expérience plantée pour l'instant...</p>";
+          return;
+      }
+      
+      const p = data[currentPage];
+      
+      notebookContent.innerHTML = `
+          <div class="notebook-page">
+              <div class="page-header">
+                  <div class="page-date">📅 ${p.date}</div>
+                  <div class="page-number">Page ${currentPage + 1}/${data.length}</div>
+              </div>
+              
+              <div class="notebook-section">
+                  <div class="section-label">🌍 Contexte</div>
+                  <div class="section-content">${p.activite || "—"}</div>
+              </div>
+              
+              <div class="notebook-section">
+                  <div class="section-label">✨ Expérience vécue</div>
+                  <div class="section-content">${p.experience || "—"}</div>
+              </div>
+              
+              ${p.ressenti ? `
+              <div class="notebook-section">
+                  <div class="section-label">💭 Ressenti & transformation</div>
+                  <div class="section-content">${p.ressenti}</div>
+              </div>
+              ` : ''}
+              
+              ${p.force ? `
+              <div class="notebook-section">
+                  <div class="section-label">💪 Force mobilisée</div>
+                  <div class="section-content">${p.force}</div>
+              </div>
+              ` : ''}
+              
+              ${p.valeur ? `
+              <div class="notebook-section">
+                  <div class="section-label">⭐ Valeur en jeu</div>
+                  <div class="section-content">${p.valeur}</div>
+              </div>
+              ` : ''}
+              
+              ${p.pourQui ? `
+              <div class="notebook-section">
+                  <div class="section-label">👥 Pour qui</div>
+                  <div class="section-content">${p.pourQui}</div>
+              </div>
+              ` : ''}
+              
+              <div class="interaction-stats">
+                  <div class="stat-item">💧 Eau : ${p.eau}</div>
+                  <div class="stat-item">☀️ Soleil : ${p.soleil}</div>
+                  <div class="stat-item">🌱 Croissance : ${Math.round((1 + (p.eau + p.soleil) * 0.1) * 100)}%</div>
+              </div>
+          </div>
+      `;
+      
+      updatePageNav();
+  }
+
+  function updatePageNav() {
+      prevBtn.disabled = currentPage === 0;
+      nextBtn.disabled = currentPage === data.length - 1;
+      pageInfo.textContent = `${currentPage + 1} / ${data.length}`;
+  }
+
+  window.prevPage = function() {
+      if (currentPage > 0) {
+          currentPage--;
+          renderNotebook();
+      }
+  }
+
+  window.nextPage = function() {
+      if (currentPage < data.length - 1) {
+          currentPage++;
+          renderNotebook();
+      }
+  }
 </script>
 
 </body>
