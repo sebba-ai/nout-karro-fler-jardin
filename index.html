@@ -24,15 +24,14 @@ h1,h2,h3 {
 }
 
 /* ----------------- LOGIN ----------------- */
-    #login {
+#login {
     position: fixed;
     inset: 0;
-    background: rgba(245,245,240,0.98); /* Légèrement plus opaque pour cacher le chargement brutal */
+    background: rgba(245,245,240,0.98);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 200;
-    /* Transition très longue et douce */
     transition: opacity 3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
@@ -68,17 +67,135 @@ h1,h2,h3 {
     cursor: pointer;
 }
 
-/* ----------------- PAGE PRINCIPALE ----------------- */
+/* ----------------- THERMOMÈTRE D'ÉNERGIE ----------------- */
+#thermo-container {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    z-index: 100;
+    display: none; /* Affiché après login */
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+#thermo-container.visible {
+    display: flex;
+    opacity: 1;
+}
+
+#thermo-cadre {
+    width: 30px;
+    height: 180px;
+    border: 3px solid #2f3e34;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#thermo-niveau {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(to top, #4a9d6f 0%, #6fa58c 50%, #8bbf9f 100%);
+    transition: height 3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+/* Animation de vague */
+.wave {
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.3) 0%, transparent 70%);
+    animation: wave 4s ease-in-out infinite;
+}
+
+@keyframes wave {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(5%, 3%) rotate(2deg);
+    }
+    50% {
+        transform: translate(0, 5%) rotate(0deg);
+    }
+    75% {
+        transform: translate(-5%, 3%) rotate(-2deg);
+    }
+}
+
+/* Bulles dans le liquide */
+.bubble {
+    position: absolute;
+    bottom: 0;
+    width: 4px;
+    height: 4px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 50%;
+    animation: rise linear infinite;
+}
+
+.bubble:nth-child(1) {
+    left: 20%;
+    animation-duration: 3s;
+    animation-delay: 0s;
+}
+
+.bubble:nth-child(2) {
+    left: 50%;
+    animation-duration: 4s;
+    animation-delay: 1s;
+}
+
+.bubble:nth-child(3) {
+    left: 75%;
+    animation-duration: 3.5s;
+    animation-delay: 0.5s;
+}
+
+@keyframes rise {
+    0% {
+        bottom: 0;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        bottom: 100%;
+        opacity: 0;
+    }
+}
+
+#thermo-label {
+    font-family: "Georgia", serif;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #2f3e34;
+    text-align: center;
+}
+
 /* ----------------- PAGE PRINCIPALE ----------------- */
 #main {
-    display: none; /* Changera en 'flex' via JS */
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     padding: 20px;
     min-height: 100vh;
     box-sizing: border-box;
-    /* Animation de fondu à l'apparition */
     animation: fadeIn 1.2s ease-out;
 }
 
@@ -87,13 +204,10 @@ h1,h2,h3 {
     to { opacity: 1; transform: translateY(0); }
 }
 
-
-/* --- SCÉNARIOS --- */
-
 @keyframes fadeInTitle {
     from { 
         opacity: 0; 
-        transform: translateY(-20px); /* Arrive du haut */
+        transform: translateY(-20px);
     }
     to { 
         opacity: 1; 
@@ -101,19 +215,11 @@ h1,h2,h3 {
     }
 }
 
-@keyframes fadeInGarden {
-    from { 
-        opacity: 0; 
-    }
-    to { 
-        opacity: 1; 
-    }
-}
 @keyframes fadeInVaporeux {
     0% { 
         opacity: 0;
         filter: blur(15px);
-        transform: scale(0.98); /* Léger effet de zoom arrière */
+        transform: scale(0.98);
     }
     100% { 
         opacity: 1;
@@ -130,28 +236,23 @@ h1,h2,h3 {
     padding: 20px;
     width: 90%;
     max-width: 600px;
-
-    /* Effet Glassmorphism (Flou clarté) */
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    
     color: #2f3e34;
     opacity: 0;
     animation: fadeInTitle 3.5s ease-out 1.5s forwards;
 }
 
 /* ----------------- JARDIN RESPONSIVE ----------------- */
-
 #garden {
     position: relative;
     width: 100%;
     max-width: 900px;
-    height: 65vh; /* Hauteur optimisée pour voir le titre et le bouton */
+    height: 65vh;
     min-height: 400px;
     border-radius: 30px;
     background: rgba(255, 255, 255, 0.2);
@@ -160,7 +261,7 @@ h1,h2,h3 {
     box-shadow: inset 0 0 40px rgba(0,0,0,0.05);
     opacity: 0;
     filter: blur(15px);
-    animation: fadeInVaporeux 4s ease-out 1s forwards; /* Démarre après 1s, dure 4s */
+    animation: fadeInVaporeux 4s ease-out 1s forwards;
 }
 
 /* ----------------- BOUTON AJOUT CENTRÉ ----------------- */
@@ -175,32 +276,13 @@ h1,h2,h3 {
     font-size: 16px;
     cursor: pointer;
     transition: transform 0.2s;
-    /* Animation pour le bouton */
     opacity: 0;
-    animation: fadeInGarden 2s ease-in-out 1.5s forwards; /* Apparaît en dernier */
-
+    animation: fadeIn 2s ease-in-out 1.5s forwards;
 }
 
 #addBtn:hover {
     transform: scale(1.05);
 }
-
-
-
-    
-    /* Effet de flou "Glass" */
-    background: rgba(255, 255, 255, 0.35);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    
-    color: #2f3e34;
-    font-weight: normal;
-}
-
 
 #quote {
     text-align: center;
@@ -208,7 +290,6 @@ h1,h2,h3 {
     opacity: 0.8;
     margin-bottom: 30px;
 }
-
 
 /* Message de remerciement */
 #thankYouMsg {
@@ -230,15 +311,6 @@ h1,h2,h3 {
 
 #thankYouMsg.show {
     transform: translate(-50%, -50%) scale(1);
-}
-
-
-
-#addBtn {
-    margin: 20px 0; /* Gère l'espace au-dessus et en-dessous */
-    padding: 14px 28px;
-    font-size: 16px;
-    /* Le centrage est géré par le parent #main */
 }
 
 .plant-container {
@@ -336,32 +408,22 @@ form button {
 }
 
 /* ----------------- CARNET DE JARDINIER ----------------- */
-/* ----------------- CARNET DE JARDINIER (CORRIGÉ) ----------------- */
 #notebook {
     position: fixed;
-    right: -100%; /* Sort complètement de l'écran peu importe la taille */
+    right: -100%;
     top: 0;
     bottom: 0;
-    width: 100%;  /* Prend toute la largeur sur mobile */
-    max-width: 550px; /* Mais ne dépasse pas 550px sur tablette/PC */
+    width: 100%;
+    max-width: 550px;
     background: linear-gradient(to right, #8b7355 0%, #8b7355 20px, #f9f7f1 20px);
     box-shadow: -10px 0 30px rgba(0,0,0,0.3);
-    z-index: 150; /* Augmenté pour passer au-dessus de tout */
+    z-index: 150;
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
 }
 
 #notebook.open {
     right: 0;
-}
-
-/* Ajustement du contenu pour mobile */
-#notebookContent {
-    margin-left: 25px;
-    padding: 20px; /* Moins de padding sur mobile */
-    height: 100%;
-    overflow-y: auto;
-    box-sizing: border-box; /* Important pour que le padding ne dépasse pas */
 }
 
 #notebook::before {
@@ -396,6 +458,7 @@ form button {
             #e8dcc8 32px
         ),
         #f9f7f1;
+    box-sizing: border-box;
 }
 
 #closeNotebook {
@@ -555,89 +618,49 @@ form button {
 .loading {
     text-align: center;
     padding: 20px;
-    color: #
-
-#notebook h3 {
-    margin-top: 0;
-    font-style: italic;
+    color: #6fa58c;
 }
 
-#closeBook {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-    /* ----------------- ADAPTATION MOBILE ----------------- */
-
-/* Si l'écran est petit (téléphones) */
+/* ----------------- ADAPTATION MOBILE ----------------- */
 @media (max-width: 600px) {
     #main {
-        padding: 15px; /* Moins de vide sur les côtés */
+        padding: 15px;
     }
 
     #garden {
-        height: 70vh; /* Utilise 70% de la hauteur de l'écran disponible */
+        height: 70vh;
         min-height: 400px;
     }
 
-    h2 {
-        font-size: 1.2rem; /* Titre plus petit pour mobile */
+    #main h2 {
+        font-size: 1rem;
     }
 
-    /* On réduit la taille des boutons pour gagner de la place */
     #addBtn {
         padding: 12px 24px;
         font-size: 16px;
     }
-}
 
-/* Ajustement spécifique pour les tablettes ou mobiles en paysage */
-@media (max-height: 500px) {
-    #garden {
-        height: 300px; /* Évite que le jardin soit trop grand en mode paysage court */
+    #thermo-container {
+        left: 10px;
+        top: 10px;
+    }
+
+    #thermo-cadre {
+        width: 25px;
+        height: 150px;
+    }
+
+    form {
+        width: 90%;
+        max-width: 420px;
     }
 }
-#thermo-container {
-    position: fixed !important;
-    left: 20px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    z-index: 9999 !important;
-    display: none; /* On l'affichera par JS */
-    flex-direction: column;
-    align-items: center;
-}
 
-#thermo-cadre {
-    width: 25px !important;
-    height: 200px !important;
-    border: 3px solid #2f3e34 !important; /* Bordure foncée pour être SÛR de la voir */
-    background: white !important;
-    border-radius: 20px;
-    position: relative;
-    overflow: hidden;
-}
-
-#thermo-niveau {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 0%; /* Piloté par JS */
-    background: #6fa58c !important;
-    transition: height 2s ease-in-out;
-}
-
-#thermo-label {
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    font-weight: bold;
-    margin-top: 5px;
-    color: #2f3e34;
+@media (max-height: 500px) {
+    #garden {
+        height: 300px;
+    }
 }
 </style>
 
@@ -649,6 +672,9 @@ form button {
     <div id="thermo-cadre">
         <div id="thermo-niveau">
             <div class="wave"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
         </div>
     </div>
     <div id="thermo-label">Énergie</div>
@@ -662,21 +688,24 @@ form button {
         <button onclick="checkPassword()">Entrer</button>
     </div>
 </div>
+
 <div id="main">
-    
     <h2>
         Si nou plant' brinzell nous sa pas kéyir babafig / <br>
         si nou plant' banann' nous sa pa manz' kaviar ! <br> 
         Alé tir in feye / récolte leu tempo
     </h2>
 
-    <div id="quote"></div>
+```
+<div id="quote"></div>
 
-    <button id="addBtn" onclick="openForm()">➕ Planter une expérience</button>
+<button id="addBtn" onclick="openForm()">➕ Planter une expérience</button>
 
-    <div id="garden">
-        <div class="loading">🌱 Chargement du jardin...</div>
-    </div>
+<div id="garden">
+    <div class="loading">🌱 Chargement du jardin...</div>
+</div>
+```
+
 </div>
 
 <div id="thankYouMsg"></div>
@@ -703,95 +732,77 @@ form button {
 
   <select name="force">
     <option value="">Force mobilisée (VIA)</option>
-
-```
-<optgroup label="🧠 SAGESSE ET CONNAISSANCE">
-  <option>Curiosité</option>
-  <option>Amour de l'apprentissage</option>
-  <option>Jugement / Pensée critique</option>
-  <option>Ingéniosité / Créativité</option>
-  <option>Perspective / Sagesse</option>
-</optgroup>
-
-<optgroup label="💪 COURAGE">
-  <option>Bravoure</option>
-  <option>Persévérance</option>
-  <option>Intégrité / Honnêteté</option>
-  <option>Enthousiasme</option>
-</optgroup>
-
-<optgroup label="❤️ HUMANITÉ">
-  <option>Amour</option>
-  <option>Gentillesse</option>
-  <option>Intelligence sociale / Empathie</option>
-</optgroup>
-
-<optgroup label="⚖️ JUSTICE">
-  <option>Équité</option>
-  <option>Leadership</option>
-  <option>Travail d'équipe / Esprit de citoyenneté</option>
-</optgroup>
-
-<optgroup label="🧘 TEMPÉRANCE">
-  <option>Pardon / Indulgence</option>
-  <option>Humilité / Modestie</option>
-  <option>Prudence / Prévenance</option>
-  <option>Autocontrôle / Régulation de soi</option>
-</optgroup>
-
-<optgroup label="✨ TRANSCENDANCE">
-  <option>Appréciation de la beauté et de l'excellence</option>
-  <option>Gratitude</option>
-  <option>Espoir / Optimisme</option>
-  <option>Humour</option>
-  <option>Spiritualité / Foi</option>
-</optgroup>
-```
-
+    <optgroup label="🧠 SAGESSE ET CONNAISSANCE">
+      <option>Curiosité</option>
+      <option>Amour de l'apprentissage</option>
+      <option>Jugement / Pensée critique</option>
+      <option>Ingéniosité / Créativité</option>
+      <option>Perspective / Sagesse</option>
+    </optgroup>
+    <optgroup label="💪 COURAGE">
+      <option>Bravoure</option>
+      <option>Persévérance</option>
+      <option>Intégrité / Honnêteté</option>
+      <option>Enthousiasme</option>
+    </optgroup>
+    <optgroup label="❤️ HUMANITÉ">
+      <option>Amour</option>
+      <option>Gentillesse</option>
+      <option>Intelligence sociale / Empathie</option>
+    </optgroup>
+    <optgroup label="⚖️ JUSTICE">
+      <option>Équité</option>
+      <option>Leadership</option>
+      <option>Travail d'équipe / Esprit de citoyenneté</option>
+    </optgroup>
+    <optgroup label="🧘 TEMPÉRANCE">
+      <option>Pardon / Indulgence</option>
+      <option>Humilité / Modestie</option>
+      <option>Prudence / Prévenance</option>
+      <option>Autocontrôle / Régulation de soi</option>
+    </optgroup>
+    <optgroup label="✨ TRANSCENDANCE">
+      <option>Appréciation de la beauté et de l'excellence</option>
+      <option>Gratitude</option>
+      <option>Espoir / Optimisme</option>
+      <option>Humour</option>
+      <option>Spiritualité / Foi</option>
+    </optgroup>
   </select>
 
-<input name="forceLibre"
-placeholder="Autre force (si différente)">
+  <input name="forceLibre" placeholder="Autre force (si différente)">
 
   <select name="valeur">
     <option value="">Valeur en jeu (Schwartz)</option>
-
-```
-<optgroup label="🌍 OUVERTURE AU CHANGEMENT">
-  <option>Autodétermination-pensée</option>
-  <option>Autodétermination-action</option>
-  <option>Stimulation</option>
-  <option>Hédonisme</option>
-</optgroup>
-
-<optgroup label="🎯 CROISSANCE PERSONNELLE">
-  <option>Réalisation</option>
-  <option>Pouvoir-dominance</option>
-  <option>Pouvoir-ressources</option>
-</optgroup>
-
-<optgroup label="🛡️ CONSERVATION">
-  <option>Image publique</option>
-  <option>Sécurité-personnel</option>
-  <option>Tradition</option>
-  <option>Conformité-règles</option>
-  <option>Conformité-interpersonnelle</option>
-  <option>Humilité</option>
-</optgroup>
-
-<optgroup label="💗 DÉPASSEMENT DE SOI">
-  <option>Bienveillance-soins</option>
-  <option>Bienveillance-fiabilité</option>
-  <option>Universalisme-préoccupation</option>
-  <option>Universalisme-nature</option>
-  <option>Universalisme-tolérance</option>
-</optgroup>
-```
-
+    <optgroup label="🌍 OUVERTURE AU CHANGEMENT">
+      <option>Autodétermination-pensée</option>
+      <option>Autodétermination-action</option>
+      <option>Stimulation</option>
+      <option>Hédonisme</option>
+    </optgroup>
+    <optgroup label="🎯 CROISSANCE PERSONNELLE">
+      <option>Réalisation</option>
+      <option>Pouvoir-dominance</option>
+      <option>Pouvoir-ressources</option>
+    </optgroup>
+    <optgroup label="🛡️ CONSERVATION">
+      <option>Image publique</option>
+      <option>Sécurité-personnel</option>
+      <option>Tradition</option>
+      <option>Conformité-règles</option>
+      <option>Conformité-interpersonnelle</option>
+      <option>Humilité</option>
+    </optgroup>
+    <optgroup label="💗 DÉPASSEMENT DE SOI">
+      <option>Bienveillance-soins</option>
+      <option>Bienveillance-fiabilité</option>
+      <option>Universalisme-préoccupation</option>
+      <option>Universalisme-nature</option>
+      <option>Universalisme-tolérance</option>
+    </optgroup>
   </select>
 
-<input name="pourQui"
-placeholder="Pour qui cette expérience a compté ?">
+  <input name="pourQui" placeholder="Pour qui cette expérience a compté ?">
 
 <button type="submit">🌸 Planter</button>
 
@@ -830,6 +841,7 @@ placeholder="Pour qui cette expérience a compté ?">
   window.plantsRef = plantsRef;
 
   const PASSWORD = "jardin";
+  const NIVEAU_ENERGIE = 75; // Pourcentage d'énergie à afficher
 
   const quotes = [
       "Ce à quoi tu prêtes attention grandit.",
@@ -838,7 +850,6 @@ placeholder="Pour qui cette expérience a compté ?">
       "Un jardin est une mémoire qui respire."
   ];
 
-  // Messages de remerciement ingénieux
   const thankYouMessages = [
       "🌱 Une nouvelle graine prend racine dans notre jardin collectif !",
       "✨ Merci pour cette belle contribution, elle fera grandir notre écosystème !",
@@ -914,17 +925,7 @@ placeholder="Pour qui cette expérience a compté ?">
     }, 4000);
   }
 
-function initThermometre() {
-    const niveau = document.getElementById('thermo-niveau');
-    if(niveau) {
-        setTimeout(() => {
-            niveau.style.height = NIVEAU_ENERGIE + "%";
-        }, 3500); 
-    }
-}
-    const NIVEAU_ENERGIE = 75; // Change le pourcentage ici
-
-window.checkPassword = function() {
+  window.checkPassword = function() {
     const pwd = document.getElementById('pwd');
     const login = document.getElementById('login');
     const main = document.getElementById('main');
@@ -941,12 +942,12 @@ window.checkPassword = function() {
         main.style.display = "flex"; 
         
         // 3. Activer le thermomètre
-        if(thermo) thermo.classList.add('visible');
+        thermo.classList.add('visible');
         
-        // 4. Lancer l'animation du liquide après un petit délai
+        // 4. Lancer l'animation du liquide après un délai
         setTimeout(() => {
-            if(niveau) niveau.style.height = NIVEAU_ENERGIE + "%";
-        }, 3000);
+            niveau.style.height = NIVEAU_ENERGIE + "%";
+        }, 2000);
 
         // 5. Faire disparaître le login
         login.classList.add('fade-out');
@@ -956,7 +957,7 @@ window.checkPassword = function() {
     } else {
         alert("Mot de passe incorrect");
     }
-}
+  }
 
   window.openForm = function() {
       overlay.style.display = "flex";
@@ -1035,7 +1036,6 @@ window.checkPassword = function() {
           }
       }
       
-      // Si pas de place, mettre en premier plan
       return getPositionForType(type);
   }
 
@@ -1087,7 +1087,6 @@ window.checkPassword = function() {
           container.style.left = p.x + "%";
           container.style.top = p.y + "%";
           
-          // Calcul croissance (200% pour arbres/arbustes, 150% pour autres)
           const maxGrowth = (p.type === 'arbre' || p.type === 'arbuste') ? 10 : 5;
           const growthFactor = Math.min((p.eau || 0) + (p.soleil || 0), maxGrowth);
           const maxScale = (p.type === 'arbre' || p.type === 'arbuste') ? 2.0 : 1.5;
@@ -1096,13 +1095,12 @@ window.checkPassword = function() {
           const baseSize = 90;
           const size = baseSize * scale;
           
-          
-          // Toujours entre 1 et 20 (devant les autres plantes, jamais devant les overlays)
-        const zIndex = i === 0 ? 20 : Math.round((100 - p.y) / 5);
+          const zIndex = i === 0 ? 20 : Math.round((100 - p.y) / 5);
           container.style.zIndex = zIndex;
           
           const img = document.createElement("img");
           img.src = p.img;
+          img.alt = `Plante ${p.type}`;
           img.className = `plant ${p.type || 'fleur'}`;
           img.style.width = size + "px";
           img.style.setProperty('--scale', scale);
@@ -1110,7 +1108,6 @@ window.checkPassword = function() {
           
           container.appendChild(img);
           
-          // Cercle de mise en valeur si nouveau et <130%
           if (i === 0 && scale < 1.3) {
               const circle = document.createElement("div");
               circle.className = "highlight-circle";
@@ -1125,18 +1122,15 @@ window.checkPassword = function() {
       });
   }
 
-window.openNotebook = function(index) {
+  window.openNotebook = function(index) {
     currentPage = index;
-
-    // reset léger pour relancer l'animation
     notebook.classList.remove("open");
 
-    // micro délai = effet vivant
     setTimeout(() => {
         renderNotebook();
         notebook.classList.add("open");
     }, 40);
-}
+  }
 
   window.closeNotebook = function() {
       notebook.classList.remove("open");
@@ -1177,7 +1171,6 @@ window.openNotebook = function(index) {
       const waterKey = `${p.firebaseId}_water`;
       const sunKey = `${p.firebaseId}_sun`;
       
-      // Calcul croissance selon type
       const maxGrowth = (p.type === 'arbre' || p.type === 'arbuste') ? 200 : 150;
       const maxInteractions = maxGrowth === 200 ? 10 : 5;
       const currentGrowth = Math.min(100 + (((p.eau || 0) + (p.soleil || 0)) / maxInteractions) * (maxGrowth - 100), maxGrowth);
@@ -1236,12 +1229,14 @@ window.openNotebook = function(index) {
               <div class="water-actions">
                   <button class="water-btn ${sessionWatered[waterKey] ? 'used' : ''}" 
                           onclick="waterPlant('${p.firebaseId}', 'water')"
-                          ${sessionWatered[waterKey] ? 'disabled' : ''}>
+                          ${sessionWatered[waterKey] ? 'disabled' : ''}
+                          aria-label="Arroser la plante">
                       💧
                   </button>
                   <button class="water-btn ${sessionWatered[sunKey] ? 'used' : ''}" 
                           onclick="waterPlant('${p.firebaseId}', 'sun')"
-                          ${sessionWatered[sunKey] ? 'disabled' : ''}>
+                          ${sessionWatered[sunKey] ? 'disabled' : ''}
+                          aria-label="Donner du soleil à la plante">
                       ☀️
                   </button>
               </div>
