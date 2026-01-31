@@ -425,6 +425,40 @@ form button {
     padding: 20px;
     color: #6fa58c;
 }
+    /* ----------------- LIVRE GLISSANT ----------------- */
+#notebook {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    height: 100%;
+    background: #fffdf7;
+    box-shadow: -20px 0 40px rgba(0,0,0,0.25);
+    padding: 30px;
+    transform: translateX(100%);
+    transition: transform 0.6s ease;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+#notebook.open {
+    transform: translateX(0);
+}
+
+#notebook h3 {
+    margin-top: 0;
+    font-style: italic;
+}
+
+#closeBook {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
 </style>
 
 </head>
@@ -866,11 +900,18 @@ placeholder="Pour qui cette expérience a compté ?">
       });
   }
 
-  window.openNotebook = function(index) {
-      currentPage = index;
-      renderNotebook();
-      notebook.classList.add("open");
-  }
+window.openNotebook = function(index) {
+    currentPage = index;
+
+    // reset léger pour relancer l'animation
+    notebook.classList.remove("open");
+
+    // micro délai = effet vivant
+    setTimeout(() => {
+        renderNotebook();
+        notebook.classList.add("open");
+    }, 40);
+}
 
   window.closeNotebook = function() {
       notebook.classList.remove("open");
@@ -1005,6 +1046,15 @@ placeholder="Pour qui cette expérience a compté ?">
       }
   }
 </script>
+<div id="notebook">
+  <button id="closeBook">✕</button>
+  <h3 id="bookTitle"></h3>
 
+  <p><strong>🌿 Activité</strong><br><span id="bookActivite"></span></p>
+  <p><strong>📝 Expérience</strong><br><span id="bookExperience"></span></p>
+  <p><strong>💭 Ressenti</strong><br><span id="bookRessenti"></span></p>
+  <p><strong>💪 Force</strong><br><span id="bookForce"></span></p>
+  <p><strong>👥 Pour qui</strong><br><span id="bookPourQui"></span></p>
+</div>
 </body>
 </html>
