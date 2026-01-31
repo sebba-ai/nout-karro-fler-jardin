@@ -66,166 +66,189 @@ h1,h2,h3 {
     font-size: 16px;
     cursor: pointer;
 }
-/* ----------------- THERMOMÈTRE STYLE RÉALISTE ----------------- */
-    /* ----------------- THERMOMÈTRE RÉALISTE ----------------- */
+
+/* ----------------- THERMOMÈTRE D'ÉNERGIE AMÉLIORÉ ----------------- */
 #thermo-container {
     position: absolute;
-    left: 15px;
+    left: 20px;
     top: 20px;
-    z-index: 10;
-    display: none; 
+    z-index: 100;
+    display: none;
     flex-direction: column;
     align-items: center;
-    width: 40px;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
 }
-
-#thermo-cadre {
-    width: 14px;
-    height: 140px;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(5px);
-    border: 3px solid #2f3e34;
-    border-radius: 15px 15px 0 0;
-    position: relative;
-    border-bottom: none;
-}
-
-#thermo-niveau {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 0%; 
-    background: linear-gradient(to top, #ff4d4d 0%, #ffd93d 50%, #4cd137 100%);
-    transition: height 3s ease-in-out;
-}
-
-#thermo-reservoir {
-    width: 30px;
-    height: 30px;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(5px);
-    border: 3px solid #2f3e34;
-    border-radius: 50%;
-    margin-top: -6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 2;
-}
-
-#thermo-liquide-bas {
-    width: 20px;
-    height: 20px;
-    background: #ff4d4d;
-    border-radius: 50%;
-}
-
-/* ----------------- TITRE H2 (SÉCURISÉ) ----------------- */
-#main h2 {
-    font-size: 1.1rem;
-    text-align: center;
-    max-width: 600px;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(12px);
-    padding: 20px 20px 20px 60px; /* On force 60px à gauche pour le thermo */
-    border-radius: 20px;
-    margin: 10px auto 30px auto;
-    border: 1px solid rgba(255,255,255,0.4);
-    position: relative;
-}
-
-/* ----------------- MOBILE ----------------- */
-@media (max-width: 600px) {
-    #thermo-container {
-        left: 10px;
-        top: 25px; /* Aligné avec le haut du titre */
-        transform: scale(0.85);
-    }
-
-    #main h2 {
-        font-size: 0.95rem;
-        padding: 15px 15px 15px 55px; /* Marge généreuse à gauche */
-        width: 88%;
-        line-height: 1.4;
-    }
-}
-
-
-/* ----------------- THERMOMÈTRE D'ÉNERGIE ----------------- */
-
 
 #thermo-container.visible {
     display: flex;
     opacity: 1;
 }
-/* --- Animation de la vague à la surface --- */
+
+/* Le tube du thermomètre */
+#thermo-cadre {
+    width: 18px;
+    height: 160px;
+    background: linear-gradient(to right, 
+        rgba(255,255,255,0.4) 0%, 
+        rgba(255,255,255,0.6) 50%, 
+        rgba(255,255,255,0.4) 100%
+    );
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(47,62,52,0.3);
+    border-radius: 12px 12px 0 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        inset -2px 0 4px rgba(0,0,0,0.1),
+        inset 2px 0 4px rgba(255,255,255,0.3);
+    border-bottom: none;
+}
+
+/* Le liquide qui monte */
+#thermo-niveau {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(to top, 
+        #e74c3c 0%,
+        #e67e22 40%, 
+        #f39c12 70%,
+        #f1c40f 100%
+    );
+    transition: height 3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: visible;
+    position: relative;
+}
+
+/* Vague à la surface du liquide */
 .wave {
     position: absolute;
-    top: -10px;
-    left: -50%;
-    width: 200%;
-    height: 20px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 40%;
-    animation: waveMotion 3s infinite linear;
-}
-
-@keyframes waveMotion {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* --- Animation des bulles --- */
-.bubble {
-    position: absolute;
-    bottom: -10px;
-    background: rgba(255, 255, 255, 0.4);
+    top: -8px;
+    left: -100%;
+    width: 300%;
+    height: 16px;
+    background: radial-gradient(ellipse at center, 
+        rgba(255,255,255,0.4) 0%, 
+        transparent 70%
+    );
     border-radius: 50%;
-    animation: rise 4s infinite ease-in;
+    animation: wave-motion 3s ease-in-out infinite;
 }
 
-.bubble:nth-child(2) { width: 4px; height: 4px; left: 20%; animation-delay: 0s; }
-.bubble:nth-child(3) { width: 6px; height: 6px; left: 50%; animation-delay: 1s; }
-.bubble:nth-child(4) { width: 3px; height: 3px; left: 70%; animation-delay: 2s; }
-
-@keyframes rise {
-    0% { bottom: -10px; opacity: 0; }
-    20% { opacity: 1; }
-    100% { bottom: 100%; opacity: 0; }
-}
-
-/* --- Rappel du style du conteneur (pour la marge mobile) --- */
-#thermo-container {
-    position: absolute;
-    left: 15px;
-    top: 25px;
-    z-index: 10;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-}
-
-#main h2 {
-    padding: 25px 25px 25px 70px !important; /* Marge augmentée pour mobile */
-}
-
-@media (max-width: 600px) {
-    #main h2 {
-        padding-left: 65px !important;
-        font-size: 0.95rem;
+@keyframes wave-motion {
+    0%, 100% {
+        transform: translateX(0) translateY(0);
+    }
+    25% {
+        transform: translateX(10%) translateY(-2px);
+    }
+    50% {
+        transform: translateX(0) translateY(0);
+    }
+    75% {
+        transform: translateX(-10%) translateY(-2px);
     }
 }
 
+/* Bulles animées */
+.bubble {
+    position: absolute;
+    background: rgba(255,255,255,0.6);
+    border-radius: 50%;
+    animation: bubble-rise linear infinite;
+    box-shadow: inset -1px -1px 2px rgba(0,0,0,0.1);
+}
 
+.bubble:nth-child(2) {
+    width: 3px;
+    height: 3px;
+    left: 25%;
+    animation-duration: 4s;
+    animation-delay: 0s;
+}
+
+.bubble:nth-child(3) {
+    width: 4px;
+    height: 4px;
+    left: 60%;
+    animation-duration: 5s;
+    animation-delay: 1.2s;
+}
+
+.bubble:nth-child(4) {
+    width: 2px;
+    height: 2px;
+    left: 45%;
+    animation-duration: 3.5s;
+    animation-delay: 2s;
+}
+
+@keyframes bubble-rise {
+    0% {
+        bottom: 0;
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    10% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 0.8;
+    }
+    100% {
+        bottom: 100%;
+        opacity: 0;
+        transform: scale(1.2);
+    }
+}
+
+/* Réservoir en bas (boule rouge) */
+#thermo-reservoir {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, 
+        #e74c3c 0%, 
+        #c0392b 100%
+    );
+    border: 2px solid rgba(47,62,52,0.3);
+    border-radius: 50%;
+    margin-top: -3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 
+        inset -3px -3px 6px rgba(0,0,0,0.2),
+        inset 3px 3px 6px rgba(255,100,100,0.3),
+        0 2px 8px rgba(231,76,60,0.3);
+}
+
+/* Reflet lumineux sur le réservoir */
+#thermo-reservoir::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, 
+        rgba(255,255,255,0.6) 0%, 
+        transparent 70%
+    );
+    border-radius: 50%;
+}
 
 #thermo-label {
     font-family: "Georgia", serif;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: bold;
-    margin-top: 8px;
+    margin-top: 6px;
     color: #2f3e34;
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 /* ----------------- PAGE PRINCIPALE ----------------- */
@@ -238,6 +261,7 @@ h1,h2,h3 {
     min-height: 100vh;
     box-sizing: border-box;
     animation: fadeIn 1.2s ease-out;
+    position: relative;
 }
 
 @keyframes fadeIn {
@@ -274,7 +298,7 @@ h1,h2,h3 {
     line-height: 1.5;
     text-align: center;
     margin: 10px auto 20px auto;
-    padding: 20px;
+    padding: 20px 20px 20px 70px;
     width: 90%;
     max-width: 600px;
     background: rgba(255, 255, 255, 0.3);
@@ -674,7 +698,8 @@ form button {
     }
 
     #main h2 {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        padding: 18px 18px 18px 65px;
     }
 
     #addBtn {
@@ -683,13 +708,9 @@ form button {
     }
 
     #thermo-container {
-        left: 10px;
-        top: 10px;
-    }
-
-    #thermo-cadre {
-        width: 25px;
-        height: 150px;
+        left: 12px;
+        top: 18px;
+        transform: scale(0.9);
     }
 
     form {
@@ -708,14 +729,6 @@ form button {
 </head>
 
 <body>
-<div id="thermo-container">
-    <div id="thermo-cadre">
-        <div id="thermo-niveau"></div>
-    </div>
-    <div id="thermo-reservoir">
-        <div id="thermo-liquide-bas"></div>
-    </div>
-</div>
 
 <div id="login">
     <div id="loginBox">
@@ -727,27 +740,27 @@ form button {
 </div>
 
 <div id="main">
+    <!-- Thermomètre positionné en haut à gauche -->
     <div id="thermo-container">
-    <div id="thermo-cadre">
-        <div id="thermo-niveau">
-            <div class="wave"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
+        <div id="thermo-cadre">
+            <div id="thermo-niveau">
+                <div class="wave"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+            </div>
         </div>
+        <div id="thermo-reservoir"></div>
+        <div id="thermo-label">Énergie</div>
     </div>
-    <div id="thermo-reservoir">
-        <div id="thermo-liquide-bas"></div>
-    </div>
-</div>
-
-    <h2>
-        Si nou sèm brinzell nou sa pa kéyir babafig / <br>
-        si nou plant' banann' nou sa pa manz' kaviar ! <br> 
-        Alé tir in feuye / récolt leu tempo !
-    </h2>
 
 ```
+<h2>
+    Si nou sèm brinzell nou sa pa kéyir babafig / <br>
+    si nou plant' banann' nou sa pa manz' kaviar ! <br> 
+    Alé tir in feuye / récolt leu tempo !
+</h2>
+
 <div id="quote"></div>
 
 <button id="addBtn" onclick="openForm()">➕ Planter une expérience</button>
@@ -892,7 +905,7 @@ form button {
   window.plantsRef = plantsRef;
 
   const PASSWORD = "jardin";
-  const NIVEAU_ENERGIE = 75; // Pourcentage d'énergie à afficher
+  const NIVEAU_ENERGIE = 75;
 
   const quotes = [
       "Ce à quoi tu prêtes attention grandit.",
@@ -984,25 +997,28 @@ form button {
     const niveau = document.getElementById('thermo-niveau');
 
     if (pwd.value === PASSWORD) {
-        main.style.display = "flex";
-        thermo.style.display = "flex"; // Affiche le thermo
-
         setRandomBackground();
         loadPlants();
+        quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
 
-        // On déclenche la montée du liquide
+        main.style.display = "flex";
+        
         setTimeout(() => {
-            niveau.style.height = "75%"; // Change ici le niveau désiré
-        }, 800);
+            thermo.classList.add('visible');
+        }, 500);
+        
+        setTimeout(() => {
+            niveau.style.height = NIVEAU_ENERGIE + "%";
+        }, 1500);
 
         login.classList.add('fade-out');
         setTimeout(() => {
             login.style.display = "none";
-        }, 2500);
+        }, 3000);
     } else {
         alert("Mot de passe incorrect");
     }
-}
+  }
 
   window.openForm = function() {
       overlay.style.display = "flex";
@@ -1224,6 +1240,7 @@ form button {
           <div class="notebook-page">
               <div class="page-header">
                   <div class="page-date">📅 ${p.date}</div>
+                  <div class="page-number">Page ${currentPage + 1}/${data.length}</div>
               </div>
               
               <div class="notebook-section">
@@ -1313,3 +1330,4 @@ form button {
 
 </body>
 </html>
+
