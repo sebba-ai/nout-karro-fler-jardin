@@ -601,40 +601,53 @@ form button {
         height: 300px; /* Évite que le jardin soit trop grand en mode paysage court */
     }
 }
-    #thermo-container {
+
+#thermo-container {
     position: fixed;
-    top: 150px;
-    left: 30px;
+    top: 50%; /* On le centre verticalement */
+    left: 20px;
+    transform: translateY(-50%); /* Centrage vertical précis */
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 80;
-    /* On le fait apparaître après la transition du login */
-    animation: fadeIn 2s ease-out 3s forwards;
+    z-index: 999; /* Priorité maximale */
     opacity: 0;
+    /* On réduit le délai à 2s pour qu'il apparaisse plus vite */
+    animation: fadeIn 1s ease-out 2s forwards; 
 }
 
 #thermo-cadre {
-    width: 20px;
-    height: 200px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(8px);
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
-    border-radius: 20px;
+    width: 30px; /* Un peu plus large pour mieux le voir */
+    height: 220px;
+    background: rgba(255, 255, 255, 0.4); /* Fond plus clair */
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 25px;
     position: relative;
-    overflow: hidden; /* Coupe la vague qui dépasse */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
 #thermo-niveau {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 50%; /* Ce chiffre sera piloté par ton code plus bas */
-    background: linear-gradient(to top, #6fa58c, #8bbf9f);
-    transition: height 2s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 0%; /* Commence à 0 pour l'animation */
+    background: linear-gradient(to top, #6fa58c, #a8e6cf);
+    transition: height 2.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
 }
 
+#thermo-label {
+    margin-top: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #2f3e34;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: rgba(255,255,255,0.6);
+    padding: 4px 8px;
+    border-radius: 10px;
+}
 /* L'animation de la vaguelette */
 .wave {
     position: absolute;
