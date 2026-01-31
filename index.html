@@ -601,8 +601,9 @@ form button {
         height: 300px; /* Évite que le jardin soit trop grand en mode paysage court */
     }
 }
-/* ----------------- THERMOMÈTRE (VERSION FORCÉE À GAUCHE) ----------------- */
-    #thermo-container {
+
+/* ----------------- THERMOMÈTRE (CORRECTIF TOTAL) ----------------- */
+#thermo-container {
     position: fixed !important; 
     top: 50% !important;
     left: 20px !important;
@@ -610,28 +611,23 @@ form button {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    width: 50px !important; /* Taille fixe pour éviter les décalages */
+    width: 60px !important;
     z-index: 9999 !important;
-    opacity: 0;
-    animation: fadeIn 1s ease-out 2s forwards;
+    opacity: 0; /* Caché au début */
+    pointer-events: none;
 }
 
-#thermo-label {
-    margin-top: 10px;
-    font-size: 10px;
-    color: white !important;
-    font-weight: bold;
-    text-transform: uppercase;
-    background: rgba(47, 62, 52, 0.8); /* Fond foncé pour bien voir le texte */
-    padding: 4px 8px;
-    border-radius: 5px;
-    text-align: center;
+/* Cette classe sera ajoutée par le JS pour le faire apparaître */
+#thermo-container.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 1s ease-in 2s; /* Apparaît après 2s */
 }
 
 #thermo-cadre {
     width: 20px;
     height: 180px;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 2px solid white;
@@ -646,16 +642,15 @@ form button {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 0%; /* Piloté par JS */
+    height: 0%; 
     background: linear-gradient(to top, #6fa58c, #a8e6cf);
-    transition: height 2s ease-out;
+    transition: height 2.5s ease-out;
 }
 
-/* La petite vaguelette dont tu parlais */
 .wave {
     position: absolute;
     top: -10px;
-    left: 0;
+    left: -50%;
     width: 200%;
     height: 20px;
     background: rgba(255, 255, 255, 0.4);
@@ -666,6 +661,18 @@ form button {
 @keyframes waveAnim {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+}
+
+#thermo-label {
+    margin-top: 10px;
+    font-size: 11px;
+    color: white !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: rgba(47, 62, 52, 0.7);
+    padding: 4px 8px;
+    border-radius: 5px;
+    white-space: nowrap;
 }
 
 /* Graduations visuelles */
@@ -954,8 +961,6 @@ placeholder="Pour qui cette expérience a compté ?">
       msgEl.classList.remove('show');
     }, 4000);
   }
-    // --- COPIE CECI ICI ---
-const NIVEAU_ENERGIE = 65; 
 
 function initThermometre() {
     const niveau = document.getElementById('thermo-niveau');
@@ -965,46 +970,41 @@ function initThermometre() {
         }, 3500); 
     }
 }
-// ----------------------
-window.checkPassword = function() {
-    if (pwd.value === PASSWORD) {
-        login.style.display = "none";
-        main.style.display = "flex";
-        
-        // --- AJOUTE CETTE LIGNE ICI ---
-        initThermometre(); 
-        // ------------------------------
-
-        quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
-        setRandomBackground();
-        loadPlants();
-    }
-}
+    const NIVEAU_ENERGIE = 75; // Change le pourcentage ici
 
 window.checkPassword = function() {
     const pwd = document.getElementById('pwd');
     const login = document.getElementById('login');
     const main = document.getElementById('main');
+    const thermo = document.getElementById('thermo-container');
+    const niveau = document.getElementById('thermo-niveau');
 
     if (pwd.value === PASSWORD) {
-        // On prépare le terrain
+        // 1. Préparer le jardin
         setRandomBackground();
         loadPlants();
         quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
 
-        // On rend le main prêt (invisible car derrière le login)
+        // 2. Afficher le contenu principal
         main.style.display = "flex"; 
+        
+        // 3. Activer le thermomètre
+        if(thermo) thermo.classList.add('visible');
+        
+        // 4. Lancer l'animation du liquide après un petit délai
+        setTimeout(() => {
+            if(niveau) niveau.style.height = NIVEAU_ENERGIE + "%";
+        }, 3000);
 
-        // On lance la disparition lente
+        // 5. Faire disparaître le login
         login.classList.add('fade-out');
-
-        // On attend la fin des 3 secondes de transition avant de supprimer l'élément
         setTimeout(() => {
             login.style.display = "none";
         }, 3000); 
+    } else {
+        alert("Mot de passe incorrect");
     }
 }
-
 
   window.openForm = function() {
       overlay.style.display = "flex";
