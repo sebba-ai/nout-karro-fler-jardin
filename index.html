@@ -814,15 +814,16 @@ placeholder="Pour qui cette expérience a compté ?">
     }, 4000);
   }
 
-  window.checkPassword = function() {
-      if (pwd.value === PASSWORD) {
-          login.style.display = "none";
-          main.style.display = "flex";
-          quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
-          setRandomBackground();
-          loadPlants();
-      }
-  }
+    window.checkPassword = function() {
+    if (pwd.value === PASSWORD) {
+        login.style.display = "none";
+        // On utilise 'flex' ici pour activer le centrage automatique du CSS
+        main.style.display = "flex"; 
+        quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
+        setRandomBackground();
+        loadPlants();
+    }
+}
 
   window.openForm = function() {
       overlay.style.display = "flex";
