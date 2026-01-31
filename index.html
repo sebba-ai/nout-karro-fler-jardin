@@ -111,6 +111,7 @@ h1,h2,h3 {
 /* ----------------- JARDIN ----------------- */
 #garden {
     position: relative;
+    z-index: 1;
     width: 100%;
     height: 600px;
     border-radius: 30px;
@@ -124,7 +125,7 @@ h1,h2,h3 {
 }
 
 .plant {
-    animation: breathe 8s ease-in-out infinite;
+    animation: breathe 10s ease-in-out infinite;
     cursor: pointer;
     transition: transform 0.5s ease, filter 0.3s ease;
     position: relative;
@@ -169,7 +170,7 @@ h1,h2,h3 {
 
 @keyframes breathe {
     0%,100% { transform: scale(var(--scale, 1)); }
-    50% { transform: scale(calc(var(--scale, 1) * 1.04)); }
+    50% { transform: scale(calc(var(--scale, 1) * 1.1)); }
 }
 
 /* ----------------- FORMULAIRE AJOUT ----------------- */
@@ -432,7 +433,7 @@ form button {
 
 <div id="login">
     <div id="loginBox">
-        <h2>🌱 Nout KaroOburo</h2>
+        <h2>🌱 KaroOburo</h2>
         <p>Entre dans le jardin</p>
         <input id="pwd" type="password" placeholder="mot de passe">
         <button onclick="checkPassword()">Entrer</button>
@@ -440,7 +441,7 @@ form button {
 </div>
 
 <div id="main">
-    <h1>Si nous plante carotte nous récolté carotte, si nou plante banane nous recolté banane</h1>
+    <h2>Si nous plant' brinzell nous sa pas kéyir babafig, si nou plant' banann nous sa pa manz' kaviar ! Alé tir in feye...récolte leu tempo</h2>
     <div id="quote"></div>
 
 ```
@@ -836,8 +837,9 @@ placeholder="Pour qui cette expérience a compté ?">
           const baseSize = 90;
           const size = baseSize * scale;
           
-          // Z-index selon position (plus bas = devant) et si nouveau
-          const zIndex = i === 0 ? 1000 : Math.round((100 - p.y) * 10);
+          
+          // Toujours entre 1 et 20 (devant les autres plantes, jamais devant les overlays)
+        const zIndex = i === 0 ? 20 : Math.round((100 - p.y) / 5);
           container.style.zIndex = zIndex;
           
           const img = document.createElement("img");
