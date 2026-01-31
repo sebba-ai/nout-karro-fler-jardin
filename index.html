@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -96,9 +97,14 @@ h1,h2,h3 {
 
 .plant {
     position: absolute;
-    width: 90px;
     animation: breathe 8s ease-in-out infinite;
     cursor: pointer;
+    transition: transform 0.5s ease, filter 0.3s ease;
+    transform-origin: bottom center;
+}
+
+.plant:hover {
+    filter: brightness(1.1) drop-shadow(0 0 15px rgba(139,191,159,0.6));
 }
 
 .plant.latest {
@@ -106,8 +112,8 @@ h1,h2,h3 {
 }
 
 @keyframes breathe {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.04); }
+    0%,100% { transform: scale(var(--scale, 1)); }
+    50% { transform: scale(calc(var(--scale, 1) * 1.04)); }
 }
 
 /* ----------------- EAU & SOLEIL ----------------- */
@@ -115,6 +121,7 @@ h1,h2,h3 {
     position: absolute;
     pointer-events: none;
     animation: fade 2s ease-out forwards;
+    font-size: 24px;
 }
 
 @keyframes fade {
@@ -122,7 +129,7 @@ h1,h2,h3 {
     to { opacity: 0; transform: translateY(-30px); }
 }
 
-/* ----------------- FORMULAIRE ----------------- */
+/* ----------------- FORMULAIRE AJOUT ----------------- */
 #overlay {
     position: fixed;
     inset: 0;
@@ -158,8 +165,186 @@ form button {
     background: #6fa58c;
     color: white;
     font-size: 16px;
+    cursor: pointer;
+}
+
+/* ----------------- CARNET DE JARDINIER ----------------- */
+#notebook {
+    position: fixed;
+    right: -600px;
+    top: 0;
+    bottom: 0;
+    width: 550px;
+    background: linear-gradient(to right, #8b7355 0%, #8b7355 20px, #f9f7f1 20px);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+    z-index: 95;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+#notebook.open {
+    right: 0;
+}
+
+/* Spirale décorative */
+#notebook::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 40px;
+    bottom: 40px;
+    width: 12px;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 15px,
+        #6b5d4f 15px,
+        #6b5d4f 20px,
+        transparent 20px,
+        transparent 35px
+    );
+    border-radius: 2px;
+}
+
+#notebookContent {
+    margin-left: 30px;
+    padding: 40px 30px 40px 20px;
+    height: 100%;
+    overflow-y: auto;
+    background: 
+        repeating-linear-gradient(
+            transparent,
+            transparent 31px,
+            #e8dcc8 31px,
+            #e8dcc8 32px
+        ),
+        #f9f7f1;
+}
+
+#closeNotebook {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #6fa58c;
+    z-index: 1;
+    transition: transform 0.2s;
+}
+
+#closeNotebook:hover {
+    transform: rotate(90deg);
+}
+
+.notebook-page {
+    margin-bottom: 60px;
+    padding-bottom: 30px;
+    border-bottom: 2px dashed #d4c5b0;
+    line-height: 32px;
+}
+
+.notebook-page:last-child {
+    border-bottom: none;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #6fa58c;
+}
+
+.page-date {
+    font-size: 14px;
+    color: #8b7355;
+    font-style: italic;
+}
+
+.page-number {
+    background: #6fa58c;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.notebook-section {
+    margin: 20px 0;
+}
+
+.section-label {
+    font-weight: bold;
+    color: #6fa58c;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.section-content {
+    color: #2f3e34;
+    font-size: 15px;
+    padding-left: 10px;
+}
+
+.interaction-stats {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(139,191,159,0.1);
+    border-radius: 8px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+/* Navigation pages */
+#pageNav {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    background: rgba(255,255,255,0.9);
+    padding: 10px 20px;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+#pageNav button {
+    background: #6fa58c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#pageNav button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+#pageInfo {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    color: #6fa58c;
+    font-weight: bold;
 }
 </style>
+
 </head>
 
 <body>
@@ -174,12 +359,15 @@ form button {
 </div>
 
 <div id="main">
-    <h1>Le jardin de l’attention</h1>
+    <h1>Le jardin de l'attention</h1>
     <div id="quote"></div>
 
-    <button id="addBtn" onclick="openForm()">➕ Planter une expérience</button>
+```
+<button id="addBtn" onclick="openForm()">➕ Planter une expérience</button>
 
-    <div id="garden"></div>
+<div id="garden"></div>
+```
+
 </div>
 
 <div id="overlay">
@@ -196,7 +384,7 @@ form button {
   </select>
 
   <textarea name="experience"
-   placeholder="Décris l’expérience vécue, simplement…"
+   placeholder="Décris l'expérience vécue, simplement…"
    required></textarea>
 
   <textarea name="ressenti"
@@ -213,8 +401,8 @@ form button {
     <option>Intelligence sociale</option>
   </select>
 
-  <input name="forceLibre"
-   placeholder="Autre force (si différente)">
+<input name="forceLibre"
+placeholder="Autre force (si différente)">
 
   <select name="valeur">
     <option value="">Valeur en jeu (Schwartz)</option>
@@ -226,13 +414,26 @@ form button {
     <option>Accomplissement</option>
   </select>
 
-  <input name="pourQui"
-   placeholder="Pour qui cette expérience a compté ?">
+<input name="pourQui"
+placeholder="Pour qui cette expérience a compté ?">
 
-  <button type="submit">🌸 Planter</button>
+<button type="submit">🌸 Planter</button>
+
 </form>
- 
-</div>  
+</div>
+
+<!-- CARNET DE JARDINIER -->
+
+<div id="notebook">
+    <button id="closeNotebook" onclick="closeNotebook()">✕</button>
+    <div id="notebookContent"></div>
+    <div id="pageNav">
+        <button onclick="prevPage()" id="prevBtn">← Précédent</button>
+        <div id="pageInfo"></div>
+        <button onclick="nextPage()" id="nextBtn">Suivant →</button>
+    </div>
+</div>
+
 <script>
 const PASSWORD = "jardin";
 
@@ -252,6 +453,7 @@ const plantImages = [
 ];
 
 let data = JSON.parse(localStorage.getItem("garden") || "[]");
+let currentPage = 0;
 
 function checkPassword() {
     if (pwd.value === PASSWORD) {
@@ -266,37 +468,62 @@ function openForm() {
     overlay.style.display = "flex";
 }
 
+// Fonction pour vérifier les chevauchements
+function findNonOverlappingPosition(size) {
+    const maxAttempts = 100;
+    const minDistance = 15; // Distance minimale entre plantes (en %)
+    
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        const x = Math.random() * (95 - size);
+        const y = Math.random() * (85 - size);
+        
+        let overlapping = false;
+        for (let p of data) {
+            const distance = Math.sqrt(
+                Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2)
+            );
+            
+            if (distance < minDistance) {
+                overlapping = true;
+                break;
+            }
+        }
+        
+        if (!overlapping) {
+            return { x, y };
+        }
+    }
+    
+    // Si on ne trouve pas de position, on place quand même (jardin plein)
+    return { 
+        x: Math.random() * 85, 
+        y: Math.random() * 75 
+    };
+}
+
 form.addEventListener("submit", e => {
     e.preventDefault();
     const f = new FormData(form);
+    
+    const position = findNonOverlappingPosition(10);
+    
     data.unshift({
-    id: Date.now(),
-
-    // 🌿 CONTEXTE
-    activite: f.get("activite"),
-
-    // 📝 EXPÉRIENCE VÉCUE
-    experience: f.get("experience"),
-    ressenti: f.get("ressenti"),
-
-    // 💪 RESSOURCES MOBILISÉES
-    force: f.get("force") || f.get("forceLibre"),
-    valeur: f.get("valeur"),
-
-    // 👥 DESTINATAIRE
-    pourQui: f.get("pourQui"),
-
-    // 🌱 FORME VIVANTE
-    img: plantImages[Math.floor(Math.random()*plantImages.length)],
-    x: Math.random()*85,
-    y: Math.random()*75,
-
-    // 💧 INTERACTIONS
-    eau: 0,
-    soleil: 0,
-
-    date: new Date().toLocaleDateString("fr-FR")
-});
+        id: Date.now(),
+        activite: f.get("activite"),
+        experience: f.get("experience"),
+        ressenti: f.get("ressenti"),
+        force: f.get("force") || f.get("forceLibre"),
+        valeur: f.get("valeur"),
+        pourQui: f.get("pourQui"),
+        img: plantImages[Math.floor(Math.random()*plantImages.length)],
+        x: position.x,
+        y: position.y,
+        eau: 0,
+        soleil: 0,
+        size: 1, // Taille initiale
+        date: new Date().toLocaleDateString("fr-FR")
+    });
+    
     localStorage.setItem("garden", JSON.stringify(data));
     overlay.style.display = "none";
     form.reset();
@@ -305,29 +532,145 @@ form.addEventListener("submit", e => {
 
 function renderGarden() {
     garden.innerHTML = "";
-    data.forEach((p,i)=>{
+    data.forEach((p, i) => {
         const img = document.createElement("img");
         img.src = p.img;
-        img.className = "plant" + (i===0 ? " latest" : "");
-        img.style.left = p.x+"%";
-        img.style.top = p.y+"%";
-        img.onclick = () => react(p);
+        img.className = "plant" + (i === 0 ? " latest" : "");
+        
+        // Calculer la taille en fonction des interactions
+        const scale = 1 + (p.eau + p.soleil) * 0.1;
+        const size = Math.min(90 * scale, 150); // Max 150px
+        
+        img.style.width = size + "px";
+        img.style.left = p.x + "%";
+        img.style.top = p.y + "%";
+        img.style.setProperty('--scale', scale);
+        
+        img.onclick = () => openNotebook(i);
+        
         garden.appendChild(img);
     });
 }
 
-function react(p) {
-    if (Math.random() > 0.5) drop("💧");
-    else drop("☀️");
+function react(plantIndex) {
+    const p = data[plantIndex];
+    const isWater = Math.random() > 0.5;
+    
+    if (isWater) {
+        p.eau++;
+        drop("💧", p.x, p.y);
+    } else {
+        p.soleil++;
+        drop("☀️", p.x, p.y);
+    }
+    
+    localStorage.setItem("garden", JSON.stringify(data));
+    renderGarden();
 
-    function drop(symbol){
+    function drop(symbol, x, y) {
         const s = document.createElement("div");
-        s.className = symbol==="💧"?"water":"sun";
+        s.className = symbol === "💧" ? "water" : "sun";
         s.innerText = symbol;
-        s.style.left = Math.random()*80+"%";
-        s.style.top = "80%";
+        s.style.left = x + "%";
+        s.style.top = y + "%";
         garden.appendChild(s);
-        setTimeout(()=>s.remove(),2000);
+        setTimeout(() => s.remove(), 2000);
+    }
+}
+
+// Ouvrir le carnet sur une plante spécifique
+function openNotebook(index) {
+    currentPage = index;
+    react(index); // Ajouter eau ou soleil
+    renderNotebook();
+    notebook.classList.add("open");
+}
+
+function closeNotebook() {
+    notebook.classList.remove("open");
+}
+
+function renderNotebook() {
+    if (data.length === 0) {
+        notebookContent.innerHTML = "<p style='text-align:center; padding:40px;'>Aucune expérience plantée pour l'instant...</p>";
+        return;
+    }
+    
+    const p = data[currentPage];
+    
+    notebookContent.innerHTML = `
+        <div class="notebook-page">
+            <div class="page-header">
+                <div class="page-date">📅 ${p.date}</div>
+                <div class="page-number">Page ${currentPage + 1}/${data.length}</div>
+            </div>
+            
+            <div class="notebook-section">
+                <div class="section-label">🌍 Contexte</div>
+                <div class="section-content">${p.activite || "—"}</div>
+            </div>
+            
+            <div class="notebook-section">
+                <div class="section-label">✨ Expérience vécue</div>
+                <div class="section-content">${p.experience || "—"}</div>
+            </div>
+            
+            ${p.ressenti ? `
+            <div class="notebook-section">
+                <div class="section-label">💭 Ressenti & transformation</div>
+                <div class="section-content">${p.ressenti}</div>
+            </div>
+            ` : ''}
+            
+            ${p.force ? `
+            <div class="notebook-section">
+                <div class="section-label">💪 Force mobilisée</div>
+                <div class="section-content">${p.force}</div>
+            </div>
+            ` : ''}
+            
+            ${p.valeur ? `
+            <div class="notebook-section">
+                <div class="section-label">⭐ Valeur en jeu</div>
+                <div class="section-content">${p.valeur}</div>
+            </div>
+            ` : ''}
+            
+            ${p.pourQui ? `
+            <div class="notebook-section">
+                <div class="section-label">👥 Pour qui</div>
+                <div class="section-content">${p.pourQui}</div>
+            </div>
+            ` : ''}
+            
+            <div class="interaction-stats">
+                <div class="stat-item">💧 Eau : ${p.eau}</div>
+                <div class="stat-item">☀️ Soleil : ${p.soleil}</div>
+                <div class="stat-item">🌱 Croissance : ${Math.round((1 + (p.eau + p.soleil) * 0.1) * 100)}%</div>
+            </div>
+        </div>
+    `;
+    
+    updatePageNav();
+}
+
+function updatePageNav() {
+    prevBtn.disabled = currentPage === 0;
+    nextBtn.disabled = currentPage === data.length - 1;
+    pageInfo.textContent = `${currentPage + 1} / ${data.length}`;
+}
+
+function prevPage() {
+    if (currentPage > 0) {
+        currentPage--;
+        renderNotebook();
+    }
+}
+
+function nextPage() {
+    if (currentPage < data.length - 1) {
+        currentPage++;
+        renderNotebook();
     }
 }
 </script>
