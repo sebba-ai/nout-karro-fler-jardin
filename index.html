@@ -821,21 +821,19 @@ form button:hover {
         <div id="thermo-label">Énergie</div>
     </div>
 
-```
-<h2>
-    Si nou sèm brinzell nou sa pa kéyir babafig / <br>
-    si nou plant' banann' nou sa pa manz' kaviar ! <br> 
-    Alé tir in feuye / récolt leu tempo !
-</h2>
+    <h2>
+        Si nou sèm brinzell nou sa pa kéyir babafig / <br>
+        si nou plant' banann' nou sa pa manz' kaviar ! <br> 
+        Alé tir in feuye / récolt leu tempo !
+    </h2>
 
-<div id="quote"></div>
+    <div id="quote"></div>
 
-<button id="addBtn">➕ Planter une expérience</button>
+    <button id="addBtn">➕ Planter une expérience</button>
 
-<div id="garden">
-    <div class="loading">🌱 Chargement de la zar l'or...</div>
-</div>
-```
+    <div id="garden">
+        <div class="loading">🌱 Chargement de la zar l'or...</div>
+    </div>
 
 </div>
 
@@ -846,46 +844,43 @@ form button:hover {
         <div id="categorySelection" class="form-step">
             <h3>🌿 Planter une expérience</h3>
 
-```
-        <label style="font-weight: bold; margin-top: 15px; display: block;">Choisir une catégorie :</label>
-        <select id="categorySelect">
-            <option value="">-- Sélectionner --</option>
-            <option value="aide">🤝 Aide & soutien</option>
-            <option value="apprentissage">🧠 Apprentissage</option>
-            <option value="amelioration">🔧 Amélioration concrète</option>
-            <option value="effort">🎯 Effort invisible</option>
-            <option value="initiative">🌱 Initiative</option>
-            <option value="collectif">👥 Réussite collective</option>
-            <option value="sens">🧭 Sens & valeurs</option>
-        </select>
-    </div>
-
-    <div id="categoryPreview" class="form-step">
-        <div id="previewContent"></div>
-        <button type="button" id="validateBtn">✓ Cela me convient, continuer</button>
-        <button type="button" id="backBtn1" style="background: #999; margin-top: 10px;">← Retour aux catégories</button>
-    </div>
-
-    <div id="itemsForm" class="form-step">
-        <h3 id="itemsFormTitle"></h3>
-        <div id="itemsFormContent"></div>
-        
-        <div class="info-box">
-            📌 <strong>Forces & valeurs :</strong> optionnelles, pas obligatoires. Vous pouvez en choisir jusqu'à 3 de chaque.
+            <label style="font-weight: bold; margin-top: 15px; display: block;">Choisir une catégorie :</label>
+            <select id="categorySelect">
+                <option value="">-- Sélectionner --</option>
+                <option value="aide">🤝 Aide & soutien</option>
+                <option value="apprentissage">🧠 Apprentissage</option>
+                <option value="amelioration">🔧 Amélioration concrète</option>
+                <option value="effort">🎯 Effort invisible</option>
+                <option value="initiative">🌱 Initiative</option>
+                <option value="collectif">👥 Réussite collective</option>
+                <option value="sens">🧭 Sens & valeurs</option>
+            </select>
         </div>
 
-        <label style="font-weight: bold; margin-top: 20px; display: block;">Forces mobilisées (max 3) :</label>
-        <div id="forcesContainer" class="forces-grid"></div>
+        <div id="categoryPreview" class="form-step">
+            <div id="previewContent"></div>
+            <button type="button" id="validateBtn">✓ Cela me convient, continuer</button>
+            <button type="button" id="backBtn1" style="background: #999; margin-top: 10px;">← Retour aux catégories</button>
+        </div>
 
-        <label style="font-weight: bold; margin-top: 20px; display: block;">Valeurs en jeu (max 3) :</label>
-        <div id="valeursContainer" class="forces-grid"></div>
+        <div id="itemsForm" class="form-step">
+            <h3 id="itemsFormTitle"></h3>
+            <div id="itemsFormContent"></div>
+            
+            <div class="info-box">
+                📌 <strong>Forces & valeurs :</strong> optionnelles, pas obligatoires. Vous pouvez en choisir jusqu'à 3 de chaque.
+            </div>
 
-        <button type="submit">🌸 Planter</button>
-        <button type="button" id="backBtn2" style="background: #999; margin-top: 10px;">← Changer de catégorie</button>
-    </div>
-</form>
-```
+            <label style="font-weight: bold; margin-top: 20px; display: block;">Forces mobilisées (max 3) :</label>
+            <div id="forcesContainer" class="forces-grid"></div>
 
+            <label style="font-weight: bold; margin-top: 20px; display: block;">Valeurs en jeu (max 3) :</label>
+            <div id="valeursContainer" class="forces-grid"></div>
+
+            <button type="submit">🌸 Planter</button>
+            <button type="button" id="backBtn2" style="background: #999; margin-top: 10px;">← Changer de catégorie</button>
+        </div>
+    </form>
 </div>
 
 <div id="notebook">
@@ -898,10 +893,10 @@ form button:hover {
     </div>
 </div>
 
-<script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-  import { getDatabase, ref, push, onValue, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
-
+<!-- Firebase compat SDK — fonctionne partout sans module/import -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script>
   const firebaseConfig = {
     apiKey: "AIzaSyADBlPY8lK_52mFTWWHdoEBcPXa4Dk3FVA",
     authDomain: "jardin-3f127.firebaseapp.com",
@@ -912,9 +907,9 @@ form button:hover {
     appId: "1:371927426307:web:dba165b1aaf4b8179e3536"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-  const plantsRef = ref(database, 'plants');
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+  const plantsRef = database.ref('plants');
 
   const PASSWORD = "jardin";
   const NIVEAU_ENERGIE = 75;
@@ -1161,342 +1156,337 @@ form button:hover {
       if (item.type === 'textarea') {
         itemsHTML += '<label style="font-weight: bold; margin-top: 15px; display: block;">' + item.label + (item.required ? ' *' : '') + '</label>' +
           '<textarea name="' + item.name + '" placeholder="' + item.placeholder + '" ' + (item.required ? 'required' : '') + '></textarea>';
+      } else {
+        itemsHTML += '<label style="font-weight: bold; margin-top: 15px; display: block;">' + item.label + (item.required ? ' *' : '') + '</label>' +
+          '<input name="' + item.name + '" placeholder="' + item.placeholder + '" ' + (item.required ? 'required' : '') + '>';
+      }
+    });
+    document.getElementById('itemsFormContent').innerHTML = itemsHTML;
+    createForcesSelector();
+    createValeursSelector();
+    document.getElementById('categoryPreview').style.display = 'none';
+    document.getElementById('itemsForm').style.display = 'block';
+  });
 
-```
-  } else {
-    itemsHTML += '<label style="font-weight: bold; margin-top: 15px; display: block;">' + item.label + (item.required ? ' *' : '') + '</label>' +
-      '<input name="' + item.name + '" placeholder="' + item.placeholder + '" ' + (item.required ? 'required' : '') + '>';
+  document.getElementById('backBtn1').addEventListener('click', backToCategories);
+  document.getElementById('backBtn2').addEventListener('click', backToCategories);
+
+  function backToCategories() {
+    document.getElementById('categorySelection').style.display = 'block';
+    document.getElementById('categoryPreview').style.display = 'none';
+    document.getElementById('itemsForm').style.display = 'none';
+    selectedCategory = null;
+    selectedForces = [];
+    selectedValeurs = [];
   }
-});
-document.getElementById('itemsFormContent').innerHTML = itemsHTML;
-createForcesSelector();
-createValeursSelector();
-document.getElementById('categoryPreview').style.display = 'none';
-document.getElementById('itemsForm').style.display = 'block';
-```
 
-});
+  function createForcesSelector() {
+    const container = document.getElementById('forcesContainer');
+    container.innerHTML = '';
+    forcesVIA.forEach(function(group) {
+      const groupDiv = document.createElement('div');
+      groupDiv.style.marginTop = '15px';
+      const groupLabel = document.createElement('div');
+      groupLabel.textContent = group.group;
+      groupLabel.style.fontWeight = 'bold';
+      groupLabel.style.fontSize = '13px';
+      groupLabel.style.marginBottom = '8px';
+      groupLabel.style.color = '#6fa58c';
+      groupDiv.appendChild(groupLabel);
+      group.items.forEach(function(force) {
+        const div = document.createElement('div');
+        div.className = 'force-option';
+        div.textContent = force;
+        div.onclick = function() { toggleForce(force, div); };
+        groupDiv.appendChild(div);
+      });
+      container.appendChild(groupDiv);
+    });
+  }
 
-document.getElementById(‘backBtn1’).addEventListener(‘click’, backToCategories);
-document.getElementById(‘backBtn2’).addEventListener(‘click’, backToCategories);
+  function createValeursSelector() {
+    const container = document.getElementById('valeursContainer');
+    container.innerHTML = '';
+    valeursSchwartz.forEach(function(group) {
+      const groupDiv = document.createElement('div');
+      groupDiv.style.marginTop = '15px';
+      const groupLabel = document.createElement('div');
+      groupLabel.textContent = group.group;
+      groupLabel.style.fontWeight = 'bold';
+      groupLabel.style.fontSize = '13px';
+      groupLabel.style.marginBottom = '8px';
+      groupLabel.style.color = '#6fa58c';
+      groupDiv.appendChild(groupLabel);
+      group.items.forEach(function(valeur) {
+        const div = document.createElement('div');
+        div.className = 'value-option';
+        div.textContent = valeur;
+        div.onclick = function() { toggleValeur(valeur, div); };
+        groupDiv.appendChild(div);
+      });
+      container.appendChild(groupDiv);
+    });
+  }
 
-function backToCategories() {
-document.getElementById(‘categorySelection’).style.display = ‘block’;
-document.getElementById(‘categoryPreview’).style.display = ‘none’;
-document.getElementById(‘itemsForm’).style.display = ‘none’;
-selectedCategory = null;
-selectedForces = [];
-selectedValeurs = [];
-}
+  function toggleForce(force, element) {
+    const index = selectedForces.indexOf(force);
+    if (index > -1) {
+      selectedForces.splice(index, 1);
+      element.classList.remove('selected');
+    } else {
+      if (selectedForces.length < 3) {
+        selectedForces.push(force);
+        element.classList.add('selected');
+      } else {
+        alert('Vous pouvez sélectionner maximum 3 forces');
+      }
+    }
+  }
 
-function createForcesSelector() {
-const container = document.getElementById(‘forcesContainer’);
-container.innerHTML = ‘’;
-forcesVIA.forEach(function(group) {
-const groupDiv = document.createElement(‘div’);
-groupDiv.style.marginTop = ‘15px’;
-const groupLabel = document.createElement(‘div’);
-groupLabel.textContent = group.group;
-groupLabel.style.fontWeight = ‘bold’;
-groupLabel.style.fontSize = ‘13px’;
-groupLabel.style.marginBottom = ‘8px’;
-groupLabel.style.color = ‘#6fa58c’;
-groupDiv.appendChild(groupLabel);
-group.items.forEach(function(force) {
-const div = document.createElement(‘div’);
-div.className = ‘force-option’;
-div.textContent = force;
-div.onclick = function() { toggleForce(force, div); };
-groupDiv.appendChild(div);
-});
-container.appendChild(groupDiv);
-});
-}
+  function toggleValeur(valeur, element) {
+    const index = selectedValeurs.indexOf(valeur);
+    if (index > -1) {
+      selectedValeurs.splice(index, 1);
+      element.classList.remove('selected');
+    } else {
+      if (selectedValeurs.length < 3) {
+        selectedValeurs.push(valeur);
+        element.classList.add('selected');
+      } else {
+        alert('Vous pouvez sélectionner maximum 3 valeurs');
+      }
+    }
+  }
 
-function createValeursSelector() {
-const container = document.getElementById(‘valeursContainer’);
-container.innerHTML = ‘’;
-valeursSchwartz.forEach(function(group) {
-const groupDiv = document.createElement(‘div’);
-groupDiv.style.marginTop = ‘15px’;
-const groupLabel = document.createElement(‘div’);
-groupLabel.textContent = group.group;
-groupLabel.style.fontWeight = ‘bold’;
-groupLabel.style.fontSize = ‘13px’;
-groupLabel.style.marginBottom = ‘8px’;
-groupLabel.style.color = ‘#6fa58c’;
-groupDiv.appendChild(groupLabel);
-group.items.forEach(function(valeur) {
-const div = document.createElement(‘div’);
-div.className = ‘value-option’;
-div.textContent = valeur;
-div.onclick = function() { toggleValeur(valeur, div); };
-groupDiv.appendChild(div);
-});
-container.appendChild(groupDiv);
-});
-}
+  function loadPlants() {
+    plantsRef.on('value', function(snapshot) {
+      data = [];
+      snapshot.forEach(function(childSnapshot) {
+        const plant = childSnapshot.val();
+        plant.firebaseId = childSnapshot.key;
+        data.push(plant);
+      });
+      data.sort(function(a, b) { return b.id - a.id; });
+      renderGarden();
+    });
+  }
 
-function toggleForce(force, element) {
-const index = selectedForces.indexOf(force);
-if (index > -1) {
-selectedForces.splice(index, 1);
-element.classList.remove(‘selected’);
-} else {
-if (selectedForces.length < 3) {
-selectedForces.push(force);
-element.classList.add(‘selected’);
-} else {
-alert(‘Vous pouvez sélectionner maximum 3 forces’);
-}
-}
-}
+  function getRandomPlantType() {
+    const types = ['arbre', 'arbuste', 'fleur', 'fruit', 'oiseau', 'papillon'];
+    return types[Math.floor(Math.random() * types.length)];
+  }
 
-function toggleValeur(valeur, element) {
-const index = selectedValeurs.indexOf(valeur);
-if (index > -1) {
-selectedValeurs.splice(index, 1);
-element.classList.remove(‘selected’);
-} else {
-if (selectedValeurs.length < 3) {
-selectedValeurs.push(valeur);
-element.classList.add(‘selected’);
-} else {
-alert(‘Vous pouvez sélectionner maximum 3 valeurs’);
-}
-}
-}
+  function getPositionForType(type) {
+    let x, y;
+    switch(type) {
+      case 'arbre':
+      case 'arbuste':
+        x = Math.random() * 85;
+        y = 60 + Math.random() * 35;
+        break;
+      case 'fleur':
+      case 'fruit':
+        x = Math.random() * 85;
+        y = 35 + Math.random() * 60;
+        break;
+      case 'oiseau':
+      case 'papillon':
+        x = Math.random() * 85;
+        y = Math.random() * 66;
+        break;
+      default:
+        x = Math.random() * 85;
+        y = Math.random() * 75;
+    }
+    return { x: x, y: y };
+  }
 
-function loadPlants() {
-onValue(plantsRef, function(snapshot) {
-data = [];
-snapshot.forEach(function(childSnapshot) {
-const plant = childSnapshot.val();
-plant.firebaseId = childSnapshot.key;
-data.push(plant);
-});
-data.sort(function(a, b) { return b.id - a.id; });
-renderGarden();
-});
-}
+  function findNonOverlappingPosition(type) {
+    const maxAttempts = 50;
+    const minDistance = 10;
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      const pos = getPositionForType(type);
+      let overlapping = false;
+      for (let p of data) {
+        const distance = Math.sqrt(Math.pow(pos.x - p.x, 2) + Math.pow(pos.y - p.y, 2));
+        if (distance < minDistance) {
+          overlapping = true;
+          break;
+        }
+      }
+      if (!overlapping) return pos;
+    }
+    return getPositionForType(type);
+  }
 
-function getRandomPlantType() {
-const types = [‘arbre’, ‘arbuste’, ‘fleur’, ‘fruit’, ‘oiseau’, ‘papillon’];
-return types[Math.floor(Math.random() * types.length)];
-}
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const f = new FormData(form);
+    if (!selectedCategory) {
+      alert("Veuillez sélectionner une catégorie");
+      return;
+    }
+    const cat = categories[selectedCategory];
+    const type = getRandomPlantType();
+    const position = findNonOverlappingPosition(type);
+    const typeImages = plantTypes[type];
+    const randomImg = typeImages[Math.floor(Math.random() * typeImages.length)];
+    const items = {};
+    cat.items.forEach(function(item) {
+      items[item.name] = f.get(item.name) || '';
+    });
+    const newPlant = {
+      id: Date.now(),
+      categorie: selectedCategory,
+      categorieNom: cat.nom,
+      categorieEmoji: cat.emoji,
+      items: items,
+      forces: selectedForces,
+      valeurs: selectedValeurs,
+      type: type,
+      img: randomImg,
+      x: position.x,
+      y: position.y,
+      eau: 0,
+      soleil: 0,
+      date: new Date().toLocaleDateString("fr-FR")
+    };
+    plantsRef.push(newPlant);
+    overlay.style.display = "none";
+    form.reset();
+    backToCategories();
+    showThankYouMessage();
+  });
 
-function getPositionForType(type) {
-let x, y;
-switch(type) {
-case ‘arbre’:
-case ‘arbuste’:
-x = Math.random() * 85;
-y = 60 + Math.random() * 35;
-break;
-case ‘fleur’:
-case ‘fruit’:
-x = Math.random() * 85;
-y = 35 + Math.random() * 60;
-break;
-case ‘oiseau’:
-case ‘papillon’:
-x = Math.random() * 85;
-y = Math.random() * 66;
-break;
-default:
-x = Math.random() * 85;
-y = Math.random() * 75;
-}
-return { x: x, y: y };
-}
+  function renderGarden() {
+    garden.innerHTML = "";
+    if (data.length === 0) {
+      garden.innerHTML = "<div class='loading'>🌱 Le jardin est vide… Plante la première expérience !</div>";
+      return;
+    }
+    data.forEach(function(p, i) {
+      const container = document.createElement("div");
+      container.className = "plant-container";
+      container.style.left = p.x + "%";
+      container.style.top = p.y + "%";
+      const maxGrowth = (p.type === 'arbre' || p.type === 'arbuste') ? 10 : 5;
+      const growthFactor = Math.min((p.eau || 0) + (p.soleil || 0), maxGrowth);
+      const maxScale = (p.type === 'arbre' || p.type === 'arbuste') ? 2.0 : 1.5;
+      const scale = 1 + (growthFactor / maxGrowth) * (maxScale - 1);
+      const baseSize = 90;
+      const size = baseSize * scale;
+      const zIndex = i === 0 ? 20 : Math.round((100 - p.y) / 5);
+      container.style.zIndex = zIndex;
+      const img = document.createElement("img");
+      img.src = p.img;
+      img.alt = "Plante " + p.type;
+      img.className = "plant " + (p.type || 'fleur');
+      img.style.width = size + "px";
+      img.style.setProperty('--scale', scale);
+      img.onclick = function() { openNotebook(i); };
+      container.appendChild(img);
+      if (i === 0 && scale < 1.3) {
+        const circle = document.createElement("div");
+        circle.className = "highlight-circle";
+        circle.style.width = (size + 20) + "px";
+        circle.style.height = (size + 20) + "px";
+        circle.style.left = "-10px";
+        circle.style.top = "-10px";
+        container.appendChild(circle);
+      }
+      garden.appendChild(container);
+    });
+  }
 
-function findNonOverlappingPosition(type) {
-const maxAttempts = 50;
-const minDistance = 10;
-for (let attempt = 0; attempt < maxAttempts; attempt++) {
-const pos = getPositionForType(type);
-let overlapping = false;
-for (let p of data) {
-const distance = Math.sqrt(Math.pow(pos.x - p.x, 2) + Math.pow(pos.y - p.y, 2));
-if (distance < minDistance) {
-overlapping = true;
-break;
-}
-}
-if (!overlapping) return pos;
-}
-return getPositionForType(type);
-}
+  function openNotebook(index) {
+    currentPage = index;
+    notebook.classList.remove("open");
+    setTimeout(function() {
+      renderNotebook();
+      notebook.classList.add("open");
+    }, 40);
+  }
 
-form.addEventListener(“submit”, function(e) {
-e.preventDefault();
-const f = new FormData(form);
-if (!selectedCategory) {
-alert(“Veuillez sélectionner une catégorie”);
-return;
-}
-const cat = categories[selectedCategory];
-const type = getRandomPlantType();
-const position = findNonOverlappingPosition(type);
-const typeImages = plantTypes[type];
-const randomImg = typeImages[Math.floor(Math.random() * typeImages.length)];
-const items = {};
-cat.items.forEach(function(item) {
-items[item.name] = f.get(item.name) || ‘’;
-});
-const newPlant = {
-id: Date.now(),
-categorie: selectedCategory,
-categorieNom: cat.nom,
-categorieEmoji: cat.emoji,
-items: items,
-forces: selectedForces,
-valeurs: selectedValeurs,
-type: type,
-img: randomImg,
-x: position.x,
-y: position.y,
-eau: 0,
-soleil: 0,
-date: new Date().toLocaleDateString(“fr-FR”)
-};
-push(plantsRef, newPlant);
-overlay.style.display = “none”;
-form.reset();
-backToCategories();
-showThankYouMessage();
-});
+  document.getElementById('closeNotebook').addEventListener('click', function() {
+    notebook.classList.remove("open");
+  });
 
-function renderGarden() {
-garden.innerHTML = “”;
-if (data.length === 0) {
-garden.innerHTML = “<div class='loading'>🌱 Le jardin est vide… Plante la première expérience !</div>”;
-return;
-}
-data.forEach(function(p, i) {
-const container = document.createElement(“div”);
-container.className = “plant-container”;
-container.style.left = p.x + “%”;
-container.style.top = p.y + “%”;
-const maxGrowth = (p.type === ‘arbre’ || p.type === ‘arbuste’) ? 10 : 5;
-const growthFactor = Math.min((p.eau || 0) + (p.soleil || 0), maxGrowth);
-const maxScale = (p.type === ‘arbre’ || p.type === ‘arbuste’) ? 2.0 : 1.5;
-const scale = 1 + (growthFactor / maxGrowth) * (maxScale - 1);
-const baseSize = 90;
-const size = baseSize * scale;
-const zIndex = i === 0 ? 20 : Math.round((100 - p.y) / 5);
-container.style.zIndex = zIndex;
-const img = document.createElement(“img”);
-img.src = p.img;
-img.alt = “Plante “ + p.type;
-img.className = “plant “ + (p.type || ‘fleur’);
-img.style.width = size + “px”;
-img.style.setProperty(’–scale’, scale);
-img.onclick = function() { openNotebook(i); };
-container.appendChild(img);
-if (i === 0 && scale < 1.3) {
-const circle = document.createElement(“div”);
-circle.className = “highlight-circle”;
-circle.style.width = (size + 20) + “px”;
-circle.style.height = (size + 20) + “px”;
-circle.style.left = “-10px”;
-circle.style.top = “-10px”;
-container.appendChild(circle);
-}
-garden.appendChild(container);
-});
-}
+  function waterPlant(plantId, type) {
+    const sessionKey = plantId + '_' + type;
+    if (sessionWatered[sessionKey]) return;
+    const plant = data.find(function(p) { return p.firebaseId === plantId; });
+    if (!plant) return;
+    if (type === 'water') {
+      plant.eau = (plant.eau || 0) + 1;
+    } else {
+      plant.soleil = (plant.soleil || 0) + 1;
+    }
+    sessionWatered[sessionKey] = true;
+    database.ref('plants/' + plantId).update({ eau: plant.eau, soleil: plant.soleil });
+    renderNotebook();
+    renderGarden();
+  }
 
-function openNotebook(index) {
-currentPage = index;
-notebook.classList.remove(“open”);
-setTimeout(function() {
-renderNotebook();
-notebook.classList.add(“open”);
-}, 40);
-}
+  window.waterPlant = waterPlant;
 
-document.getElementById(‘closeNotebook’).addEventListener(‘click’, function() {
-notebook.classList.remove(“open”);
-});
+  function renderNotebook() {
+    if (data.length === 0) {
+      notebookContent.innerHTML = "<p style='text-align:center; padding:40px;'>Aucune expérience plantée pour l'instant…</p>";
+      return;
+    }
+    const p = data[currentPage];
+    const waterKey = p.firebaseId + '_water';
+    const sunKey = p.firebaseId + '_sun';
+    const maxGrowth = (p.type === 'arbre' || p.type === 'arbuste') ? 200 : 150;
+    const maxInteractions = maxGrowth === 200 ? 10 : 5;
+    const currentGrowth = Math.min(100 + (((p.eau || 0) + (p.soleil || 0)) / maxInteractions) * (maxGrowth - 100), maxGrowth);
+    let itemsHTML = '';
+    if (p.items) {
+      const cat = categories[p.categorie];
+      if (cat) {
+        cat.items.forEach(function(item) {
+          const value = p.items[item.name];
+          if (value) {
+            itemsHTML += '<div class="notebook-section"><div class="section-label">' + item.label + '</div><div class="section-content">' + value + '</div></div>';
+          }
+        });
+      }
+    }
+    let forcesHTML = '';
+    if (p.forces && p.forces.length > 0) {
+      forcesHTML = '<div class="notebook-section"><div class="section-label">💪 Forces mobilisées</div><div class="section-content">' + p.forces.join(', ') + '</div></div>';
+    }
+    let valeursHTML = '';
+    if (p.valeurs && p.valeurs.length > 0) {
+      valeursHTML = '<div class="notebook-section"><div class="section-label">⭐ Valeurs en jeu</div><div class="section-content">' + p.valeurs.join(', ') + '</div></div>';
+    }
+    notebookContent.innerHTML = '<div class="notebook-page"><div class="page-header"><div class="page-date">📅 ' + p.date + ' • ' + (p.categorieEmoji || '') + ' ' + (p.categorieNom || 'Expérience') + '</div></div>' +
+      itemsHTML + forcesHTML + valeursHTML +
+      '<div class="interaction-stats"><div class="stat-item">💧 Eau : ' + (p.eau || 0) + '</div><div class="stat-item">☀️ Soleil : ' + (p.soleil || 0) + '</div><div class="stat-item">🌱 Croissance : ' + Math.round(currentGrowth) + '%</div></div>' +
+      '<div class="water-actions"><button class="water-btn ' + (sessionWatered[waterKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'water\')" ' + (sessionWatered[waterKey] ? 'disabled' : '') + ' aria-label="Arroser la plante">💧</button>' +
+      '<button class="water-btn ' + (sessionWatered[sunKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'sun\')" ' + (sessionWatered[sunKey] ? 'disabled' : '') + ' aria-label="Donner du soleil à la plante">☀️</button></div></div>';
+    updatePageNav();
+  }
 
-function waterPlant(plantId, type) {
-const sessionKey = plantId + ‘_’ + type;
-if (sessionWatered[sessionKey]) return;
-const plant = data.find(function(p) { return p.firebaseId === plantId; });
-if (!plant) return;
-if (type === ‘water’) {
-plant.eau = (plant.eau || 0) + 1;
-} else {
-plant.soleil = (plant.soleil || 0) + 1;
-}
-sessionWatered[sessionKey] = true;
-const plantRef = ref(database, ‘plants/’ + plantId);
-update(plantRef, { eau: plant.eau, soleil: plant.soleil });
-renderNotebook();
-renderGarden();
-}
+  function updatePageNav() {
+    prevBtn.disabled = currentPage === 0;
+    nextBtn.disabled = currentPage === data.length - 1;
+    pageInfo.textContent = (currentPage + 1) + ' / ' + data.length;
+  }
 
-window.waterPlant = waterPlant;
+  prevBtn.addEventListener('click', function() {
+    if (currentPage > 0) {
+      currentPage--;
+      renderNotebook();
+    }
+  });
 
-function renderNotebook() {
-if (data.length === 0) {
-notebookContent.innerHTML = “<p style='text-align:center; padding:40px;'>Aucune expérience plantée pour l’instant…</p>”;
-return;
-}
-const p = data[currentPage];
-const waterKey = p.firebaseId + ‘_water’;
-const sunKey = p.firebaseId + ‘_sun’;
-const maxGrowth = (p.type === ‘arbre’ || p.type === ‘arbuste’) ? 200 : 150;
-const maxInteractions = maxGrowth === 200 ? 10 : 5;
-const currentGrowth = Math.min(100 + (((p.eau || 0) + (p.soleil || 0)) / maxInteractions) * (maxGrowth - 100), maxGrowth);
-let itemsHTML = ‘’;
-if (p.items) {
-const cat = categories[p.categorie];
-if (cat) {
-cat.items.forEach(function(item) {
-const value = p.items[item.name];
-if (value) {
-itemsHTML += ‘<div class="notebook-section"><div class="section-label">’ + item.label + ‘</div><div class="section-content">’ + value + ‘</div></div>’;
-}
-});
-}
-}
-let forcesHTML = ‘’;
-if (p.forces && p.forces.length > 0) {
-forcesHTML = ‘<div class="notebook-section"><div class="section-label">💪 Forces mobilisées</div><div class="section-content">’ + p.forces.join(’, ‘) + ‘</div></div>’;
-}
-let valeursHTML = ‘’;
-if (p.valeurs && p.valeurs.length > 0) {
-valeursHTML = ‘<div class="notebook-section"><div class="section-label">⭐ Valeurs en jeu</div><div class="section-content">’ + p.valeurs.join(’, ’) + ‘</div></div>’;
-}
-notebookContent.innerHTML = ’<div class="notebook-page"><div class="page-header"><div class="page-date">📅 ’ + p.date + ’ • ’ + (p.categorieEmoji || ‘’) + ’ ’ + (p.categorieNom || ‘Expérience’) + ‘</div></div>’ +
-itemsHTML + forcesHTML + valeursHTML +
-’<div class="interaction-stats"><div class="stat-item">💧 Eau : ’ + (p.eau || 0) + ’</div><div class="stat-item">☀️ Soleil : ’ + (p.soleil || 0) + ’</div><div class="stat-item">🌱 Croissance : ’ + Math.round(currentGrowth) + ‘%</div></div>’ +
-’<div class="water-actions"><button class=“water-btn ’ + (sessionWatered[waterKey] ? ‘used’ : ‘’) + ‘” onclick=“waterPlant('’ + p.firebaseId + ‘', 'water')” ’ + (sessionWatered[waterKey] ? ‘disabled’ : ‘’) + ’ aria-label=“Arroser la plante”>💧</button>’ +
-’<button class=“water-btn ’ + (sessionWatered[sunKey] ? ‘used’ : ‘’) + ‘” onclick=“waterPlant('’ + p.firebaseId + ‘', 'sun')” ’ + (sessionWatered[sunKey] ? ‘disabled’ : ‘’) + ’ aria-label=“Donner du soleil à la plante”>☀️</button></div></div>’;
-updatePageNav();
-}
-
-function updatePageNav() {
-prevBtn.disabled = currentPage === 0;
-nextBtn.disabled = currentPage === data.length - 1;
-pageInfo.textContent = (currentPage + 1) + ’ / ’ + data.length;
-}
-
-prevBtn.addEventListener(‘click’, function() {
-if (currentPage > 0) {
-currentPage–;
-renderNotebook();
-}
-});
-
-nextBtn.addEventListener(‘click’, function() {
-if (currentPage < data.length - 1) {
-currentPage++;
-renderNotebook();
-}
-});
+  nextBtn.addEventListener('click', function() {
+    if (currentPage < data.length - 1) {
+      currentPage++;
+      renderNotebook();
+    }
+  });
 </script>
 
 </body>
