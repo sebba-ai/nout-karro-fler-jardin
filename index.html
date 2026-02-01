@@ -104,22 +104,21 @@ h1,h2,h3 {
         inset 2px 0 4px rgba(255,255,255,0.3);
     border-bottom: none;
 }
-    /* Le liquide qui monte DE BAS EN HAUT */
+
 #thermo-niveau {
     position: absolute;
-    bottom: 0;  /* ✅ CORRIGÉ - ancré en bas */
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 0%;
     background: linear-gradient(to top,
-        #e74c3c 0%,      /* Rouge en bas */
-        #f39c12 50%,     /* Orange au milieu */
-        #2ecc71 100%     /* Vert en haut */
+        #e74c3c 0%,
+        #f39c12 50%,
+        #2ecc71 100%
     );
     transition: height 3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: visible;
 }
-
 
 /* Vague à la surface du liquide */
 .wave {
@@ -445,7 +444,8 @@ form {
     background: white;
     padding: 40px;
     border-radius: 25px;
-    width: 420px;
+    width: 90%;
+    max-width: 600px;
     box-shadow: 0 30px 60px rgba(0,0,0,0.2);
     max-height: 90vh;
     overflow-y: auto;
@@ -457,6 +457,7 @@ form select, form textarea, form input {
     margin: 10px 0;
     border-radius: 12px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 form button {
@@ -469,6 +470,88 @@ form button {
     color: white;
     font-size: 16px;
     cursor: pointer;
+}
+
+form button:hover {
+    background: #5d8c73;
+}
+
+/* Styles pour la prévisualisation */
+.preview-section {
+    background: rgba(111,165,140,0.1);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 15px 0;
+    border-left: 4px solid #6fa58c;
+}
+
+.preview-section h4 {
+    color: #6fa58c;
+    margin-top: 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.preview-section p {
+    margin: 8px 0;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.preview-section ul {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+.preview-section li {
+    margin: 5px 0;
+    line-height: 1.5;
+}
+
+#categoryPreview {
+    display: none;
+}
+
+#itemsForm {
+    display: none;
+}
+
+.form-step {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.info-box {
+    background: rgba(255,215,130,0.2);
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin: 10px 0;
+    color: #6b5d4f;
+}
+
+.forces-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.force-option, .value-option {
+    padding: 10px;
+    background: rgba(255,255,255,0.8);
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.force-option:hover, .value-option:hover {
+    border-color: #6fa58c;
+    background: rgba(111,165,140,0.1);
+}
+
+.force-option.selected, .value-option.selected {
+    border-color: #6fa58c;
+    background: rgba(111,165,140,0.2);
 }
 
 /* ----------------- CARNET DE JARDINIER ----------------- */
@@ -713,8 +796,8 @@ form button {
     }
 
     form {
-        width: 90%;
-        max-width: 420px;
+        width: 95%;
+        padding: 30px 20px;
     }
 }
 
@@ -774,102 +857,55 @@ form button {
 <div id="thankYouMsg"></div>
 
 <div id="overlay">
-<form id="form">
-  <h3>🌿 Planter une expérience</h3>
+    <form id="form">
+        <!-- ÉTAPE 1: Sélection de catégorie -->
+        <div id="categorySelection" class="form-step">
+            <h3>🌿 Planter une expérience</h3>
 
-  <select name="activite" required>
-    <option value="">Contexte / activité</option>
-    <option>Soin / accompagnement</option>
-    <option>Échange / relation</option>
-    <option>Création / réflexion</option>
-    <option>Transmission</option>
-    <option>Autre</option>
-  </select>
+```
+        <label style="font-weight: bold; margin-top: 15px; display: block;">Choisir une catégorie :</label>
+        <select id="categorySelect" onchange="showCategoryPreview()">
+            <option value="">-- Sélectionner --</option>
+            <option value="aide">🤝 Aide & soutien</option>
+            <option value="apprentissage">🧠 Apprentissage</option>
+            <option value="amelioration">🔧 Amélioration concrète</option>
+            <option value="effort">🎯 Effort invisible</option>
+            <option value="initiative">🌱 Initiative</option>
+            <option value="collectif">👥 Réussite collective</option>
+            <option value="sens">🧭 Sens & valeurs</option>
+        </select>
+    </div>
 
-  <textarea name="experience"
-   placeholder="Décris l'expérience vécue, simplement…"
-   required></textarea>
+    <!-- ÉTAPE 2: Prévisualisation -->
+    <div id="categoryPreview" class="form-step">
+        <div id="previewContent"></div>
+        <button type="button" onclick="validateCategory()">✓ Cela me convient, continuer</button>
+        <button type="button" onclick="backToCategories()" style="background: #999; margin-top: 10px;">← Retour aux catégories</button>
+    </div>
 
-  <textarea name="ressenti"
-   placeholder="Ce que cela a provoqué, appris, transformé…"></textarea>
+    <!-- ÉTAPE 3: Formulaire items -->
+    <div id="itemsForm" class="form-step">
+        <h3 id="itemsFormTitle"></h3>
+        <div id="itemsFormContent"></div>
+        
+        <div class="info-box">
+            📌 <strong>Forces & valeurs :</strong> optionnelles, pas obligatoires. Vous pouvez en choisir jusqu'à 3 de chaque.
+        </div>
 
-  <select name="force">
-    <option value="">Force mobilisée (VIA)</option>
-    <optgroup label="🧠 SAGESSE ET CONNAISSANCE">
-      <option>Curiosité</option>
-      <option>Amour de l'apprentissage</option>
-      <option>Jugement / Pensée critique</option>
-      <option>Ingéniosité / Créativité</option>
-      <option>Perspective / Sagesse</option>
-    </optgroup>
-    <optgroup label="💪 COURAGE">
-      <option>Bravoure</option>
-      <option>Persévérance</option>
-      <option>Intégrité / Honnêteté</option>
-      <option>Enthousiasme</option>
-    </optgroup>
-    <optgroup label="❤️ HUMANITÉ">
-      <option>Amour</option>
-      <option>Gentillesse</option>
-      <option>Intelligence sociale / Empathie</option>
-    </optgroup>
-    <optgroup label="⚖️ JUSTICE">
-      <option>Équité</option>
-      <option>Leadership</option>
-      <option>Travail d'équipe / Esprit de citoyenneté</option>
-    </optgroup>
-    <optgroup label="🧘 TEMPÉRANCE">
-      <option>Pardon / Indulgence</option>
-      <option>Humilité / Modestie</option>
-      <option>Prudence / Prévenance</option>
-      <option>Autocontrôle / Régulation de soi</option>
-    </optgroup>
-    <optgroup label="✨ TRANSCENDANCE">
-      <option>Appréciation de la beauté et de l'excellence</option>
-      <option>Gratitude</option>
-      <option>Espoir / Optimisme</option>
-      <option>Humour</option>
-      <option>Spiritualité / Foi</option>
-    </optgroup>
-  </select>
+        <!-- Forces (max 3) -->
+        <label style="font-weight: bold; margin-top: 20px; display: block;">Forces mobilisées (max 3) :</label>
+        <div id="forcesContainer" class="forces-grid"></div>
 
-  <input name="forceLibre" placeholder="Autre force (si différente)">
+        <!-- Valeurs (max 3) -->
+        <label style="font-weight: bold; margin-top: 20px; display: block;">Valeurs en jeu (max 3) :</label>
+        <div id="valeursContainer" class="forces-grid"></div>
 
-  <select name="valeur">
-    <option value="">Valeur en jeu (Schwartz)</option>
-    <optgroup label="🌍 OUVERTURE AU CHANGEMENT">
-      <option>Autodétermination-pensée</option>
-      <option>Autodétermination-action</option>
-      <option>Stimulation</option>
-      <option>Hédonisme</option>
-    </optgroup>
-    <optgroup label="🎯 CROISSANCE PERSONNELLE">
-      <option>Réalisation</option>
-      <option>Pouvoir-dominance</option>
-      <option>Pouvoir-ressources</option>
-    </optgroup>
-    <optgroup label="🛡️ CONSERVATION">
-      <option>Image publique</option>
-      <option>Sécurité-personnel</option>
-      <option>Tradition</option>
-      <option>Conformité-règles</option>
-      <option>Conformité-interpersonnelle</option>
-      <option>Humilité</option>
-    </optgroup>
-    <optgroup label="💗 DÉPASSEMENT DE SOI">
-      <option>Bienveillance-soins</option>
-      <option>Bienveillance-fiabilité</option>
-      <option>Universalisme-préoccupation</option>
-      <option>Universalisme-nature</option>
-      <option>Universalisme-tolérance</option>
-    </optgroup>
-  </select>
-
-  <input name="pourQui" placeholder="Pour qui cette expérience a compté ?">
-
-<button type="submit">🌸 Planter</button>
-
+        <button type="submit">🌸 Planter</button>
+        <button type="button" onclick="backToCategories()" style="background: #999; margin-top: 10px;">← Changer de catégorie</button>
+    </div>
 </form>
+```
+
 </div>
 
 <div id="notebook">
@@ -968,9 +1004,182 @@ form button {
     "assets/bg4.jpg"
   ];
 
+  // Définitions des catégories
+  const categories = {
+    aide: {
+      emoji: "🤝",
+      nom: "Aide & soutien",
+      question: "Qu'est-ce qui a facilité le travail ou le vécu de quelqu'un ?",
+      exemple: "« Cette semaine, Paul a pris 20 minutes pour m'expliquer une procédure que je ne comprenais pas. J'ai pu avancer sans stress et éviter une erreur. »",
+      mecanismes: [
+        "Reconnaissance du prosocial",
+        "Renforcement du sentiment d'appartenance",
+        "Diminution du stress perçu"
+      ],
+      sources: [
+        "<strong>Adam Grant – Give and Take</strong><br>→ Voir l'impact concret de son aide augmente la motivation et l'engagement.",
+        "<strong>Baumeister & Leary</strong><br>→ Le besoin d'appartenance est un besoin psychologique fondamental.",
+        "<strong>Thompson & Bolino (2018)</strong><br>→ La reconnaissance de l'aide renforce la coopération future."
+      ],
+      impact: "plus d'entraide spontanée, moins d'isolement.",
+      items: [
+        { label: "Qu'a fait la personne ?", placeholder: "Fait concret, observable", type: "textarea", name: "item1", required: true },
+        { label: "En quoi cela a aidé ?", placeholder: "Impact immédiat", type: "textarea", name: "item2", required: true },
+        { label: "(optionnel) Pour qui cela a compté ?", placeholder: "Personne ou groupe concerné", type: "input", name: "item3", required: false }
+      ]
+    },
+    apprentissage: {
+      emoji: "🧠",
+      nom: "Apprentissage",
+      question: "Qu'avons-nous compris de mieux ?",
+      exemple: "« J'ai compris que lorsque je prépare mes réponses à l'avance, l'échange devient rigide. En laissant plus de place à l'écoute, la discussion est plus fluide. »",
+      mecanismes: [
+        "Transformation de l'erreur en ressource",
+        "Développement du sentiment de compétence",
+        "Mentalité de croissance"
+      ],
+      sources: [
+        "<strong>Carol Dweck – Growth Mindset</strong><br>→ Apprendre = moteur de motivation durable.",
+        "<strong>Kolb – Apprentissage expérientiel</strong><br>→ Le sens émerge de l'expérience réfléchie.",
+        "<strong>Edmondson</strong><br>→ Les équipes apprenantes performent mieux à long terme."
+      ],
+      impact: "moins de peur de se tromper, plus d'adaptation.",
+      items: [
+        { label: "Situation / expérience", placeholder: "Décris le contexte...", type: "textarea", name: "item1", required: true },
+        { label: "Ce que j'ai compris ou appris", placeholder: "Ta découverte...", type: "textarea", name: "item2", required: true },
+        { label: "Ce que je ferai différemment", placeholder: "Action future...", type: "textarea", name: "item3", required: true }
+      ]
+    },
+    amelioration: {
+      emoji: "🔧",
+      nom: "Amélioration concrète",
+      question: "Qu'est-ce qui fonctionne mieux qu'avant ?",
+      exemple: "« Avant, on passait 15 minutes à chercher l'info. Maintenant, elle est centralisée, on gagne du temps chaque jour. »",
+      mecanismes: [
+        "Sentiment d'efficacité collective",
+        "Perception de progrès (même petit)"
+      ],
+      sources: [
+        "<strong>Teresa Amabile – Progress Principle</strong><br>→ Le sentiment de progrès est le plus puissant moteur de motivation au travail.",
+        "<strong>Lean / Kaizen</strong><br>→ Les petites améliorations répétées ont un impact cumulatif majeur."
+      ],
+      impact: "redonne prise sur le réel, combat l'impuissance.",
+      items: [
+        { label: "Avant / après", placeholder: "Très court, l'essentiel...", type: "textarea", name: "item1", required: true },
+        { label: "Ce qui a changé", placeholder: "La modification apportée...", type: "textarea", name: "item2", required: true },
+        { label: "Bénéfice principal", placeholder: "Impact positif...", type: "textarea", name: "item3", required: true }
+      ]
+    },
+    effort: {
+      emoji: "🎯",
+      nom: "Effort invisible",
+      question: "Qu'est-ce qui a été tenu malgré la difficulté ?",
+      exemple: "« Malgré une semaine émotionnellement lourde, j'ai maintenu la qualité de l'accueil des usagers. »",
+      mecanismes: [
+        "Reconnaissance de la charge invisible",
+        "Justice symbolique",
+        "Prévention de l'épuisement"
+      ],
+      sources: [
+        "<strong>Axel Honneth – Théorie de la reconnaissance</strong><br>→ Le manque de reconnaissance est une source majeure de souffrance au travail.",
+        "<strong>Siegrist – Effort / Récompense</strong><br>→ Le déséquilibre effort-reconnaissance génère stress et burnout."
+      ],
+      impact: "réparation morale, baisse du ressentiment.",
+      items: [
+        { label: "Ce qui était difficile", placeholder: "La difficulté rencontrée...", type: "textarea", name: "item1", required: true },
+        { label: "Ce qui a été maintenu / assuré", placeholder: "Malgré tout, tu as tenu...", type: "textarea", name: "item2", required: true },
+        { label: "Pourquoi c'était important", placeholder: "Le sens de cet effort...", type: "textarea", name: "item3", required: true }
+      ]
+    },
+    initiative: {
+      emoji: "🌱",
+      nom: "Initiative",
+      question: "Qu'est-ce qui a été tenté ?",
+      exemple: "« J'ai proposé un nouvel outil, même si tout n'est pas encore en place, ça a ouvert la discussion. »",
+      mecanismes: [
+        "Autonomie",
+        "Droit à l'essai",
+        "Innovation psychologiquement sûre"
+      ],
+      sources: [
+        "<strong>Deci & Ryan – Autodétermination</strong><br>→ L'autonomie est un pilier de la motivation intrinsèque.",
+        "<strong>Edmondson</strong><br>→ Sans droit à l'initiative, pas d'innovation durable."
+      ],
+      impact: "plus d'idées, moins de conformisme passif.",
+      items: [
+        { label: "L'idée ou l'initiative", placeholder: "Ce que tu as proposé/tenté...", type: "textarea", name: "item1", required: true },
+        { label: "Pourquoi elle a été lancée", placeholder: "La motivation...", type: "textarea", name: "item2", required: true },
+        { label: "Ce que cela a permis (même partiellement)", placeholder: "Résultat, même partiel...", type: "textarea", name: "item3", required: true }
+      ]
+    },
+    collectif: {
+      emoji: "👥",
+      nom: "Réussite collective",
+      question: "Quand avons-nous mieux fonctionné ensemble ?",
+      exemple: "« Lors de ce projet, les informations ont bien circulé et les décisions ont été prises ensemble. »",
+      mecanismes: [
+        "Identité collective",
+        "Cohésion",
+        "Intelligence collective"
+      ],
+      sources: [
+        "<strong>Weick – Sensemaking</strong><br>→ Le sens est co-construit dans l'action collective.",
+        "<strong>Hackman</strong><br>→ Les équipes efficaces se définissent par leurs processus, pas seulement leurs résultats."
+      ],
+      impact: "moins de silos, plus de coopération.",
+      items: [
+        { label: "Moment / contexte", placeholder: "Quand ? Dans quel cadre ?", type: "textarea", name: "item1", required: true },
+        { label: "Ce qui a bien circulé", placeholder: "Info, décision, entraide...", type: "textarea", name: "item2", required: true },
+        { label: "Effet sur le travail ou le climat", placeholder: "Impact ressenti...", type: "textarea", name: "item3", required: true }
+      ]
+    },
+    sens: {
+      emoji: "🧭",
+      nom: "Sens & valeurs",
+      question: "Quand avons-nous agi de façon alignée ?",
+      exemple: "« Nous avons pris plus de temps pour respecter la situation de la personne, même si c'était plus lent. »",
+      mecanismes: [
+        "Alignement valeurs–actions",
+        "Motivation morale",
+        "Prévention du cynisme"
+      ],
+      sources: [
+        "<strong>Viktor Frankl</strong><br>→ Le sens protège face à l'adversité.",
+        "<strong>Rosso, Dekas & Wrzesniewski (2010)</strong><br>→ Le sens au travail augmente engagement et résilience."
+      ],
+      impact: "résistance à l'usure et à la perte de sens.",
+      items: [
+        { label: "Situation", placeholder: "Le contexte...", type: "textarea", name: "item1", required: true },
+        { label: "Valeur ou principe respecté", placeholder: "Ce qui a été honoré...", type: "textarea", name: "item2", required: true },
+        { label: "Pourquoi c'était important", placeholder: "Le sens profond...", type: "textarea", name: "item3", required: true }
+      ]
+    }
+  };
+
+  // Forces VIA
+  const forcesVIA = [
+    { group: "🧠 SAGESSE ET CONNAISSANCE", items: ["Curiosité", "Amour de l'apprentissage", "Jugement / Pensée critique", "Ingéniosité / Créativité", "Perspective / Sagesse"] },
+    { group: "💪 COURAGE", items: ["Bravoure", "Persévérance", "Intégrité / Honnêteté", "Enthousiasme"] },
+    { group: "❤️ HUMANITÉ", items: ["Amour", "Gentillesse", "Intelligence sociale / Empathie"] },
+    { group: "⚖️ JUSTICE", items: ["Équité", "Leadership", "Travail d'équipe / Esprit de citoyenneté"] },
+    { group: "🧘 TEMPÉRANCE", items: ["Pardon / Indulgence", "Humilité / Modestie", "Prudence / Prévenance", "Autocontrôle / Régulation de soi"] },
+    { group: "✨ TRANSCENDANCE", items: ["Appréciation de la beauté et de l'excellence", "Gratitude", "Espoir / Optimisme", "Humour", "Spiritualité / Foi"] }
+  ];
+
+  // Valeurs Schwartz
+  const valeursSchwartz = [
+    { group: "🌍 OUVERTURE AU CHANGEMENT", items: ["Autodétermination-pensée", "Autodétermination-action", "Stimulation", "Hédonisme"] },
+    { group: "🎯 CROISSANCE PERSONNELLE", items: ["Réalisation", "Pouvoir-dominance", "Pouvoir-ressources"] },
+    { group: "🛡️ CONSERVATION", items: ["Image publique", "Sécurité-personnel", "Tradition", "Conformité-règles", "Conformité-interpersonnelle", "Humilité"] },
+    { group: "💗 DÉPASSEMENT DE SOI", items: ["Bienveillance-soins", "Bienveillance-fiabilité", "Universalisme-préoccupation", "Universalisme-nature", "Universalisme-tolérance"] }
+  ];
+
   let data = [];
   let currentPage = 0;
   let sessionWatered = {};
+  let selectedCategory = null;
+  let selectedForces = [];
+  let selectedValeurs = [];
 
   function setRandomBackground() {
     const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
@@ -1020,312 +1229,568 @@ form button {
   }
 
   window.openForm = function() {
+      // Réinitialiser le formulaire
+      document.getElementById('categorySelection').style.display = 'block';
+      document.getElementById('categoryPreview').style.display = 'none';
+      document.getElementById('itemsForm').style.display = 'none';
+      document.getElementById('categorySelect').value = '';
+      selectedCategory = null;
+      selectedForces = [];
+      selectedValeurs = [];
+      
       overlay.style.display = "flex";
   }
 
-  function loadPlants() {
-      onValue(plantsRef, (snapshot) => {
-          data = [];
-          snapshot.forEach((childSnapshot) => {
-              const plant = childSnapshot.val();
-              plant.firebaseId = childSnapshot.key;
-              data.push(plant);
-          });
-          
-          data.sort((a, b) => b.id - a.id);
-          renderGarden();
-      });
-  }
-
-  function getRandomPlantType() {
-    const types = ['arbre', 'arbuste', 'fleur', 'fruit', 'oiseau', 'papillon'];
-    return types[Math.floor(Math.random() * types.length)];
-  }
-
-  function getPositionForType(type) {
-    let x, y;
+  window.showCategoryPreview = function() {
+    const select = document.getElementById('categorySelect');
+    const categoryKey = select.value;
     
-    switch(type) {
-      case 'arbre':
-      case 'arbuste':
-        x = Math.random() * 85;
-        y = 60 + Math.random() * 35;
-        break;
-        
-      case 'fleur':
-      case 'fruit':
-        x = Math.random() * 85;
-        y = 35 + Math.random() * 60;
-        break;
-        
-      case 'oiseau':
-      case 'papillon':
-        x = Math.random() * 85;
-        y = Math.random() * 66;
-        break;
-        
-      default:
-        x = Math.random() * 85;
-        y = Math.random() * 75;
+    if (!categoryKey) {
+        document.getElementById('categoryPreview').style.display = 'none';
+        return;
     }
     
-    return { x, y };
+    selectedCategory = categoryKey;
+    const cat = categories[categoryKey];
+    
+    const previewHTML = `
+      <h3>${cat.emoji} ${cat.nom}</h3>
+      
+      <div class="preview-section">
+        <h4>🎯 Question centrale</h4>
+        <p>${cat.question}</p>
+      </div>
+      
+      <div class="preview-section">
+        <h4>🎬 Exemple</h4>
+        <p>${cat.exemple}</p>
+      </div>
+      
+      <div class="preview-section">
+        <h4>🧠 Mécanismes activés</h4>
+        <ul>
+          ${cat.mecanismes.map(m => `<li>${m}</li>`).join('')}
+        </ul>
+      </div>
+      
+      <div class="preview-section">
+        <h4>🔬 Sources & idées fortes</h4>
+        <ul>
+          ${cat.sources.map(s => `<li>${s}</li>`).join('')}
+        </ul>
+      </div>
+      
+      <div class="preview-section">
+        <h4>👉 Impact clé</h4>
+        <p>${cat.impact}</p>
+      </div>
+    `;
+    
+    document.getElementById('previewContent').innerHTML = previewHTML;
+    document.getElementById('categorySelection').style.display = 'none';
+    document.getElementById('categoryPreview').style.display = 'block';
   }
 
-  function findNonOverlappingPosition(type) {
-      const maxAttempts = 50;
-      const minDistance = 10;
-      
-      for (let attempt = 0; attempt < maxAttempts; attempt++) {
-          const pos = getPositionForType(type);
-          
-          let overlapping = false;
-          for (let p of data) {
-              const distance = Math.sqrt(
-                  Math.pow(pos.x - p.x, 2) + Math.pow(pos.y - p.y, 2)
-              );
-              
-              if (distance < minDistance) {
-                  overlapping = true;
-                  break;
-              }
-          }
-          
-          if (!overlapping) {
-              return pos;
-          }
-      }
-      
-      return getPositionForType(type);
-  }
+  window.validateCategory = function() {
+    if (!selectedCategory) return;
+    
+    const cat = categories[selectedCategory];
+    
+    // Préparer le formulaire items
+    document.getElementById('itemsFormTitle').textContent = `${cat.emoji} ${cat.nom}`;
+    
+    let itemsHTML = '';
+    cat.items.forEach((item, index) => {
+      if (item.type === 'textarea') {
+        itemsHTML += `
+          <label style="font-weight: bold; margin-top: 15px; display: block;">
+            ${item.label}${item.required ? ' *' : ''}
+          </label>
+          <textarea name="${item.name}" placeholder="${item.placeholder}" ${item.required ? 'required' : ''}></textarea>
 
-  form.addEventListener("submit", e => {
-      e.preventDefault();
-      const f = new FormData(form);
-      
-      const type = getRandomPlantType();
-      const position = findNonOverlappingPosition(type);
-      const typeImages = plantTypes[type];
-      const randomImg = typeImages[Math.floor(Math.random() * typeImages.length)];
-      
-      const newPlant = {
-          id: Date.now(),
-          activite: f.get("activite"),
-          experience: f.get("experience"),
-          ressenti: f.get("ressenti"),
-          force: f.get("force") || f.get("forceLibre"),
-          valeur: f.get("valeur"),
-          pourQui: f.get("pourQui"),
-          type: type,
-          img: randomImg,
-          x: position.x,
-          y: position.y,
-          eau: 0,
-          soleil: 0,
-          date: new Date().toLocaleDateString("fr-FR")
-      };
-      
-      push(plantsRef, newPlant);
-      
-      overlay.style.display = "none";
-      form.reset();
-      
-      showThankYouMessage();
+```
+    `;
+  } else {
+    itemsHTML += `
+      <label style="font-weight: bold; margin-top: 15px; display: block;">
+        ${item.label}${item.required ? ' *' : ''}
+      </label>
+      <input name="${item.name}" placeholder="${item.placeholder}" ${item.required ? 'required' : ''}>
+    `;
+  }
+});
+
+document.getElementById('itemsFormContent').innerHTML = itemsHTML;
+
+// Créer les sélecteurs de forces
+createForcesSelector();
+createValeursSelector();
+
+document.getElementById('categoryPreview').style.display = 'none';
+document.getElementById('itemsForm').style.display = 'block';
+```
+
+}
+
+window.backToCategories = function() {
+document.getElementById(‘categorySelection’).style.display = ‘block’;
+document.getElementById(‘categoryPreview’).style.display = ‘none’;
+document.getElementById(‘itemsForm’).style.display = ‘none’;
+selectedCategory = null;
+selectedForces = [];
+selectedValeurs = [];
+}
+
+function createForcesSelector() {
+const container = document.getElementById(‘forcesContainer’);
+container.innerHTML = ‘’;
+
+```
+forcesVIA.forEach(group => {
+  const groupDiv = document.createElement('div');
+  groupDiv.style.marginTop = '15px';
+  
+  const groupLabel = document.createElement('div');
+  groupLabel.textContent = group.group;
+  groupLabel.style.fontWeight = 'bold';
+  groupLabel.style.fontSize = '13px';
+  groupLabel.style.marginBottom = '8px';
+  groupLabel.style.color = '#6fa58c';
+  groupDiv.appendChild(groupLabel);
+  
+  group.items.forEach(force => {
+    const div = document.createElement('div');
+    div.className = 'force-option';
+    div.textContent = force;
+    div.onclick = () => toggleForce(force, div);
+    groupDiv.appendChild(div);
   });
+  
+  container.appendChild(groupDiv);
+});
+```
 
-  function renderGarden() {
-      garden.innerHTML = "";
-      
-      if (data.length === 0) {
-          garden.innerHTML = "<div class='loading'>🌱 Le jardin est vide... Plante la première expérience !</div>";
-          return;
-      }
-      
-      data.forEach((p, i) => {
-          const container = document.createElement("div");
-          container.className = "plant-container";
-          container.style.left = p.x + "%";
-          container.style.top = p.y + "%";
-          
-          const maxGrowth = (p.type === 'arbre' || p.type === 'arbuste') ? 10 : 5;
-          const growthFactor = Math.min((p.eau || 0) + (p.soleil || 0), maxGrowth);
-          const maxScale = (p.type === 'arbre' || p.type === 'arbuste') ? 2.0 : 1.5;
-          const scale = 1 + (growthFactor / maxGrowth) * (maxScale - 1);
-          
-          const baseSize = 90;
-          const size = baseSize * scale;
-          
-          const zIndex = i === 0 ? 20 : Math.round((100 - p.y) / 5);
-          container.style.zIndex = zIndex;
-          
-          const img = document.createElement("img");
-          img.src = p.img;
-          img.alt = `Plante ${p.type}`;
-          img.className = `plant ${p.type || 'fleur'}`;
-          img.style.width = size + "px";
-          img.style.setProperty('--scale', scale);
-          img.onclick = () => openNotebook(i);
-          
-          container.appendChild(img);
-          
-          if (i === 0 && scale < 1.3) {
-              const circle = document.createElement("div");
-              circle.className = "highlight-circle";
-              circle.style.width = (size + 20) + "px";
-              circle.style.height = (size + 20) + "px";
-              circle.style.left = "-10px";
-              circle.style.top = "-10px";
-              container.appendChild(circle);
-          }
-          
-          garden.appendChild(container);
-      });
+}
+
+function createValeursSelector() {
+const container = document.getElementById(‘valeursContainer’);
+container.innerHTML = ‘’;
+
+```
+valeursSchwartz.forEach(group => {
+  const groupDiv = document.createElement('div');
+  groupDiv.style.marginTop = '15px';
+  
+  const groupLabel = document.createElement('div');
+  groupLabel.textContent = group.group;
+  groupLabel.style.fontWeight = 'bold';
+  groupLabel.style.fontSize = '13px';
+  groupLabel.style.marginBottom = '8px';
+  groupLabel.style.color = '#6fa58c';
+  groupDiv.appendChild(groupLabel);
+  
+  group.items.forEach(valeur => {
+    const div = document.createElement('div');
+    div.className = 'value-option';
+    div.textContent = valeur;
+    div.onclick = () => toggleValeur(valeur, div);
+    groupDiv.appendChild(div);
+  });
+  
+  container.appendChild(groupDiv);
+});
+```
+
+}
+
+window.toggleForce = function(force, element) {
+const index = selectedForces.indexOf(force);
+
+```
+if (index > -1) {
+  // Désélectionner
+  selectedForces.splice(index, 1);
+  element.classList.remove('selected');
+} else {
+  // Sélectionner (max 3)
+  if (selectedForces.length < 3) {
+    selectedForces.push(force);
+    element.classList.add('selected');
+  } else {
+    alert('Vous pouvez sélectionner maximum 3 forces');
   }
+}
+```
 
-  window.openNotebook = function(index) {
-    currentPage = index;
-    notebook.classList.remove("open");
+}
 
-    setTimeout(() => {
-        renderNotebook();
-        notebook.classList.add("open");
-    }, 40);
+window.toggleValeur = function(valeur, element) {
+const index = selectedValeurs.indexOf(valeur);
+
+```
+if (index > -1) {
+  // Désélectionner
+  selectedValeurs.splice(index, 1);
+  element.classList.remove('selected');
+} else {
+  // Sélectionner (max 3)
+  if (selectedValeurs.length < 3) {
+    selectedValeurs.push(valeur);
+    element.classList.add('selected');
+  } else {
+    alert('Vous pouvez sélectionner maximum 3 valeurs');
   }
+}
+```
 
-  window.closeNotebook = function() {
-      notebook.classList.remove("open");
-  }
+}
 
-  window.waterPlant = function(plantId, type) {
-      const sessionKey = `${plantId}_${type}`;
-      
-      if (sessionWatered[sessionKey]) {
-          return;
-      }
-      
-      const plant = data.find(p => p.firebaseId === plantId);
-      if (!plant) return;
-      
-      if (type === 'water') {
-          plant.eau = (plant.eau || 0) + 1;
-      } else {
-          plant.soleil = (plant.soleil || 0) + 1;
-      }
-      
-      sessionWatered[sessionKey] = true;
-      
-      const plantRef = ref(database, 'plants/' + plantId);
-      update(plantRef, { eau: plant.eau, soleil: plant.soleil });
-      
-      renderNotebook();
+function loadPlants() {
+onValue(plantsRef, (snapshot) => {
+data = [];
+snapshot.forEach((childSnapshot) => {
+const plant = childSnapshot.val();
+plant.firebaseId = childSnapshot.key;
+data.push(plant);
+});
+
+```
+      data.sort((a, b) => b.id - a.id);
       renderGarden();
-  }
+  });
+```
 
-  function renderNotebook() {
-      if (data.length === 0) {
-          notebookContent.innerHTML = "<p style='text-align:center; padding:40px;'>Aucune expérience plantée pour l'instant...</p>";
-          return;
+}
+
+function getRandomPlantType() {
+const types = [‘arbre’, ‘arbuste’, ‘fleur’, ‘fruit’, ‘oiseau’, ‘papillon’];
+return types[Math.floor(Math.random() * types.length)];
+}
+
+function getPositionForType(type) {
+let x, y;
+
+```
+switch(type) {
+  case 'arbre':
+  case 'arbuste':
+    x = Math.random() * 85;
+    y = 60 + Math.random() * 35;
+    break;
+    
+  case 'fleur':
+  case 'fruit':
+    x = Math.random() * 85;
+    y = 35 + Math.random() * 60;
+    break;
+    
+  case 'oiseau':
+  case 'papillon':
+    x = Math.random() * 85;
+    y = Math.random() * 66;
+    break;
+    
+  default:
+    x = Math.random() * 85;
+    y = Math.random() * 75;
+}
+
+return { x, y };
+```
+
+}
+
+function findNonOverlappingPosition(type) {
+const maxAttempts = 50;
+const minDistance = 10;
+
+```
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      const pos = getPositionForType(type);
+      
+      let overlapping = false;
+      for (let p of data) {
+          const distance = Math.sqrt(
+              Math.pow(pos.x - p.x, 2) + Math.pow(pos.y - p.y, 2)
+          );
+          
+          if (distance < minDistance) {
+              overlapping = true;
+              break;
+          }
       }
       
-      const p = data[currentPage];
-      const waterKey = `${p.firebaseId}_water`;
-      const sunKey = `${p.firebaseId}_sun`;
+      if (!overlapping) {
+          return pos;
+      }
+  }
+  
+  return getPositionForType(type);
+```
+
+}
+
+form.addEventListener(“submit”, e => {
+e.preventDefault();
+const f = new FormData(form);
+
+```
+  if (!selectedCategory) {
+      alert("Veuillez sélectionner une catégorie");
+      return;
+  }
+  
+  const cat = categories[selectedCategory];
+  const type = getRandomPlantType();
+  const position = findNonOverlappingPosition(type);
+  const typeImages = plantTypes[type];
+  const randomImg = typeImages[Math.floor(Math.random() * typeImages.length)];
+  
+  // Collecter les items
+  const items = {};
+  cat.items.forEach(item => {
+      items[item.name] = f.get(item.name) || '';
+  });
+  
+  const newPlant = {
+      id: Date.now(),
+      categorie: selectedCategory,
+      categorieNom: cat.nom,
+      categorieEmoji: cat.emoji,
+      items: items,
+      forces: selectedForces,
+      valeurs: selectedValeurs,
+      type: type,
+      img: randomImg,
+      x: position.x,
+      y: position.y,
+      eau: 0,
+      soleil: 0,
+      date: new Date().toLocaleDateString("fr-FR")
+  };
+  
+  push(plantsRef, newPlant);
+  
+  overlay.style.display = "none";
+  form.reset();
+  backToCategories();
+  
+  showThankYouMessage();
+```
+
+});
+
+function renderGarden() {
+garden.innerHTML = “”;
+
+```
+  if (data.length === 0) {
+      garden.innerHTML = "<div class='loading'>🌱 Le jardin est vide... Plante la première expérience !</div>";
+      return;
+  }
+  
+  data.forEach((p, i) => {
+      const container = document.createElement("div");
+      container.className = "plant-container";
+      container.style.left = p.x + "%";
+      container.style.top = p.y + "%";
       
-      const maxGrowth = (p.type === 'arbre' || p.type === 'arbuste') ? 200 : 150;
-      const maxInteractions = maxGrowth === 200 ? 10 : 5;
-      const currentGrowth = Math.min(100 + (((p.eau || 0) + (p.soleil || 0)) / maxInteractions) * (maxGrowth - 100), maxGrowth);
+      const maxGrowth = (p.type === 'arbre' || p.type === 'arbuste') ? 10 : 5;
+      const growthFactor = Math.min((p.eau || 0) + (p.soleil || 0), maxGrowth);
+      const maxScale = (p.type === 'arbre' || p.type === 'arbuste') ? 2.0 : 1.5;
+      const scale = 1 + (growthFactor / maxGrowth) * (maxScale - 1);
       
-      notebookContent.innerHTML = `
-          <div class="notebook-page">
-              <div class="page-header">
-                  <div class="page-date">📅 ${p.date}</div>
-              </div>
-              
-              <div class="notebook-section">
-                  <div class="section-label">🌍 Contexte</div>
-                  <div class="section-content">${p.activite || "—"}</div>
-              </div>
-              
-              <div class="notebook-section">
-                  <div class="section-label">✨ Expérience vécue</div>
-                  <div class="section-content">${p.experience || "—"}</div>
-              </div>
-              
-              ${p.ressenti ? `
-              <div class="notebook-section">
-                  <div class="section-label">💭 Ressenti & transformation</div>
-                  <div class="section-content">${p.ressenti}</div>
-              </div>
-              ` : ''}
-              
-              ${p.force ? `
-              <div class="notebook-section">
-                  <div class="section-label">💪 Force mobilisée</div>
-                  <div class="section-content">${p.force}</div>
-              </div>
-              ` : ''}
-              
-              ${p.valeur ? `
-              <div class="notebook-section">
-                  <div class="section-label">⭐ Valeur en jeu</div>
-                  <div class="section-content">${p.valeur}</div>
-              </div>
-              ` : ''}
-              
-              ${p.pourQui ? `
-              <div class="notebook-section">
-                  <div class="section-label">👥 Pour qui</div>
-                  <div class="section-content">${p.pourQui}</div>
-              </div>
-              ` : ''}
-              
-              <div class="interaction-stats">
-                  <div class="stat-item">💧 Eau : ${p.eau || 0}</div>
-                  <div class="stat-item">☀️ Soleil : ${p.soleil || 0}</div>
-                  <div class="stat-item">🌱 Croissance : ${Math.round(currentGrowth)}%</div>
-              </div>
-              
-              <div class="water-actions">
-                  <button class="water-btn ${sessionWatered[waterKey] ? 'used' : ''}" 
-                          onclick="waterPlant('${p.firebaseId}', 'water')"
-                          ${sessionWatered[waterKey] ? 'disabled' : ''}
-                          aria-label="Arroser la plante">
-                      💧
-                  </button>
-                  <button class="water-btn ${sessionWatered[sunKey] ? 'used' : ''}" 
-                          onclick="waterPlant('${p.firebaseId}', 'sun')"
-                          ${sessionWatered[sunKey] ? 'disabled' : ''}
-                          aria-label="Donner du soleil à la plante">
-                      ☀️
-                  </button>
-              </div>
+      const baseSize = 90;
+      const size = baseSize * scale;
+      
+      const zIndex = i === 0 ? 20 : Math.round((100 - p.y) / 5);
+      container.style.zIndex = zIndex;
+      
+      const img = document.createElement("img");
+      img.src = p.img;
+      img.alt = `Plante ${p.type}`;
+      img.className = `plant ${p.type || 'fleur'}`;
+      img.style.width = size + "px";
+      img.style.setProperty('--scale', scale);
+      img.onclick = () => openNotebook(i);
+      
+      container.appendChild(img);
+      
+      if (i === 0 && scale < 1.3) {
+          const circle = document.createElement("div");
+          circle.className = "highlight-circle";
+          circle.style.width = (size + 20) + "px";
+          circle.style.height = (size + 20) + "px";
+          circle.style.left = "-10px";
+          circle.style.top = "-10px";
+          container.appendChild(circle);
+      }
+      
+      garden.appendChild(container);
+  });
+```
+
+}
+
+window.openNotebook = function(index) {
+currentPage = index;
+notebook.classList.remove(“open”);
+
+```
+setTimeout(() => {
+    renderNotebook();
+    notebook.classList.add("open");
+}, 40);
+```
+
+}
+
+window.closeNotebook = function() {
+notebook.classList.remove(“open”);
+}
+
+window.waterPlant = function(plantId, type) {
+const sessionKey = `${plantId}_${type}`;
+
+```
+  if (sessionWatered[sessionKey]) {
+      return;
+  }
+  
+  const plant = data.find(p => p.firebaseId === plantId);
+  if (!plant) return;
+  
+  if (type === 'water') {
+      plant.eau = (plant.eau || 0) + 1;
+  } else {
+      plant.soleil = (plant.soleil || 0) + 1;
+  }
+  
+  sessionWatered[sessionKey] = true;
+  
+  const plantRef = ref(database, 'plants/' + plantId);
+  update(plantRef, { eau: plant.eau, soleil: plant.soleil });
+  
+  renderNotebook();
+  renderGarden();
+```
+
+}
+
+function renderNotebook() {
+if (data.length === 0) {
+notebookContent.innerHTML = “<p style='text-align:center; padding:40px;'>Aucune expérience plantée pour l’instant…</p>”;
+return;
+}
+
+```
+  const p = data[currentPage];
+  const waterKey = `${p.firebaseId}_water`;
+  const sunKey = `${p.firebaseId}_sun`;
+  
+  const maxGrowth = (p.type === 'arbre' || p.type === 'arbuste') ? 200 : 150;
+  const maxInteractions = maxGrowth === 200 ? 10 : 5;
+  const currentGrowth = Math.min(100 + (((p.eau || 0) + (p.soleil || 0)) / maxInteractions) * (maxGrowth - 100), maxGrowth);
+  
+  // Affichage des items
+  let itemsHTML = '';
+  if (p.items) {
+      const cat = categories[p.categorie];
+      if (cat) {
+          cat.items.forEach((item, index) => {
+              const value = p.items[item.name];
+              if (value) {
+                  itemsHTML += `
+                      <div class="notebook-section">
+                          <div class="section-label">${item.label}</div>
+                          <div class="section-content">${value}</div>
+                      </div>
+                  `;
+              }
+          });
+      }
+  }
+  
+  // Affichage des forces
+  let forcesHTML = '';
+  if (p.forces && p.forces.length > 0) {
+      forcesHTML = `
+          <div class="notebook-section">
+              <div class="section-label">💪 Forces mobilisées</div>
+              <div class="section-content">${p.forces.join(', ')}</div>
           </div>
       `;
-      
-      updatePageNav();
   }
+  
+  // Affichage des valeurs
+  let valeursHTML = '';
+  if (p.valeurs && p.valeurs.length > 0) {
+      valeursHTML = `
+          <div class="notebook-section">
+              <div class="section-label">⭐ Valeurs en jeu</div>
+              <div class="section-content">${p.valeurs.join(', ')}</div>
+          </div>
+      `;
+  }
+  
+  notebookContent.innerHTML = `
+      <div class="notebook-page">
+          <div class="page-header">
+              <div class="page-date">📅 ${p.date} • ${p.categorieEmoji || ''} ${p.categorieNom || 'Expérience'}</div>
+          </div>
+          
+          ${itemsHTML}
+          ${forcesHTML}
+          ${valeursHTML}
+          
+          <div class="interaction-stats">
+              <div class="stat-item">💧 Eau : ${p.eau || 0}</div>
+              <div class="stat-item">☀️ Soleil : ${p.soleil || 0}</div>
+              <div class="stat-item">🌱 Croissance : ${Math.round(currentGrowth)}%</div>
+          </div>
+          
+          <div class="water-actions">
+              <button class="water-btn ${sessionWatered[waterKey] ? 'used' : ''}" 
+                      onclick="waterPlant('${p.firebaseId}', 'water')"
+                      ${sessionWatered[waterKey] ? 'disabled' : ''}
+                      aria-label="Arroser la plante">
+                  💧
+              </button>
+              <button class="water-btn ${sessionWatered[sunKey] ? 'used' : ''}" 
+                      onclick="waterPlant('${p.firebaseId}', 'sun')"
+                      ${sessionWatered[sunKey] ? 'disabled' : ''}
+                      aria-label="Donner du soleil à la plante">
+                  ☀️
+              </button>
+          </div>
+      </div>
+  `;
+  
+  updatePageNav();
+```
 
-  function updatePageNav() {
-      prevBtn.disabled = currentPage === 0;
-      nextBtn.disabled = currentPage === data.length - 1;
-      pageInfo.textContent = `${currentPage + 1} / ${data.length}`;
-  }
+}
 
-  window.prevPage = function() {
-      if (currentPage > 0) {
-          currentPage--;
-          renderNotebook();
-      }
-  }
+function updatePageNav() {
+prevBtn.disabled = currentPage === 0;
+nextBtn.disabled = currentPage === data.length - 1;
+pageInfo.textContent = `${currentPage + 1} / ${data.length}`;
+}
 
-  window.nextPage = function() {
-      if (currentPage < data.length - 1) {
-          currentPage++;
-          renderNotebook();
-      }
-  }
+window.prevPage = function() {
+if (currentPage > 0) {
+currentPage–;
+renderNotebook();
+}
+}
+
+window.nextPage = function() {
+if (currentPage < data.length - 1) {
+currentPage++;
+renderNotebook();
+}
+}
 </script>
 
 </body>
 </html>
-
