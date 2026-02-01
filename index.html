@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 
 <html lang="fr">
 <head>
@@ -518,28 +517,67 @@ form button:hover {
     color: #6b5d4f;
 }
 
-.forces-grid {
-    display: grid;
-    gap: 10px;
-}
 
-.force-option, .value-option {
+.multi-select {
+    width: 100%;
     padding: 10px;
-    background: rgba(255,255,255,0.8);
     border: 2px solid #e0e0e0;
     border-radius: 10px;
+    background: rgba(255,255,255,0.85);
+    font-size: 14px;
+    color: #333;
     cursor: pointer;
-    transition: all 0.3s;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    height: 44px;
+    transition: border-color 0.3s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236fa58c' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
 }
 
-.force-option:hover, .value-option:hover {
+.multi-select:focus {
     border-color: #6fa58c;
-    background: rgba(111,165,140,0.1);
+    box-shadow: 0 0 0 3px rgba(111,165,140,0.15);
 }
 
-.force-option.selected, .value-option.selected {
-    border-color: #6fa58c;
+.multi-select option {
+    padding: 8px;
+}
+
+.multi-select optgroup {
+    font-weight: bold;
+    color: #6fa58c;
+}
+
+.chips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    min-height: 18px;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
     background: rgba(111,165,140,0.2);
+    border: 1px solid #6fa58c;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #4a7a63;
+}
+
+.chip .chip-remove {
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1;
+    color: #6fa58c;
+    font-weight: bold;
 }
 
 #notebook {
@@ -872,10 +910,12 @@ form button:hover {
             </div>
 
             <label style="font-weight: bold; margin-top: 20px; display: block;">Forces mobilisées (max 3) :</label>
-            <div id="forcesContainer" class="forces-grid"></div>
+            <select id="forcesSelect" multiple class="multi-select"></select>
+            <div id="forcesChips" class="chips-container"></div>
 
             <label style="font-weight: bold; margin-top: 20px; display: block;">Valeurs en jeu (max 3) :</label>
-            <div id="valeursContainer" class="forces-grid"></div>
+            <select id="valeursSelect" multiple class="multi-select"></select>
+            <div id="valeursChips" class="chips-container"></div>
 
             <button type="submit">🌸 Planter</button>
             <button type="button" id="backBtn2" style="background: #999; margin-top: 10px;">← Changer de catégorie</button>
@@ -1178,85 +1218,95 @@ form button:hover {
     selectedCategory = null;
     selectedForces = [];
     selectedValeurs = [];
+    document.getElementById('forcesChips').innerHTML = '';
+    document.getElementById('valeursChips').innerHTML = '';
   }
 
   function createForcesSelector() {
-    const container = document.getElementById('forcesContainer');
-    container.innerHTML = '';
+    const select = document.getElementById('forcesSelect');
+    select.innerHTML = '';
+    select.appendChild(createEmptyOption('— Choisir une force —'));
     forcesVIA.forEach(function(group) {
-      const groupDiv = document.createElement('div');
-      groupDiv.style.marginTop = '15px';
-      const groupLabel = document.createElement('div');
-      groupLabel.textContent = group.group;
-      groupLabel.style.fontWeight = 'bold';
-      groupLabel.style.fontSize = '13px';
-      groupLabel.style.marginBottom = '8px';
-      groupLabel.style.color = '#6fa58c';
-      groupDiv.appendChild(groupLabel);
+      const optgroup = document.createElement('optgroup');
+      optgroup.label = group.group;
       group.items.forEach(function(force) {
-        const div = document.createElement('div');
-        div.className = 'force-option';
-        div.textContent = force;
-        div.onclick = function() { toggleForce(force, div); };
-        groupDiv.appendChild(div);
+        const opt = document.createElement('option');
+        opt.value = force;
+        opt.textContent = force;
+        optgroup.appendChild(opt);
       });
-      container.appendChild(groupDiv);
+      select.appendChild(optgroup);
+    });
+    select.addEventListener('change', function() {
+      const chosen = this.value;
+      if (!chosen) return;
+      this.value = '';
+      if (selectedForces.indexOf(chosen) === -1) {
+        if (selectedForces.length < 3) {
+          selectedForces.push(chosen);
+          renderChips('forcesChips', selectedForces, 'forces');
+        }
+      }
     });
   }
 
   function createValeursSelector() {
-    const container = document.getElementById('valeursContainer');
-    container.innerHTML = '';
+    const select = document.getElementById('valeursSelect');
+    select.innerHTML = '';
+    select.appendChild(createEmptyOption('— Choisir une valeur —'));
     valeursSchwartz.forEach(function(group) {
-      const groupDiv = document.createElement('div');
-      groupDiv.style.marginTop = '15px';
-      const groupLabel = document.createElement('div');
-      groupLabel.textContent = group.group;
-      groupLabel.style.fontWeight = 'bold';
-      groupLabel.style.fontSize = '13px';
-      groupLabel.style.marginBottom = '8px';
-      groupLabel.style.color = '#6fa58c';
-      groupDiv.appendChild(groupLabel);
+      const optgroup = document.createElement('optgroup');
+      optgroup.label = group.group;
       group.items.forEach(function(valeur) {
-        const div = document.createElement('div');
-        div.className = 'value-option';
-        div.textContent = valeur;
-        div.onclick = function() { toggleValeur(valeur, div); };
-        groupDiv.appendChild(div);
+        const opt = document.createElement('option');
+        opt.value = valeur;
+        opt.textContent = valeur;
+        optgroup.appendChild(opt);
       });
-      container.appendChild(groupDiv);
+      select.appendChild(optgroup);
+    });
+    select.addEventListener('change', function() {
+      const chosen = this.value;
+      if (!chosen) return;
+      this.value = '';
+      if (selectedValeurs.indexOf(chosen) === -1) {
+        if (selectedValeurs.length < 3) {
+          selectedValeurs.push(chosen);
+          renderChips('valeursChips', selectedValeurs, 'valeurs');
+        }
+      }
     });
   }
 
-  function toggleForce(force, element) {
-    const index = selectedForces.indexOf(force);
-    if (index > -1) {
+  function createEmptyOption(text) {
+    const opt = document.createElement('option');
+    opt.value = '';
+    opt.textContent = text;
+    return opt;
+  }
+
+  function renderChips(containerId, items, type) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    items.forEach(function(item, index) {
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.innerHTML = item + ' <span class="chip-remove" onclick="removeChip(\'' + type + '\', ' + index + ')">×</span>';
+      container.appendChild(chip);
+    });
+  }
+
+  function removeChip(type, index) {
+    if (type === 'forces') {
       selectedForces.splice(index, 1);
-      element.classList.remove('selected');
+      renderChips('forcesChips', selectedForces, 'forces');
     } else {
-      if (selectedForces.length < 3) {
-        selectedForces.push(force);
-        element.classList.add('selected');
-      } else {
-        alert('Vous pouvez sélectionner maximum 3 forces');
-      }
+      selectedValeurs.splice(index, 1);
+      renderChips('valeursChips', selectedValeurs, 'valeurs');
     }
   }
 
-  function toggleValeur(valeur, element) {
-    const index = selectedValeurs.indexOf(valeur);
-    if (index > -1) {
-      selectedValeurs.splice(index, 1);
-      element.classList.remove('selected');
-    } else {
-      if (selectedValeurs.length < 3) {
-        selectedValeurs.push(valeur);
-        element.classList.add('selected');
-      } else {
-        alert('Vous pouvez sélectionner maximum 3 valeurs');
-      }
-    }
-  }
+  window.removeChip = removeChip;
 
   function loadPlants() {
     plantsRef.on('value', function(snapshot) {
