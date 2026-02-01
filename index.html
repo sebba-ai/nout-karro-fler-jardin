@@ -822,7 +822,6 @@ form button:hover {
 </div>
 
 <div id="main">
-    <!-- Thermomètre positionné en haut à gauche -->
     <div id="thermo-container">
         <div id="thermo-cadre">
             <div id="thermo-niveau">
@@ -858,7 +857,6 @@ form button:hover {
 
 <div id="overlay">
     <form id="form">
-        <!-- ÉTAPE 1: Sélection de catégorie -->
         <div id="categorySelection" class="form-step">
             <h3>🌿 Planter une expérience</h3>
 
@@ -876,14 +874,12 @@ form button:hover {
         </select>
     </div>
 
-    <!-- ÉTAPE 2: Prévisualisation -->
     <div id="categoryPreview" class="form-step">
         <div id="previewContent"></div>
         <button type="button" onclick="validateCategory()">✓ Cela me convient, continuer</button>
         <button type="button" onclick="backToCategories()" style="background: #999; margin-top: 10px;">← Retour aux catégories</button>
     </div>
 
-    <!-- ÉTAPE 3: Formulaire items -->
     <div id="itemsForm" class="form-step">
         <h3 id="itemsFormTitle"></h3>
         <div id="itemsFormContent"></div>
@@ -892,11 +888,9 @@ form button:hover {
             📌 <strong>Forces & valeurs :</strong> optionnelles, pas obligatoires. Vous pouvez en choisir jusqu'à 3 de chaque.
         </div>
 
-        <!-- Forces (max 3) -->
         <label style="font-weight: bold; margin-top: 20px; display: block;">Forces mobilisées (max 3) :</label>
         <div id="forcesContainer" class="forces-grid"></div>
 
-        <!-- Valeurs (max 3) -->
         <label style="font-weight: bold; margin-top: 20px; display: block;">Valeurs en jeu (max 3) :</label>
         <div id="valeursContainer" class="forces-grid"></div>
 
@@ -1004,7 +998,6 @@ form button:hover {
     "assets/bg4.jpg"
   ];
 
-  // Définitions des catégories
   const categories = {
     aide: {
       emoji: "🤝",
@@ -1156,7 +1149,6 @@ form button:hover {
     }
   };
 
-  // Forces VIA
   const forcesVIA = [
     { group: "🧠 SAGESSE ET CONNAISSANCE", items: ["Curiosité", "Amour de l'apprentissage", "Jugement / Pensée critique", "Ingéniosité / Créativité", "Perspective / Sagesse"] },
     { group: "💪 COURAGE", items: ["Bravoure", "Persévérance", "Intégrité / Honnêteté", "Enthousiasme"] },
@@ -1166,7 +1158,6 @@ form button:hover {
     { group: "✨ TRANSCENDANCE", items: ["Appréciation de la beauté et de l'excellence", "Gratitude", "Espoir / Optimisme", "Humour", "Spiritualité / Foi"] }
   ];
 
-  // Valeurs Schwartz
   const valeursSchwartz = [
     { group: "🌍 OUVERTURE AU CHANGEMENT", items: ["Autodétermination-pensée", "Autodétermination-action", "Stimulation", "Hédonisme"] },
     { group: "🎯 CROISSANCE PERSONNELLE", items: ["Réalisation", "Pouvoir-dominance", "Pouvoir-ressources"] },
@@ -1181,7 +1172,6 @@ form button:hover {
   let selectedForces = [];
   let selectedValeurs = [];
 
-  // Références DOM
   const overlay = document.getElementById('overlay');
   const form = document.getElementById('form');
   const garden = document.getElementById('garden');
@@ -1214,8 +1204,6 @@ form button:hover {
     const thermo = document.getElementById('thermo-container');
     const niveau = document.getElementById('thermo-niveau');
     const quote = document.getElementById('quote');
-    const overlay = document.getElementById('overlay');
-    const form = document.getElementById('form');
 
     if (pwd.value === PASSWORD) {
         setRandomBackground();
@@ -1242,7 +1230,6 @@ form button:hover {
   }
 
   window.openForm = function() {
-      // Réinitialiser le formulaire
       document.getElementById('categorySelection').style.display = 'block';
       document.getElementById('categoryPreview').style.display = 'none';
       document.getElementById('itemsForm').style.display = 'none';
@@ -1309,7 +1296,6 @@ form button:hover {
     
     const cat = categories[selectedCategory];
     
-    // Préparer le formulaire items
     document.getElementById('itemsFormTitle').textContent = `${cat.emoji} ${cat.nom}`;
     
     let itemsHTML = '';
@@ -1335,7 +1321,6 @@ form button:hover {
 
 document.getElementById('itemsFormContent').innerHTML = itemsHTML;
 
-// Créer les sélecteurs de forces
 createForcesSelector();
 createValeursSelector();
 
@@ -1421,11 +1406,9 @@ const index = selectedForces.indexOf(force);
 
 ```
 if (index > -1) {
-  // Désélectionner
   selectedForces.splice(index, 1);
   element.classList.remove('selected');
 } else {
-  // Sélectionner (max 3)
   if (selectedForces.length < 3) {
     selectedForces.push(force);
     element.classList.add('selected');
@@ -1442,11 +1425,9 @@ const index = selectedValeurs.indexOf(valeur);
 
 ```
 if (index > -1) {
-  // Désélectionner
   selectedValeurs.splice(index, 1);
   element.classList.remove('selected');
 } else {
-  // Sélectionner (max 3)
   if (selectedValeurs.length < 3) {
     selectedValeurs.push(valeur);
     element.classList.add('selected');
@@ -1559,7 +1540,6 @@ const f = new FormData(form);
   const typeImages = plantTypes[type];
   const randomImg = typeImages[Math.floor(Math.random() * typeImages.length)];
   
-  // Collecter les items
   const items = {};
   cat.items.forEach(item => {
       items[item.name] = f.get(item.name) || '';
@@ -1705,7 +1685,6 @@ return;
   const maxInteractions = maxGrowth === 200 ? 10 : 5;
   const currentGrowth = Math.min(100 + (((p.eau || 0) + (p.soleil || 0)) / maxInteractions) * (maxGrowth - 100), maxGrowth);
   
-  // Affichage des items
   let itemsHTML = '';
   if (p.items) {
       const cat = categories[p.categorie];
@@ -1724,7 +1703,6 @@ return;
       }
   }
   
-  // Affichage des forces
   let forcesHTML = '';
   if (p.forces && p.forces.length > 0) {
       forcesHTML = `
@@ -1735,7 +1713,6 @@ return;
       `;
   }
   
-  // Affichage des valeurs
   let valeursHTML = '';
   if (p.valeurs && p.valeurs.length > 0) {
       valeursHTML = `
