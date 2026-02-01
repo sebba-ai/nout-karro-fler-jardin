@@ -1181,6 +1181,16 @@ form button:hover {
   let selectedForces = [];
   let selectedValeurs = [];
 
+  // Références DOM
+  const overlay = document.getElementById('overlay');
+  const form = document.getElementById('form');
+  const garden = document.getElementById('garden');
+  const notebook = document.getElementById('notebook');
+  const notebookContent = document.getElementById('notebookContent');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const pageInfo = document.getElementById('pageInfo');
+
   function setRandomBackground() {
     const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
     document.body.style.backgroundImage = `url('${randomBg}')`;
@@ -1203,6 +1213,9 @@ form button:hover {
     const main = document.getElementById('main');
     const thermo = document.getElementById('thermo-container');
     const niveau = document.getElementById('thermo-niveau');
+    const quote = document.getElementById('quote');
+    const overlay = document.getElementById('overlay');
+    const form = document.getElementById('form');
 
     if (pwd.value === PASSWORD) {
         setRandomBackground();
