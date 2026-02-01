@@ -85,7 +85,6 @@ h1,h2,h3 {
     opacity: 1;
 }
 
-/* Le tube du thermomètre */
 #thermo-cadre {
     width: 18px;
     height: 160px;
@@ -120,7 +119,6 @@ h1,h2,h3 {
     overflow: visible;
 }
 
-/* Vague à la surface du liquide */
 .wave {
     position: absolute;
     top: -8px;
@@ -150,7 +148,6 @@ h1,h2,h3 {
     }
 }
 
-/* Bulles animées */
 .bubble {
     position: absolute;
     background: rgba(255,255,255,0.6);
@@ -202,7 +199,6 @@ h1,h2,h3 {
     }
 }
 
-/* Réservoir en bas (boule rouge) */
 #thermo-reservoir {
     width: 32px;
     height: 32px;
@@ -223,7 +219,6 @@ h1,h2,h3 {
         0 2px 8px rgba(231,76,60,0.3);
 }
 
-/* Reflet lumineux sur le réservoir */
 #thermo-reservoir::before {
     content: '';
     position: absolute;
@@ -249,7 +244,6 @@ h1,h2,h3 {
     letter-spacing: 0.5px;
 }
 
-/* ----------------- PAGE PRINCIPALE ----------------- */
 #main {
     display: none;
     flex-direction: column;
@@ -310,7 +304,6 @@ h1,h2,h3 {
     animation: fadeInTitle 3.5s ease-out 1.5s forwards;
 }
 
-/* ----------------- JARDIN RESPONSIVE ----------------- */
 #garden {
     position: relative;
     width: 100%;
@@ -327,7 +320,6 @@ h1,h2,h3 {
     animation: fadeInVaporeux 4s ease-out 1s forwards;
 }
 
-/* ----------------- BOUTON AJOUT CENTRÉ ----------------- */
 #addBtn {
     display: block;
     margin: 20px auto;
@@ -354,7 +346,6 @@ h1,h2,h3 {
     margin-bottom: 30px;
 }
 
-/* Message de remerciement */
 #thankYouMsg {
     position: fixed;
     top: 50%;
@@ -403,7 +394,6 @@ h1,h2,h3 {
     filter: brightness(1.1) drop-shadow(0 0 15px rgba(139,191,159,0.6));
 }
 
-/* Cercle de mise en valeur */
 .highlight-circle {
     position: absolute;
     border: 4px solid #ffd782;
@@ -429,7 +419,6 @@ h1,h2,h3 {
     50% { transform: scale(calc(var(--scale, 1) * 1.1)); }
 }
 
-/* ----------------- FORMULAIRE AJOUT ----------------- */
 #overlay {
     position: fixed;
     inset: 0;
@@ -476,7 +465,6 @@ form button:hover {
     background: #5d8c73;
 }
 
-/* Styles pour la prévisualisation */
 .preview-section {
     background: rgba(111,165,140,0.1);
     padding: 20px;
@@ -554,7 +542,6 @@ form button:hover {
     background: rgba(111,165,140,0.2);
 }
 
-/* ----------------- CARNET DE JARDINIER ----------------- */
 #notebook {
     position: fixed;
     right: -100%;
@@ -768,7 +755,6 @@ form button:hover {
     color: #6fa58c;
 }
 
-/* ----------------- ADAPTATION MOBILE ----------------- */
 @media (max-width: 600px) {
     #main {
         padding: 15px;
@@ -817,7 +803,7 @@ form button:hover {
         <h2>🌱 Le Facteur Humain</h2>
         <p>Rejoins le bivouac des pirates</p>
         <input id="pwd" type="password" placeholder="mot de passe">
-        <button onclick="checkPassword()">Entrer</button>
+        <button id="loginBtn">Entrer</button>
     </div>
 </div>
 
@@ -844,7 +830,7 @@ form button:hover {
 
 <div id="quote"></div>
 
-<button id="addBtn" onclick="openForm()">➕ Planter une expérience</button>
+<button id="addBtn">➕ Planter une expérience</button>
 
 <div id="garden">
     <div class="loading">🌱 Chargement de la zar l'or...</div>
@@ -862,7 +848,7 @@ form button:hover {
 
 ```
         <label style="font-weight: bold; margin-top: 15px; display: block;">Choisir une catégorie :</label>
-        <select id="categorySelect" onchange="showCategoryPreview()">
+        <select id="categorySelect">
             <option value="">-- Sélectionner --</option>
             <option value="aide">🤝 Aide & soutien</option>
             <option value="apprentissage">🧠 Apprentissage</option>
@@ -876,8 +862,8 @@ form button:hover {
 
     <div id="categoryPreview" class="form-step">
         <div id="previewContent"></div>
-        <button type="button" onclick="validateCategory()">✓ Cela me convient, continuer</button>
-        <button type="button" onclick="backToCategories()" style="background: #999; margin-top: 10px;">← Retour aux catégories</button>
+        <button type="button" id="validateBtn">✓ Cela me convient, continuer</button>
+        <button type="button" id="backBtn1" style="background: #999; margin-top: 10px;">← Retour aux catégories</button>
     </div>
 
     <div id="itemsForm" class="form-step">
@@ -895,7 +881,7 @@ form button:hover {
         <div id="valeursContainer" class="forces-grid"></div>
 
         <button type="submit">🌸 Planter</button>
-        <button type="button" onclick="backToCategories()" style="background: #999; margin-top: 10px;">← Changer de catégorie</button>
+        <button type="button" id="backBtn2" style="background: #999; margin-top: 10px;">← Changer de catégorie</button>
     </div>
 </form>
 ```
@@ -903,12 +889,12 @@ form button:hover {
 </div>
 
 <div id="notebook">
-    <button id="closeNotebook" onclick="closeNotebook()">✕</button>
+    <button id="closeNotebook">✕</button>
     <div id="notebookContent"></div>
     <div id="pageNav">
-        <button onclick="prevPage()" id="prevBtn">← Précédent</button>
+        <button id="prevBtn">← Précédent</button>
         <div id="pageInfo"></div>
-        <button onclick="nextPage()" id="nextBtn">Suivant →</button>
+        <button id="nextBtn">Suivant →</button>
     </div>
 </div>
 
@@ -929,9 +915,6 @@ form button:hover {
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
   const plantsRef = ref(database, 'plants');
-
-  window.db = database;
-  window.plantsRef = plantsRef;
 
   const PASSWORD = "jardin";
   const NIVEAU_ENERGIE = 75;
@@ -957,63 +940,23 @@ form button:hover {
   ];
 
   const plantTypes = {
-    arbre: [
-      "assets/plants/arbre1.png",
-      "assets/plants/arbre2.png",
-      "assets/plants/arbre3.png"
-    ],
-    arbuste: [
-      "assets/plants/arbuste1.png",
-      "assets/plants/arbuste2.png",
-      "assets/plants/arbuste3.png"
-    ],
-    fleur: [
-      "assets/plants/fleur1.png",
-      "assets/plants/fleur2.png",
-      "assets/plants/fleur3.png",
-      "assets/plants/fleur4.png"
-    ],
-    fruit: [
-      "assets/plants/fruit1.png",
-      "assets/plants/fruit2.png",
-      "assets/plants/fruit3.png"
-    ],
-    oiseau: [
-      "assets/plants/oiseau1.png",
-      "assets/plants/oiseau2.png",
-      "assets/plants/oiseau3.png"
-    ],
-    papillon: [
-      "assets/plants/papillon1.png",
-      "assets/plants/papillon2.png",
-      "assets/plants/papillon3.png"
-    ]
+    arbre: ["assets/plants/arbre1.png", "assets/plants/arbre2.png", "assets/plants/arbre3.png"],
+    arbuste: ["assets/plants/arbuste1.png", "assets/plants/arbuste2.png", "assets/plants/arbuste3.png"],
+    fleur: ["assets/plants/fleur1.png", "assets/plants/fleur2.png", "assets/plants/fleur3.png", "assets/plants/fleur4.png"],
+    fruit: ["assets/plants/fruit1.png", "assets/plants/fruit2.png", "assets/plants/fruit3.png"],
+    oiseau: ["assets/plants/oiseau1.png", "assets/plants/oiseau2.png", "assets/plants/oiseau3.png"],
+    papillon: ["assets/plants/papillon1.png", "assets/plants/papillon2.png", "assets/plants/papillon3.png"]
   };
 
-  const backgrounds = [
-    "assets/bg-paper.jpg",
-    "assets/bg1.jpg",
-    "assets/bg2.jpg",
-    "assets/bg3.jpg",
-    "assets/bg4.jpg"
-  ];
+  const backgrounds = ["assets/bg-paper.jpg", "assets/bg1.jpg", "assets/bg2.jpg", "assets/bg3.jpg", "assets/bg4.jpg"];
 
   const categories = {
     aide: {
-      emoji: "🤝",
-      nom: "Aide & soutien",
+      emoji: "🤝", nom: "Aide & soutien",
       question: "Qu'est-ce qui a facilité le travail ou le vécu de quelqu'un ?",
       exemple: "« Cette semaine, Paul a pris 20 minutes pour m'expliquer une procédure que je ne comprenais pas. J'ai pu avancer sans stress et éviter une erreur. »",
-      mecanismes: [
-        "Reconnaissance du prosocial",
-        "Renforcement du sentiment d'appartenance",
-        "Diminution du stress perçu"
-      ],
-      sources: [
-        "<strong>Adam Grant – Give and Take</strong><br>→ Voir l'impact concret de son aide augmente la motivation et l'engagement.",
-        "<strong>Baumeister & Leary</strong><br>→ Le besoin d'appartenance est un besoin psychologique fondamental.",
-        "<strong>Thompson & Bolino (2018)</strong><br>→ La reconnaissance de l'aide renforce la coopération future."
-      ],
+      mecanismes: ["Reconnaissance du prosocial", "Renforcement du sentiment d'appartenance", "Diminution du stress perçu"],
+      sources: ["<strong>Adam Grant – Give and Take</strong><br>→ Voir l'impact concret de son aide augmente la motivation et l'engagement.", "<strong>Baumeister & Leary</strong><br>→ Le besoin d'appartenance est un besoin psychologique fondamental.", "<strong>Thompson & Bolino (2018)</strong><br>→ La reconnaissance de l'aide renforce la coopération future."],
       impact: "plus d'entraide spontanée, moins d'isolement.",
       items: [
         { label: "Qu'a fait la personne ?", placeholder: "Fait concret, observable", type: "textarea", name: "item1", required: true },
@@ -1022,20 +965,11 @@ form button:hover {
       ]
     },
     apprentissage: {
-      emoji: "🧠",
-      nom: "Apprentissage",
+      emoji: "🧠", nom: "Apprentissage",
       question: "Qu'avons-nous compris de mieux ?",
       exemple: "« J'ai compris que lorsque je prépare mes réponses à l'avance, l'échange devient rigide. En laissant plus de place à l'écoute, la discussion est plus fluide. »",
-      mecanismes: [
-        "Transformation de l'erreur en ressource",
-        "Développement du sentiment de compétence",
-        "Mentalité de croissance"
-      ],
-      sources: [
-        "<strong>Carol Dweck – Growth Mindset</strong><br>→ Apprendre = moteur de motivation durable.",
-        "<strong>Kolb – Apprentissage expérientiel</strong><br>→ Le sens émerge de l'expérience réfléchie.",
-        "<strong>Edmondson</strong><br>→ Les équipes apprenantes performent mieux à long terme."
-      ],
+      mecanismes: ["Transformation de l'erreur en ressource", "Développement du sentiment de compétence", "Mentalité de croissance"],
+      sources: ["<strong>Carol Dweck – Growth Mindset</strong><br>→ Apprendre = moteur de motivation durable.", "<strong>Kolb – Apprentissage expérientiel</strong><br>→ Le sens émerge de l'expérience réfléchie.", "<strong>Edmondson</strong><br>→ Les équipes apprenantes performent mieux à long terme."],
       impact: "moins de peur de se tromper, plus d'adaptation.",
       items: [
         { label: "Situation / expérience", placeholder: "Décris le contexte...", type: "textarea", name: "item1", required: true },
@@ -1044,18 +978,11 @@ form button:hover {
       ]
     },
     amelioration: {
-      emoji: "🔧",
-      nom: "Amélioration concrète",
+      emoji: "🔧", nom: "Amélioration concrète",
       question: "Qu'est-ce qui fonctionne mieux qu'avant ?",
       exemple: "« Avant, on passait 15 minutes à chercher l'info. Maintenant, elle est centralisée, on gagne du temps chaque jour. »",
-      mecanismes: [
-        "Sentiment d'efficacité collective",
-        "Perception de progrès (même petit)"
-      ],
-      sources: [
-        "<strong>Teresa Amabile – Progress Principle</strong><br>→ Le sentiment de progrès est le plus puissant moteur de motivation au travail.",
-        "<strong>Lean / Kaizen</strong><br>→ Les petites améliorations répétées ont un impact cumulatif majeur."
-      ],
+      mecanismes: ["Sentiment d'efficacité collective", "Perception de progrès (même petit)"],
+      sources: ["<strong>Teresa Amabile – Progress Principle</strong><br>→ Le sentiment de progrès est le plus puissant moteur de motivation au travail.", "<strong>Lean / Kaizen</strong><br>→ Les petites améliorations répétées ont un impact cumulatif majeur."],
       impact: "redonne prise sur le réel, combat l'impuissance.",
       items: [
         { label: "Avant / après", placeholder: "Très court, l'essentiel...", type: "textarea", name: "item1", required: true },
@@ -1064,19 +991,11 @@ form button:hover {
       ]
     },
     effort: {
-      emoji: "🎯",
-      nom: "Effort invisible",
+      emoji: "🎯", nom: "Effort invisible",
       question: "Qu'est-ce qui a été tenu malgré la difficulté ?",
       exemple: "« Malgré une semaine émotionnellement lourde, j'ai maintenu la qualité de l'accueil des usagers. »",
-      mecanismes: [
-        "Reconnaissance de la charge invisible",
-        "Justice symbolique",
-        "Prévention de l'épuisement"
-      ],
-      sources: [
-        "<strong>Axel Honneth – Théorie de la reconnaissance</strong><br>→ Le manque de reconnaissance est une source majeure de souffrance au travail.",
-        "<strong>Siegrist – Effort / Récompense</strong><br>→ Le déséquilibre effort-reconnaissance génère stress et burnout."
-      ],
+      mecanismes: ["Reconnaissance de la charge invisible", "Justice symbolique", "Prévention de l'épuisement"],
+      sources: ["<strong>Axel Honneth – Théorie de la reconnaissance</strong><br>→ Le manque de reconnaissance est une source majeure de souffrance au travail.", "<strong>Siegrist – Effort / Récompense</strong><br>→ Le déséquilibre effort-reconnaissance génère stress et burnout."],
       impact: "réparation morale, baisse du ressentiment.",
       items: [
         { label: "Ce qui était difficile", placeholder: "La difficulté rencontrée...", type: "textarea", name: "item1", required: true },
@@ -1085,19 +1004,11 @@ form button:hover {
       ]
     },
     initiative: {
-      emoji: "🌱",
-      nom: "Initiative",
+      emoji: "🌱", nom: "Initiative",
       question: "Qu'est-ce qui a été tenté ?",
       exemple: "« J'ai proposé un nouvel outil, même si tout n'est pas encore en place, ça a ouvert la discussion. »",
-      mecanismes: [
-        "Autonomie",
-        "Droit à l'essai",
-        "Innovation psychologiquement sûre"
-      ],
-      sources: [
-        "<strong>Deci & Ryan – Autodétermination</strong><br>→ L'autonomie est un pilier de la motivation intrinsèque.",
-        "<strong>Edmondson</strong><br>→ Sans droit à l'initiative, pas d'innovation durable."
-      ],
+      mecanismes: ["Autonomie", "Droit à l'essai", "Innovation psychologiquement sûre"],
+      sources: ["<strong>Deci & Ryan – Autodétermination</strong><br>→ L'autonomie est un pilier de la motivation intrinsèque.", "<strong>Edmondson</strong><br>→ Sans droit à l'initiative, pas d'innovation durable."],
       impact: "plus d'idées, moins de conformisme passif.",
       items: [
         { label: "L'idée ou l'initiative", placeholder: "Ce que tu as proposé/tenté...", type: "textarea", name: "item1", required: true },
@@ -1106,19 +1017,11 @@ form button:hover {
       ]
     },
     collectif: {
-      emoji: "👥",
-      nom: "Réussite collective",
+      emoji: "👥", nom: "Réussite collective",
       question: "Quand avons-nous mieux fonctionné ensemble ?",
       exemple: "« Lors de ce projet, les informations ont bien circulé et les décisions ont été prises ensemble. »",
-      mecanismes: [
-        "Identité collective",
-        "Cohésion",
-        "Intelligence collective"
-      ],
-      sources: [
-        "<strong>Weick – Sensemaking</strong><br>→ Le sens est co-construit dans l'action collective.",
-        "<strong>Hackman</strong><br>→ Les équipes efficaces se définissent par leurs processus, pas seulement leurs résultats."
-      ],
+      mecanismes: ["Identité collective", "Cohésion", "Intelligence collective"],
+      sources: ["<strong>Weick – Sensemaking</strong><br>→ Le sens est co-construit dans l'action collective.", "<strong>Hackman</strong><br>→ Les équipes efficaces se définissent par leurs processus, pas seulement leurs résultats."],
       impact: "moins de silos, plus de coopération.",
       items: [
         { label: "Moment / contexte", placeholder: "Quand ? Dans quel cadre ?", type: "textarea", name: "item1", required: true },
@@ -1127,19 +1030,11 @@ form button:hover {
       ]
     },
     sens: {
-      emoji: "🧭",
-      nom: "Sens & valeurs",
+      emoji: "🧭", nom: "Sens & valeurs",
       question: "Quand avons-nous agi de façon alignée ?",
       exemple: "« Nous avons pris plus de temps pour respecter la situation de la personne, même si c'était plus lent. »",
-      mecanismes: [
-        "Alignement valeurs–actions",
-        "Motivation morale",
-        "Prévention du cynisme"
-      ],
-      sources: [
-        "<strong>Viktor Frankl</strong><br>→ Le sens protège face à l'adversité.",
-        "<strong>Rosso, Dekas & Wrzesniewski (2010)</strong><br>→ Le sens au travail augmente engagement et résilience."
-      ],
+      mecanismes: ["Alignement valeurs–actions", "Motivation morale", "Prévention du cynisme"],
+      sources: ["<strong>Viktor Frankl</strong><br>→ Le sens protège face à l'adversité.", "<strong>Rosso, Dekas & Wrzesniewski (2010)</strong><br>→ Le sens au travail augmente engagement et résilience."],
       impact: "résistance à l'usure et à la perte de sens.",
       items: [
         { label: "Situation", placeholder: "Le contexte...", type: "textarea", name: "item1", required: true },
@@ -1183,7 +1078,7 @@ form button:hover {
 
   function setRandomBackground() {
     const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-    document.body.style.backgroundImage = `url('${randomBg}')`;
+    document.body.style.backgroundImage = 'url("' + randomBg + '")';
   }
 
   function showThankYouMessage() {
@@ -1191,13 +1086,10 @@ form button:hover {
     const msgEl = document.getElementById('thankYouMsg');
     msgEl.textContent = msg;
     msgEl.classList.add('show');
-    
-    setTimeout(() => {
-      msgEl.classList.remove('show');
-    }, 4000);
+    setTimeout(function() { msgEl.classList.remove('show'); }, 4000);
   }
 
-  window.checkPassword = function() {
+  function checkPassword() {
     const pwd = document.getElementById('pwd');
     const login = document.getElementById('login');
     const main = document.getElementById('main');
@@ -1209,27 +1101,22 @@ form button:hover {
         setRandomBackground();
         loadPlants();
         quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
-
         main.style.display = "flex";
-        
-        setTimeout(() => {
-            thermo.classList.add('visible');
-        }, 500);
-        
-        setTimeout(() => {
-            niveau.style.height = NIVEAU_ENERGIE + "%";
-        }, 1500);
-
+        setTimeout(function() { thermo.classList.add('visible'); }, 500);
+        setTimeout(function() { niveau.style.height = NIVEAU_ENERGIE + "%"; }, 1500);
         login.classList.add('fade-out');
-        setTimeout(() => {
-            login.style.display = "none";
-        }, 3000);
+        setTimeout(function() { login.style.display = "none"; }, 3000);
     } else {
         alert("Mot de passe incorrect");
     }
   }
 
-  window.openForm = function() {
+  document.getElementById('loginBtn').addEventListener('click', checkPassword);
+  document.getElementById('pwd').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') checkPassword();
+  });
+
+  document.getElementById('addBtn').addEventListener('click', function() {
       document.getElementById('categorySelection').style.display = 'block';
       document.getElementById('categoryPreview').style.display = 'none';
       document.getElementById('itemsForm').style.display = 'none';
@@ -1237,100 +1124,57 @@ form button:hover {
       selectedCategory = null;
       selectedForces = [];
       selectedValeurs = [];
-      
       overlay.style.display = "flex";
-  }
+  });
 
-  window.showCategoryPreview = function() {
-    const select = document.getElementById('categorySelect');
-    const categoryKey = select.value;
-    
+  document.getElementById('categorySelect').addEventListener('change', function() {
+    const categoryKey = this.value;
     if (!categoryKey) {
         document.getElementById('categoryPreview').style.display = 'none';
         return;
     }
-    
     selectedCategory = categoryKey;
     const cat = categories[categoryKey];
-    
-    const previewHTML = `
-      <h3>${cat.emoji} ${cat.nom}</h3>
-      
-      <div class="preview-section">
-        <h4>🎯 Question centrale</h4>
-        <p>${cat.question}</p>
-      </div>
-      
-      <div class="preview-section">
-        <h4>🎬 Exemple</h4>
-        <p>${cat.exemple}</p>
-      </div>
-      
-      <div class="preview-section">
-        <h4>🧠 Mécanismes activés</h4>
-        <ul>
-          ${cat.mecanismes.map(m => `<li>${m}</li>`).join('')}
-        </ul>
-      </div>
-      
-      <div class="preview-section">
-        <h4>🔬 Sources & idées fortes</h4>
-        <ul>
-          ${cat.sources.map(s => `<li>${s}</li>`).join('')}
-        </ul>
-      </div>
-      
-      <div class="preview-section">
-        <h4>👉 Impact clé</h4>
-        <p>${cat.impact}</p>
-      </div>
-    `;
-    
+    const previewHTML = '<h3>' + cat.emoji + ' ' + cat.nom + '</h3>' +
+      '<div class="preview-section"><h4>🎯 Question centrale</h4><p>' + cat.question + '</p></div>' +
+      '<div class="preview-section"><h4>🎬 Exemple</h4><p>' + cat.exemple + '</p></div>' +
+      '<div class="preview-section"><h4>🧠 Mécanismes activés</h4><ul>' + cat.mecanismes.map(function(m) { return '<li>' + m + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="preview-section"><h4>🔬 Sources & idées fortes</h4><ul>' + cat.sources.map(function(s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="preview-section"><h4>👉 Impact clé</h4><p>' + cat.impact + '</p></div>';
     document.getElementById('previewContent').innerHTML = previewHTML;
     document.getElementById('categorySelection').style.display = 'none';
     document.getElementById('categoryPreview').style.display = 'block';
-  }
+  });
 
-  window.validateCategory = function() {
+  document.getElementById('validateBtn').addEventListener('click', function() {
     if (!selectedCategory) return;
-    
     const cat = categories[selectedCategory];
-    
-    document.getElementById('itemsFormTitle').textContent = `${cat.emoji} ${cat.nom}`;
-    
+    document.getElementById('itemsFormTitle').textContent = cat.emoji + ' ' + cat.nom;
     let itemsHTML = '';
-    cat.items.forEach((item, index) => {
+    cat.items.forEach(function(item) {
       if (item.type === 'textarea') {
-        itemsHTML += `
-          <label style="font-weight: bold; margin-top: 15px; display: block;">
-            ${item.label}${item.required ? ' *' : ''}
-          </label>
-          <textarea name="${item.name}" placeholder="${item.placeholder}" ${item.required ? 'required' : ''}></textarea>
+        itemsHTML += '<label style="font-weight: bold; margin-top: 15px; display: block;">' + item.label + (item.required ? ' *' : '') + '</label>' +
+          '<textarea name="' + item.name + '" placeholder="' + item.placeholder + '" ' + (item.required ? 'required' : '') + '></textarea>';
 
 ```
-    `;
   } else {
-    itemsHTML += `
-      <label style="font-weight: bold; margin-top: 15px; display: block;">
-        ${item.label}${item.required ? ' *' : ''}
-      </label>
-      <input name="${item.name}" placeholder="${item.placeholder}" ${item.required ? 'required' : ''}>
-    `;
+    itemsHTML += '<label style="font-weight: bold; margin-top: 15px; display: block;">' + item.label + (item.required ? ' *' : '') + '</label>' +
+      '<input name="' + item.name + '" placeholder="' + item.placeholder + '" ' + (item.required ? 'required' : '') + '>';
   }
 });
-
 document.getElementById('itemsFormContent').innerHTML = itemsHTML;
-
 createForcesSelector();
 createValeursSelector();
-
 document.getElementById('categoryPreview').style.display = 'none';
 document.getElementById('itemsForm').style.display = 'block';
 ```
 
-}
+});
 
-window.backToCategories = function() {
+document.getElementById(‘backBtn1’).addEventListener(‘click’, backToCategories);
+document.getElementById(‘backBtn2’).addEventListener(‘click’, backToCategories);
+
+function backToCategories() {
 document.getElementById(‘categorySelection’).style.display = ‘block’;
 document.getElementById(‘categoryPreview’).style.display = ‘none’;
 document.getElementById(‘itemsForm’).style.display = ‘none’;
@@ -1342,118 +1186,92 @@ selectedValeurs = [];
 function createForcesSelector() {
 const container = document.getElementById(‘forcesContainer’);
 container.innerHTML = ‘’;
-
-```
-forcesVIA.forEach(group => {
-  const groupDiv = document.createElement('div');
-  groupDiv.style.marginTop = '15px';
-  
-  const groupLabel = document.createElement('div');
-  groupLabel.textContent = group.group;
-  groupLabel.style.fontWeight = 'bold';
-  groupLabel.style.fontSize = '13px';
-  groupLabel.style.marginBottom = '8px';
-  groupLabel.style.color = '#6fa58c';
-  groupDiv.appendChild(groupLabel);
-  
-  group.items.forEach(force => {
-    const div = document.createElement('div');
-    div.className = 'force-option';
-    div.textContent = force;
-    div.onclick = () => toggleForce(force, div);
-    groupDiv.appendChild(div);
-  });
-  
-  container.appendChild(groupDiv);
+forcesVIA.forEach(function(group) {
+const groupDiv = document.createElement(‘div’);
+groupDiv.style.marginTop = ‘15px’;
+const groupLabel = document.createElement(‘div’);
+groupLabel.textContent = group.group;
+groupLabel.style.fontWeight = ‘bold’;
+groupLabel.style.fontSize = ‘13px’;
+groupLabel.style.marginBottom = ‘8px’;
+groupLabel.style.color = ‘#6fa58c’;
+groupDiv.appendChild(groupLabel);
+group.items.forEach(function(force) {
+const div = document.createElement(‘div’);
+div.className = ‘force-option’;
+div.textContent = force;
+div.onclick = function() { toggleForce(force, div); };
+groupDiv.appendChild(div);
 });
-```
-
+container.appendChild(groupDiv);
+});
 }
 
 function createValeursSelector() {
 const container = document.getElementById(‘valeursContainer’);
 container.innerHTML = ‘’;
-
-```
-valeursSchwartz.forEach(group => {
-  const groupDiv = document.createElement('div');
-  groupDiv.style.marginTop = '15px';
-  
-  const groupLabel = document.createElement('div');
-  groupLabel.textContent = group.group;
-  groupLabel.style.fontWeight = 'bold';
-  groupLabel.style.fontSize = '13px';
-  groupLabel.style.marginBottom = '8px';
-  groupLabel.style.color = '#6fa58c';
-  groupDiv.appendChild(groupLabel);
-  
-  group.items.forEach(valeur => {
-    const div = document.createElement('div');
-    div.className = 'value-option';
-    div.textContent = valeur;
-    div.onclick = () => toggleValeur(valeur, div);
-    groupDiv.appendChild(div);
-  });
-  
-  container.appendChild(groupDiv);
+valeursSchwartz.forEach(function(group) {
+const groupDiv = document.createElement(‘div’);
+groupDiv.style.marginTop = ‘15px’;
+const groupLabel = document.createElement(‘div’);
+groupLabel.textContent = group.group;
+groupLabel.style.fontWeight = ‘bold’;
+groupLabel.style.fontSize = ‘13px’;
+groupLabel.style.marginBottom = ‘8px’;
+groupLabel.style.color = ‘#6fa58c’;
+groupDiv.appendChild(groupLabel);
+group.items.forEach(function(valeur) {
+const div = document.createElement(‘div’);
+div.className = ‘value-option’;
+div.textContent = valeur;
+div.onclick = function() { toggleValeur(valeur, div); };
+groupDiv.appendChild(div);
 });
-```
-
+container.appendChild(groupDiv);
+});
 }
 
-window.toggleForce = function(force, element) {
+function toggleForce(force, element) {
 const index = selectedForces.indexOf(force);
-
-```
 if (index > -1) {
-  selectedForces.splice(index, 1);
-  element.classList.remove('selected');
+selectedForces.splice(index, 1);
+element.classList.remove(‘selected’);
 } else {
-  if (selectedForces.length < 3) {
-    selectedForces.push(force);
-    element.classList.add('selected');
-  } else {
-    alert('Vous pouvez sélectionner maximum 3 forces');
-  }
+if (selectedForces.length < 3) {
+selectedForces.push(force);
+element.classList.add(‘selected’);
+} else {
+alert(‘Vous pouvez sélectionner maximum 3 forces’);
 }
-```
-
+}
 }
 
-window.toggleValeur = function(valeur, element) {
+function toggleValeur(valeur, element) {
 const index = selectedValeurs.indexOf(valeur);
-
-```
 if (index > -1) {
-  selectedValeurs.splice(index, 1);
-  element.classList.remove('selected');
+selectedValeurs.splice(index, 1);
+element.classList.remove(‘selected’);
 } else {
-  if (selectedValeurs.length < 3) {
-    selectedValeurs.push(valeur);
-    element.classList.add('selected');
-  } else {
-    alert('Vous pouvez sélectionner maximum 3 valeurs');
-  }
+if (selectedValeurs.length < 3) {
+selectedValeurs.push(valeur);
+element.classList.add(‘selected’);
+} else {
+alert(‘Vous pouvez sélectionner maximum 3 valeurs’);
 }
-```
-
+}
 }
 
 function loadPlants() {
-onValue(plantsRef, (snapshot) => {
+onValue(plantsRef, function(snapshot) {
 data = [];
-snapshot.forEach((childSnapshot) => {
+snapshot.forEach(function(childSnapshot) {
 const plant = childSnapshot.val();
 plant.firebaseId = childSnapshot.key;
 data.push(plant);
 });
-
-```
-      data.sort((a, b) => b.id - a.id);
-      renderGarden();
-  });
-```
-
+data.sort(function(a, b) { return b.id - a.id; });
+renderGarden();
+});
 }
 
 function getRandomPlantType() {
@@ -1463,323 +1281,216 @@ return types[Math.floor(Math.random() * types.length)];
 
 function getPositionForType(type) {
 let x, y;
-
-```
 switch(type) {
-  case 'arbre':
-  case 'arbuste':
-    x = Math.random() * 85;
-    y = 60 + Math.random() * 35;
-    break;
-    
-  case 'fleur':
-  case 'fruit':
-    x = Math.random() * 85;
-    y = 35 + Math.random() * 60;
-    break;
-    
-  case 'oiseau':
-  case 'papillon':
-    x = Math.random() * 85;
-    y = Math.random() * 66;
-    break;
-    
-  default:
-    x = Math.random() * 85;
-    y = Math.random() * 75;
+case ‘arbre’:
+case ‘arbuste’:
+x = Math.random() * 85;
+y = 60 + Math.random() * 35;
+break;
+case ‘fleur’:
+case ‘fruit’:
+x = Math.random() * 85;
+y = 35 + Math.random() * 60;
+break;
+case ‘oiseau’:
+case ‘papillon’:
+x = Math.random() * 85;
+y = Math.random() * 66;
+break;
+default:
+x = Math.random() * 85;
+y = Math.random() * 75;
 }
-
-return { x, y };
-```
-
+return { x: x, y: y };
 }
 
 function findNonOverlappingPosition(type) {
 const maxAttempts = 50;
 const minDistance = 10;
-
-```
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      const pos = getPositionForType(type);
-      
-      let overlapping = false;
-      for (let p of data) {
-          const distance = Math.sqrt(
-              Math.pow(pos.x - p.x, 2) + Math.pow(pos.y - p.y, 2)
-          );
-          
-          if (distance < minDistance) {
-              overlapping = true;
-              break;
-          }
-      }
-      
-      if (!overlapping) {
-          return pos;
-      }
-  }
-  
-  return getPositionForType(type);
-```
-
+for (let attempt = 0; attempt < maxAttempts; attempt++) {
+const pos = getPositionForType(type);
+let overlapping = false;
+for (let p of data) {
+const distance = Math.sqrt(Math.pow(pos.x - p.x, 2) + Math.pow(pos.y - p.y, 2));
+if (distance < minDistance) {
+overlapping = true;
+break;
+}
+}
+if (!overlapping) return pos;
+}
+return getPositionForType(type);
 }
 
-form.addEventListener(“submit”, e => {
+form.addEventListener(“submit”, function(e) {
 e.preventDefault();
 const f = new FormData(form);
-
-```
-  if (!selectedCategory) {
-      alert("Veuillez sélectionner une catégorie");
-      return;
-  }
-  
-  const cat = categories[selectedCategory];
-  const type = getRandomPlantType();
-  const position = findNonOverlappingPosition(type);
-  const typeImages = plantTypes[type];
-  const randomImg = typeImages[Math.floor(Math.random() * typeImages.length)];
-  
-  const items = {};
-  cat.items.forEach(item => {
-      items[item.name] = f.get(item.name) || '';
-  });
-  
-  const newPlant = {
-      id: Date.now(),
-      categorie: selectedCategory,
-      categorieNom: cat.nom,
-      categorieEmoji: cat.emoji,
-      items: items,
-      forces: selectedForces,
-      valeurs: selectedValeurs,
-      type: type,
-      img: randomImg,
-      x: position.x,
-      y: position.y,
-      eau: 0,
-      soleil: 0,
-      date: new Date().toLocaleDateString("fr-FR")
-  };
-  
-  push(plantsRef, newPlant);
-  
-  overlay.style.display = "none";
-  form.reset();
-  backToCategories();
-  
-  showThankYouMessage();
-```
-
+if (!selectedCategory) {
+alert(“Veuillez sélectionner une catégorie”);
+return;
+}
+const cat = categories[selectedCategory];
+const type = getRandomPlantType();
+const position = findNonOverlappingPosition(type);
+const typeImages = plantTypes[type];
+const randomImg = typeImages[Math.floor(Math.random() * typeImages.length)];
+const items = {};
+cat.items.forEach(function(item) {
+items[item.name] = f.get(item.name) || ‘’;
+});
+const newPlant = {
+id: Date.now(),
+categorie: selectedCategory,
+categorieNom: cat.nom,
+categorieEmoji: cat.emoji,
+items: items,
+forces: selectedForces,
+valeurs: selectedValeurs,
+type: type,
+img: randomImg,
+x: position.x,
+y: position.y,
+eau: 0,
+soleil: 0,
+date: new Date().toLocaleDateString(“fr-FR”)
+};
+push(plantsRef, newPlant);
+overlay.style.display = “none”;
+form.reset();
+backToCategories();
+showThankYouMessage();
 });
 
 function renderGarden() {
 garden.innerHTML = “”;
-
-```
-  if (data.length === 0) {
-      garden.innerHTML = "<div class='loading'>🌱 Le jardin est vide... Plante la première expérience !</div>";
-      return;
-  }
-  
-  data.forEach((p, i) => {
-      const container = document.createElement("div");
-      container.className = "plant-container";
-      container.style.left = p.x + "%";
-      container.style.top = p.y + "%";
-      
-      const maxGrowth = (p.type === 'arbre' || p.type === 'arbuste') ? 10 : 5;
-      const growthFactor = Math.min((p.eau || 0) + (p.soleil || 0), maxGrowth);
-      const maxScale = (p.type === 'arbre' || p.type === 'arbuste') ? 2.0 : 1.5;
-      const scale = 1 + (growthFactor / maxGrowth) * (maxScale - 1);
-      
-      const baseSize = 90;
-      const size = baseSize * scale;
-      
-      const zIndex = i === 0 ? 20 : Math.round((100 - p.y) / 5);
-      container.style.zIndex = zIndex;
-      
-      const img = document.createElement("img");
-      img.src = p.img;
-      img.alt = `Plante ${p.type}`;
-      img.className = `plant ${p.type || 'fleur'}`;
-      img.style.width = size + "px";
-      img.style.setProperty('--scale', scale);
-      img.onclick = () => openNotebook(i);
-      
-      container.appendChild(img);
-      
-      if (i === 0 && scale < 1.3) {
-          const circle = document.createElement("div");
-          circle.className = "highlight-circle";
-          circle.style.width = (size + 20) + "px";
-          circle.style.height = (size + 20) + "px";
-          circle.style.left = "-10px";
-          circle.style.top = "-10px";
-          container.appendChild(circle);
-      }
-      
-      garden.appendChild(container);
-  });
-```
-
+if (data.length === 0) {
+garden.innerHTML = “<div class='loading'>🌱 Le jardin est vide… Plante la première expérience !</div>”;
+return;
+}
+data.forEach(function(p, i) {
+const container = document.createElement(“div”);
+container.className = “plant-container”;
+container.style.left = p.x + “%”;
+container.style.top = p.y + “%”;
+const maxGrowth = (p.type === ‘arbre’ || p.type === ‘arbuste’) ? 10 : 5;
+const growthFactor = Math.min((p.eau || 0) + (p.soleil || 0), maxGrowth);
+const maxScale = (p.type === ‘arbre’ || p.type === ‘arbuste’) ? 2.0 : 1.5;
+const scale = 1 + (growthFactor / maxGrowth) * (maxScale - 1);
+const baseSize = 90;
+const size = baseSize * scale;
+const zIndex = i === 0 ? 20 : Math.round((100 - p.y) / 5);
+container.style.zIndex = zIndex;
+const img = document.createElement(“img”);
+img.src = p.img;
+img.alt = “Plante “ + p.type;
+img.className = “plant “ + (p.type || ‘fleur’);
+img.style.width = size + “px”;
+img.style.setProperty(’–scale’, scale);
+img.onclick = function() { openNotebook(i); };
+container.appendChild(img);
+if (i === 0 && scale < 1.3) {
+const circle = document.createElement(“div”);
+circle.className = “highlight-circle”;
+circle.style.width = (size + 20) + “px”;
+circle.style.height = (size + 20) + “px”;
+circle.style.left = “-10px”;
+circle.style.top = “-10px”;
+container.appendChild(circle);
+}
+garden.appendChild(container);
+});
 }
 
-window.openNotebook = function(index) {
+function openNotebook(index) {
 currentPage = index;
 notebook.classList.remove(“open”);
-
-```
-setTimeout(() => {
-    renderNotebook();
-    notebook.classList.add("open");
+setTimeout(function() {
+renderNotebook();
+notebook.classList.add(“open”);
 }, 40);
-```
-
 }
 
-window.closeNotebook = function() {
+document.getElementById(‘closeNotebook’).addEventListener(‘click’, function() {
 notebook.classList.remove(“open”);
+});
+
+function waterPlant(plantId, type) {
+const sessionKey = plantId + ‘_’ + type;
+if (sessionWatered[sessionKey]) return;
+const plant = data.find(function(p) { return p.firebaseId === plantId; });
+if (!plant) return;
+if (type === ‘water’) {
+plant.eau = (plant.eau || 0) + 1;
+} else {
+plant.soleil = (plant.soleil || 0) + 1;
+}
+sessionWatered[sessionKey] = true;
+const plantRef = ref(database, ‘plants/’ + plantId);
+update(plantRef, { eau: plant.eau, soleil: plant.soleil });
+renderNotebook();
+renderGarden();
 }
 
-window.waterPlant = function(plantId, type) {
-const sessionKey = `${plantId}_${type}`;
-
-```
-  if (sessionWatered[sessionKey]) {
-      return;
-  }
-  
-  const plant = data.find(p => p.firebaseId === plantId);
-  if (!plant) return;
-  
-  if (type === 'water') {
-      plant.eau = (plant.eau || 0) + 1;
-  } else {
-      plant.soleil = (plant.soleil || 0) + 1;
-  }
-  
-  sessionWatered[sessionKey] = true;
-  
-  const plantRef = ref(database, 'plants/' + plantId);
-  update(plantRef, { eau: plant.eau, soleil: plant.soleil });
-  
-  renderNotebook();
-  renderGarden();
-```
-
-}
+window.waterPlant = waterPlant;
 
 function renderNotebook() {
 if (data.length === 0) {
 notebookContent.innerHTML = “<p style='text-align:center; padding:40px;'>Aucune expérience plantée pour l’instant…</p>”;
 return;
 }
-
-```
-  const p = data[currentPage];
-  const waterKey = `${p.firebaseId}_water`;
-  const sunKey = `${p.firebaseId}_sun`;
-  
-  const maxGrowth = (p.type === 'arbre' || p.type === 'arbuste') ? 200 : 150;
-  const maxInteractions = maxGrowth === 200 ? 10 : 5;
-  const currentGrowth = Math.min(100 + (((p.eau || 0) + (p.soleil || 0)) / maxInteractions) * (maxGrowth - 100), maxGrowth);
-  
-  let itemsHTML = '';
-  if (p.items) {
-      const cat = categories[p.categorie];
-      if (cat) {
-          cat.items.forEach((item, index) => {
-              const value = p.items[item.name];
-              if (value) {
-                  itemsHTML += `
-                      <div class="notebook-section">
-                          <div class="section-label">${item.label}</div>
-                          <div class="section-content">${value}</div>
-                      </div>
-                  `;
-              }
-          });
-      }
-  }
-  
-  let forcesHTML = '';
-  if (p.forces && p.forces.length > 0) {
-      forcesHTML = `
-          <div class="notebook-section">
-              <div class="section-label">💪 Forces mobilisées</div>
-              <div class="section-content">${p.forces.join(', ')}</div>
-          </div>
-      `;
-  }
-  
-  let valeursHTML = '';
-  if (p.valeurs && p.valeurs.length > 0) {
-      valeursHTML = `
-          <div class="notebook-section">
-              <div class="section-label">⭐ Valeurs en jeu</div>
-              <div class="section-content">${p.valeurs.join(', ')}</div>
-          </div>
-      `;
-  }
-  
-  notebookContent.innerHTML = `
-      <div class="notebook-page">
-          <div class="page-header">
-              <div class="page-date">📅 ${p.date} • ${p.categorieEmoji || ''} ${p.categorieNom || 'Expérience'}</div>
-          </div>
-          
-          ${itemsHTML}
-          ${forcesHTML}
-          ${valeursHTML}
-          
-          <div class="interaction-stats">
-              <div class="stat-item">💧 Eau : ${p.eau || 0}</div>
-              <div class="stat-item">☀️ Soleil : ${p.soleil || 0}</div>
-              <div class="stat-item">🌱 Croissance : ${Math.round(currentGrowth)}%</div>
-          </div>
-          
-          <div class="water-actions">
-              <button class="water-btn ${sessionWatered[waterKey] ? 'used' : ''}" 
-                      onclick="waterPlant('${p.firebaseId}', 'water')"
-                      ${sessionWatered[waterKey] ? 'disabled' : ''}
-                      aria-label="Arroser la plante">
-                  💧
-              </button>
-              <button class="water-btn ${sessionWatered[sunKey] ? 'used' : ''}" 
-                      onclick="waterPlant('${p.firebaseId}', 'sun')"
-                      ${sessionWatered[sunKey] ? 'disabled' : ''}
-                      aria-label="Donner du soleil à la plante">
-                  ☀️
-              </button>
-          </div>
-      </div>
-  `;
-  
-  updatePageNav();
-```
-
+const p = data[currentPage];
+const waterKey = p.firebaseId + ‘_water’;
+const sunKey = p.firebaseId + ‘_sun’;
+const maxGrowth = (p.type === ‘arbre’ || p.type === ‘arbuste’) ? 200 : 150;
+const maxInteractions = maxGrowth === 200 ? 10 : 5;
+const currentGrowth = Math.min(100 + (((p.eau || 0) + (p.soleil || 0)) / maxInteractions) * (maxGrowth - 100), maxGrowth);
+let itemsHTML = ‘’;
+if (p.items) {
+const cat = categories[p.categorie];
+if (cat) {
+cat.items.forEach(function(item) {
+const value = p.items[item.name];
+if (value) {
+itemsHTML += ‘<div class="notebook-section"><div class="section-label">’ + item.label + ‘</div><div class="section-content">’ + value + ‘</div></div>’;
+}
+});
+}
+}
+let forcesHTML = ‘’;
+if (p.forces && p.forces.length > 0) {
+forcesHTML = ‘<div class="notebook-section"><div class="section-label">💪 Forces mobilisées</div><div class="section-content">’ + p.forces.join(’, ‘) + ‘</div></div>’;
+}
+let valeursHTML = ‘’;
+if (p.valeurs && p.valeurs.length > 0) {
+valeursHTML = ‘<div class="notebook-section"><div class="section-label">⭐ Valeurs en jeu</div><div class="section-content">’ + p.valeurs.join(’, ’) + ‘</div></div>’;
+}
+notebookContent.innerHTML = ’<div class="notebook-page"><div class="page-header"><div class="page-date">📅 ’ + p.date + ’ • ’ + (p.categorieEmoji || ‘’) + ’ ’ + (p.categorieNom || ‘Expérience’) + ‘</div></div>’ +
+itemsHTML + forcesHTML + valeursHTML +
+’<div class="interaction-stats"><div class="stat-item">💧 Eau : ’ + (p.eau || 0) + ’</div><div class="stat-item">☀️ Soleil : ’ + (p.soleil || 0) + ’</div><div class="stat-item">🌱 Croissance : ’ + Math.round(currentGrowth) + ‘%</div></div>’ +
+’<div class="water-actions"><button class=“water-btn ’ + (sessionWatered[waterKey] ? ‘used’ : ‘’) + ‘” onclick=“waterPlant('’ + p.firebaseId + ‘', 'water')” ’ + (sessionWatered[waterKey] ? ‘disabled’ : ‘’) + ’ aria-label=“Arroser la plante”>💧</button>’ +
+’<button class=“water-btn ’ + (sessionWatered[sunKey] ? ‘used’ : ‘’) + ‘” onclick=“waterPlant('’ + p.firebaseId + ‘', 'sun')” ’ + (sessionWatered[sunKey] ? ‘disabled’ : ‘’) + ’ aria-label=“Donner du soleil à la plante”>☀️</button></div></div>’;
+updatePageNav();
 }
 
 function updatePageNav() {
 prevBtn.disabled = currentPage === 0;
 nextBtn.disabled = currentPage === data.length - 1;
-pageInfo.textContent = `${currentPage + 1} / ${data.length}`;
+pageInfo.textContent = (currentPage + 1) + ’ / ’ + data.length;
 }
 
-window.prevPage = function() {
+prevBtn.addEventListener(‘click’, function() {
 if (currentPage > 0) {
 currentPage–;
 renderNotebook();
 }
-}
+});
 
-window.nextPage = function() {
+nextBtn.addEventListener(‘click’, function() {
 if (currentPage < data.length - 1) {
 currentPage++;
 renderNotebook();
 }
-}
+});
 </script>
 
 </body>
