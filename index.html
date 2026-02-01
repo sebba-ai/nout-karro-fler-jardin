@@ -73,16 +73,17 @@ h1,h2,h3 {
     left: 20px;
     top: 20px;
     z-index: 100;
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
     opacity: 0;
-    transition: opacity 1.5s ease-in-out;
+    visibility: hidden;
+    transition: opacity 1.5s ease-in;
 }
 
 #thermo-container.visible {
-    display: flex;
     opacity: 1;
+    visibility: visible;
 }
 
 #thermo-cadre {
@@ -104,6 +105,49 @@ h1,h2,h3 {
     border-bottom: none;
 }
 
+#thermo-cadre::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 1px;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom,
+        rgba(255,255,255,0.7) 0%,
+        rgba(255,255,255,0.3) 50%,
+        rgba(255,255,255,0.1) 100%
+    );
+    border-radius: 2px;
+    z-index: 2;
+}
+
+#thermo-reservoir {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e6230e, #f39c12);
+    border: 2px solid rgba(47,62,52,0.3);
+    margin-top: -6px;
+    box-shadow: 
+        inset -2px 0 4px rgba(0,0,0,0.1),
+        inset 2px 0 4px rgba(255,255,255,0.3);
+     position: relative;   
+}
+
+#thermo-reservoir::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, 
+        rgba(255,255,255,0.6) 0%, 
+        transparent 70%
+    );
+    border-radius: 50%;
+}
+
 #thermo-niveau {
     position: absolute;
     bottom: 0;
@@ -111,7 +155,7 @@ h1,h2,h3 {
     width: 100%;
     height: 0%;
     background: linear-gradient(to top,
-        #e74c3c 0%,
+        #e6230e 0%,
         #f39c12 50%,
         #2ecc71 100%
     );
@@ -199,39 +243,6 @@ h1,h2,h3 {
     }
 }
 
-#thermo-reservoir {
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, 
-        #e74c3c 0%, 
-        #c0392b 100%
-    );
-    border: 2px solid rgba(47,62,52,0.3);
-    border-radius: 50%;
-    margin-top: -3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    box-shadow: 
-        inset -3px -3px 6px rgba(0,0,0,0.2),
-        inset 3px 3px 6px rgba(255,100,100,0.3),
-        0 2px 8px rgba(231,76,60,0.3);
-}
-
-#thermo-reservoir::before {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    width: 10px;
-    height: 10px;
-    background: radial-gradient(circle, 
-        rgba(255,255,255,0.6) 0%, 
-        transparent 70%
-    );
-    border-radius: 50%;
-}
 
 #thermo-label {
     font-family: "Georgia", serif;
@@ -438,6 +449,7 @@ form {
     box-shadow: 0 30px 60px rgba(0,0,0,0.2);
     max-height: 90vh;
     overflow-y: auto;
+    position: relative;
 }
 
 form select, form textarea, form input {
@@ -463,6 +475,18 @@ form button {
 
 form button:hover {
     background: #5d8c73;
+}
+
+#closeOverlay {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    background: none;
+    font-size: 28px;
+    color: #333;
 }
 
 .preview-section {
@@ -531,11 +555,8 @@ form button:hover {
     outline: none;
     appearance: none;
     -webkit-appearance: none;
-    height: 44px;
+    height: 160px;
     transition: border-color 0.3s;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236fa58c' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
     padding-right: 32px;
 }
 
@@ -840,7 +861,7 @@ form button:hover {
 <div id="login">
     <div id="loginBox">
         <h2>🌱 Le Facteur Humain</h2>
-        <p>Rejoins le bivouac des pirates </p>
+        <p>Rejoins le bivouac des pirates 🏴‍☠️</p>
         <input id="pwd" type="password" placeholder="mot de passe">
         <button id="loginBtn">Entrer</button>
     </div>
@@ -857,14 +878,14 @@ form button:hover {
             </div>
         </div>
         <div id="thermo-reservoir"></div>
-        <div id="thermo-label">Énergie</div>
+        <div id="thermo-label">📞 881</div>
     </div>
 
     <h2 id="random-title"></h2>
 
     <div id="quote"></div>
 
-    <button id="addBtn">➕ Verser part au butin</button>
+    <button id="addBtn">➕ Notre Coffre 💰</button>
 
     <div id="garden">
         <div class="loading">🌱 Chargement de la zar l'or...</div>
@@ -876,6 +897,7 @@ form button:hover {
 
 <div id="overlay">
     <form id="form">
+        <button type="button" id="closeOverlay" style="position:absolute; top:12px; right:12px; background:none; border:none; font-size:28px; color:#333; cursor:pointer; z-index:10;">×</button>
         <div id="categorySelection" class="form-step">
             <h3>🌿 Planter une expérience</h3>
 
@@ -907,11 +929,11 @@ form button:hover {
             </div>
 
             <label style="font-weight: bold; margin-top: 20px; display: block;">Forces mobilisées (max 3) :</label>
-            <select id="forcesSelect" multiple class="multi-select"></select>
+            <select id="forcesSelect" multiple class="multi-select"size="5"></select>
             <div id="forcesChips" class="chips-container"></div>
 
             <label style="font-weight: bold; margin-top: 20px; display: block;">Valeurs en jeu (max 3) :</label>
-            <select id="valeursSelect" multiple class="multi-select"></select>
+            <select id="valeursSelect" multiple class="multi-select"size="5"></select>
             <div id="valeursChips" class="chips-container"></div>
 
             <button type="submit">🌸 Planter</button>
@@ -1182,7 +1204,7 @@ form button:hover {
         quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
         setRandomTitle();
         main.style.display = "flex";
-        setTimeout(function() { thermo.classList.add('visible'); }, 500);
+        setTimeout(function() { thermo.classList.add('visible'); }, 1000);
         setTimeout(function() { niveau.style.height = NIVEAU_ENERGIE + "%"; }, 1500);
         login.classList.add('fade-out');
         setTimeout(function() { login.style.display = "none"; }, 3000);
@@ -1497,6 +1519,9 @@ form button:hover {
     }, 40);
   }
 
+  document.getElementById('closeOverlay').addEventListener('click', function() {
+    overlay.style.display = "none";
+  });
   document.getElementById('closeNotebook').addEventListener('click', function() {
     notebook.classList.remove("open");
   });
