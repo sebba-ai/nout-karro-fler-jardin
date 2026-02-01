@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 
 <html lang="fr">
 <head>
@@ -839,7 +840,7 @@ form button:hover {
 <div id="login">
     <div id="loginBox">
         <h2>🌱 Le Facteur Humain</h2>
-        <p>Rejoins le bivouac des pirates</p>
+        <p>Rejoins le bivouac des pirates </p>
         <input id="pwd" type="password" placeholder="mot de passe">
         <button id="loginBtn">Entrer</button>
     </div>
@@ -859,15 +860,11 @@ form button:hover {
         <div id="thermo-label">Énergie</div>
     </div>
 
-    <h2>
-        Si nou sèm brinzell nou sa pa kéyir babafig / <br>
-        si nou plant' banann' nou sa pa manz' kaviar ! <br> 
-        Alé tir in feuye / récolt leu tempo !
-    </h2>
+    <h2 id="random-title"></h2>
 
     <div id="quote"></div>
 
-    <button id="addBtn">➕ Planter une expérience</button>
+    <button id="addBtn">➕ Ajouter sa part au butin</button>
 
     <div id="garden">
         <div class="loading">🌱 Chargement de la zar l'or...</div>
@@ -954,11 +951,45 @@ form button:hover {
   const PASSWORD = "jardin";
   const NIVEAU_ENERGIE = 75;
 
+  const titles = [
+  "Qui commande sans ouïr l’équipage, mène droit au naufrage.",
+  "Capitaine sourd, navire perdu",
+  "Le pouvoir qui n’écoute point alourdit la coque.",
+  "Nul ne rame vaillant s’il y est mené à coups.",
+  "Mieux vaut un homme qui choisit la rame que dix forcés.",
+  "La peur fait avancer d’un bord, la volonté mène jusqu’au port.",
+  "Celui qui sait la mer mène la barre, non celui qui crie le plus fort.",
+  "Le bon chef montre la voie, le mauvais montre le fouet.",
+  "La voix forte ne vaut point la main sûre.",
+  "Ce qui n’est point dit pourrit entre les planches.",
+  "Les non-dits font mutinerie.",
+  "Règles claires tiennent l’équipage droit.",
+  "Mieux vaut pavillon connu que sabre tiré.",
+  "Le renom gagne des prises que l’acier perd.",
+  "Un nom craint évite bien des combats.",
+  "Nul ne survit seul en mer longue.",
+  "Frères de bord vivent, loups solitaires coulent.",
+  "Qui abandonne les siens sera bientôt abandonné.",
+  "Si nou sèm brinzell nou sa pa kéyir babafig /si nou plant' banann' nou sa pa manz' kaviar ! Alé tir in feuye / récolt leu tempo !",
+];
+
   const quotes = [
       "Ce à quoi tu prêtes attention grandit.",
       "Chaque geste nourrit une racine invisible.",
       "Le vivant se cultive par la présence.",
-      "Un jardin est une mémoire qui respire."
+      "Un jardin est une mémoire qui respire.",
+      "Voir, c’est laisser le monde entrer.",
+      "Dans les détails ordinaires dorment les grandes découvertes.",
+      "Ce que l’on regarde avec soin s’enracine en nous.",
+      "La gratitude est une main tendue vers la joie.",
+      "Quand le temps s’efface, l’âme travaille.",
+      "Là où l’attention se dissout, naît la justesse.",
+      "Nos forces sont des braises : il suffit d’en souffler une.",
+      "Ce que tu fais avec aisance éclaire ce que tu deviens.",
+      "Un sourire sincère agrandit l’horizon.",
+      "Les liens vrais portent plus loin que les victoires seules.",
+      "Le sens n’est pas trouvé, il est choisi.",
+      "Quand le cœur a un nord, les pas savent où aller.",
   ];
 
   const thankYouMessages = [
@@ -1116,6 +1147,14 @@ form button:hover {
     document.body.style.backgroundImage = 'url("' + randomBg + '")';
   }
 
+  function setRandomTitle() {
+    const titleEl = document.getElementById('random-title');
+    if (!titleEl) return;
+
+    const randomIndex = Math.floor(Math.random() * titles.length);
+    titleEl.innerText = titles[randomIndex];
+}
+
   function showThankYouMessage() {
     const msg = thankYouMessages[Math.floor(Math.random() * thankYouMessages.length)];
     const msgEl = document.getElementById('thankYouMsg');
@@ -1141,6 +1180,7 @@ form button:hover {
         setRandomBackground();
         loadPlants();
         quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
+        setRandomTitle();
         main.style.display = "flex";
         setTimeout(function() { thermo.classList.add('visible'); }, 500);
         setTimeout(function() { niveau.style.height = NIVEAU_ENERGIE + "%"; }, 1500);
