@@ -385,24 +385,30 @@ h1,h2,h3 {
 .plant {
     animation: breathe 10s ease-in-out infinite;
     cursor: pointer;
-    transition: transform 0.5s ease, filter 0.3s ease;
+    transition: filter 0.3s ease;
     position: relative;
-}
-
-.plant.arbre, .plant.arbuste {
     transform-origin: bottom center;
-}
-
-.plant.fleur, .plant.fruit {
-    transform-origin: center center;
-}
-
-.plant.oiseau, .plant.papillon {
-    transform-origin: center center;
 }
 
 .plant:hover {
     filter: brightness(1.1) drop-shadow(0 0 15px rgba(139,191,159,0.6));
+}
+
+.plant.falling {
+    animation: fall 2s cubic-bezier(0.2, 0, 0.3, 1) forwards, breathe 10s ease-in-out infinite 2s;
+}
+
+@keyframes fall {
+    0% {
+        top: -200px;
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        top: var(--final-top);
+    }
 }
 
 .highlight-circle {
@@ -1027,15 +1033,11 @@ form button:hover {
       "🍃 Chaque plante ajoutée tisse un peu plus notre écosystème vivant !"
   ];
 
-  const plantTypes = {
-    arbre: ["assets/plants/arbre1.png", "assets/plants/arbre2.png", "assets/plants/arbre3.png"],
-    arbuste: ["assets/plants/arbuste1.png", "assets/plants/arbuste2.png", "assets/plants/arbuste3.png"],
-    fleur: ["assets/plants/fleur1.png", "assets/plants/fleur2.png", "assets/plants/fleur3.png", "assets/plants/fleur4.png"],
-    fruit: ["assets/plants/fruit1.png", "assets/plants/fruit2.png", "assets/plants/fruit3.png"],
-    oiseau: ["assets/plants/oiseau1.png", "assets/plants/oiseau2.png", "assets/plants/oiseau3.png"],
-    papillon: ["assets/plants/papillon1.png", "assets/plants/papillon2.png", "assets/plants/papillon3.png"]
-  };
-
+  const objets = [];
+for (var i = 1; i <= 41; i++) {
+    objets.push("assets/objets/objet" + i + ".png");
+}
+ 
   const backgrounds = ["assets/bg-paper.jpg", "assets/bg1.jpg", "assets/bg2.jpg", "assets/bg3.jpg", "assets/bg4.jpg"];
 
   const categories = {
@@ -1383,70 +1385,41 @@ form button:hover {
     });
   }
 
-  function getRandomPlantType() {
-    const types = ['arbre', 'arbuste', 'fleur', 'fruit', 'oiseau', 'papillon'];
-    return types[Math.floor(Math.random() * types.length)];
-  }
+  function getRandomObjet() {
+    return objets[Math.floor(Math.random() * objets.length)];
+}
 
-  function getPositionForType(type) {
-    let x, y;
-    switch(type) {
-      case 'arbre':
-      case 'arbuste':
-        x = Math.random() * 85;
-        y = 60 + Math.random() * 35;
-        break;
-      case 'fleur':
-      case 'fruit':
-        x = Math.random() * 85;
-        y = 35 + Math.random() * 60;
-        break;
-      case 'oiseau':
-      case 'papillon':
-        x = Math.random() * 85;
-        y = Math.random() * 66;
-        break;
-      default:
-        x = Math.random() * 85;
-        y = Math.random() * 75;
-    }
+function getRandomSize() {
+    return 100 + Math.floor(Math.random() * 301);
+}
+
+function getEmpilagePosition() {
+    var count = data.length;
+    var row = Math.floor(count / 5);
+    var col = count % 5;
+    var baseX = 15 + col * 15;
+    var baseY = 75 - row * 12;
+    var x = baseX + (Math.random() * 4 - 2);
+    var y = baseY + (Math.random() * 3 - 1);
     return { x: x, y: y };
-  }
+}
 
-  function findNonOverlappingPosition(type) {
-    const maxAttempts = 50;
-    const minDistance = 10;
-    for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      const pos = getPositionForType(type);
-      let overlapping = false;
-      for (let p of data) {
-        const distance = Math.sqrt(Math.pow(pos.x - p.x, 2) + Math.pow(pos.y - p.y, 2));
-        if (distance < minDistance) {
-          overlapping = true;
-          break;
-        }
-      }
-      if (!overlapping) return pos;
-    }
-    return getPositionForType(type);
-  }
-
-  form.addEventListener("submit", function(e) {
+form.addEventListener("submit", function(e) {
     e.preventDefault();
-    const f = new FormData(form);
+    var f = new FormData(form);
     if (!selectedCategory) {
-      alert("Veuillez sélectionner une catégorie");
-      return;
+        alert("Veuillez sélectionner une catégorie");
+        return;
     }
-    const cat = categories[selectedCategory];
-    const type = getRandomPlantType();
-    const position = findNonOverlappingPosition(type);
-    const typeImages = plantTypes[type];
-    const randomImg = typeImages[Math.floor(Math.random() * typeImages.length)];
-    const items = {};
+    var cat = categories[selectedCategory];
+    var randomImg = getRandomObjet();
+    var size = getRandomSize();
+    var position = getEmpilagePosition();
+    var items = {};
     cat.items.forEach(function(item) {
-      items[item.name] = f.get(item.name) || '';
+        items[item.name] = f.get(item.name) || '';
     });
+    
     const newPlant = {
       id: Date.now(),
       categorie: selectedCategory,
