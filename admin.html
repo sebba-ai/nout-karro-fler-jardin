@@ -523,25 +523,20 @@ body {
               });
       }
   }
-
   window.deleteAllPlants = function() {
       const confirmText = "SUPPRIMER TOUT";
       const userInput = prompt(
-          `⚠️ ATTENTION : Cette action supprimera TOUTES les plantes du jardin.\n\n` +
-          `Cette action est IRRÉVERSIBLE.\n\n` +
-          `Pour confirmer, tape : ${confirmText}`
+          `⚠️ ATTENTION : Cette action supprimera TOUTES les plantes.\n` +
+          `Tape : ${confirmText} pour confirmer.`
       );
       
-      if (userInput === confirmText) {
+      // Vérification robuste (ignore espaces et majuscules)
+      if (userInput && userInput.trim().toUpperCase() === confirmText) {
           remove(plantsRef)
-              .then(() => {
-                  alert("Toutes les plantes ont été supprimées ✓");
-              })
-              .catch((error) => {
-                  alert("Erreur : " + error.message);
-              });
+              .then(() => alert("Toutes les plantes ont été supprimées ✓"))
+              .catch((error) => alert("Erreur : " + error.message));
       } else if (userInput !== null) {
-          alert("Annulé - texte incorrect");
+          alert("Action annulée : le texte de confirmation ne correspond pas.");
       }
   }
 </script>
