@@ -1089,6 +1089,9 @@ form button:hover {
     setTimeout(function() { msgEl.classList.remove('show'); }, 4000);
   }
 
+  // ===== FIX MOT DE PASSE =====
+  // .trim() élimine les espaces/caractères invisibles avant et après la saisie
+  // .toLowerCase() permet d'accepter peu importe la casse (Jardin, JARDIN, jardin…)
   function checkPassword() {
     const pwd = document.getElementById('pwd');
     const login = document.getElementById('login');
@@ -1096,8 +1099,10 @@ form button:hover {
     const thermo = document.getElementById('thermo-container');
     const niveau = document.getElementById('thermo-niveau');
     const quote = document.getElementById('quote');
-console.log("Mot saisi :", pwd.value); // <-- Ajoute cette ligne
-    if (pwd.value === PASSWORD) {
+
+    const saisi = pwd.value.trim().toLowerCase();
+
+    if (saisi === PASSWORD) {
         setRandomBackground();
         loadPlants();
         quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
@@ -1110,6 +1115,7 @@ console.log("Mot saisi :", pwd.value); // <-- Ajoute cette ligne
         alert("Mot de passe incorrect");
     }
   }
+  // ===== FIN FIX =====
 
   document.getElementById('loginBtn').addEventListener('click', checkPassword);
   document.getElementById('pwd').addEventListener('keypress', function(e) {
