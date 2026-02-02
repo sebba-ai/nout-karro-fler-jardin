@@ -253,6 +253,13 @@ h1,h2,h3 {
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    transition: transform 0.3s ease, font-size 0.3s ease;
+    cursor: pointer;
+}
+
+#thermo-label:hover {
+    transform: scale(1.8);
+    font-size: 14px;
 }
 
 #main {
@@ -1240,6 +1247,8 @@ for (var i = 1; i <= 41; i++) {
   });
 
   document.getElementById('addBtn').addEventListener('click', function() {
+      document.getElementById('thermo-container').style.opacity = '0';
+      document.getElementById('thermo-container').style.visibility = 'hidden';
       document.getElementById('categorySelection').style.display = 'block';
       document.getElementById('categoryPreview').style.display = 'none';
       document.getElementById('itemsForm').style.display = 'none';
@@ -1410,13 +1419,12 @@ for (var i = 1; i <= 41; i++) {
 function getRandomSize() {
     return 100 + Math.floor(Math.random() * 301);
 }
-
 function getEmpilagePosition() {
-    var count = data.length;
+    var count = data.filter(function(p) { return !p.type; }).length;
     var row = Math.floor(count / 5);
     var col = count % 5;
     var baseX = 15 + col * 15;
-    var baseY = 75 - row * 12;
+    var baseY = 85 - row * 8;
     var x = baseX + (Math.random() * 4 - 2);
     var y = baseY + (Math.random() * 3 - 1);
     return { x: x, y: y };
@@ -1509,6 +1517,8 @@ function renderGarden() {
 
   document.getElementById('closeOverlay').addEventListener('click', function() {
     overlay.style.display = "none";
+    document.getElementById('thermo-container').style.opacity = '1';
+    document.getElementById('thermo-container').style.visibility = 'visible';
   });
   document.getElementById('closeNotebook').addEventListener('click', function() {
     notebook.classList.remove("open");
