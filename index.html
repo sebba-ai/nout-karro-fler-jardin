@@ -1632,14 +1632,14 @@ function renderGarden() {
         img.onclick = function() { openNotebook(objIndex); };
         
         if (i === 0) {
-            img.classList.add("falling");
-            const halo = document.createElement("div");
-            halo.className = "halo-effect";
-            halo.style.width = ((p.size || 200) + 80) + "px";
-            halo.style.height = ((p.size || 200) + 80) + "px";
-            container.appendChild(halo);
-        }
-        
+        container.style.top = '-300px';
+        img.classList.add("falling");
+        const halo = document.createElement("div");
+        halo.className = "halo-effect";
+        halo.style.width = ((p.size || 200) + 80) + "px";
+        halo.style.height = ((p.size || 200) + 80) + "px";
+        container.appendChild(halo);
+    }        
         container.appendChild(img);
         garden.appendChild(container);
     });
