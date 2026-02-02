@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <title>Despire</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 /* ----------------- AMBIANCE GÉNÉRALE ----------------- */
@@ -510,7 +511,7 @@ h1,h2,h3 {
 
 @keyframes breathe {
     0%,100% { transform: scale(var(--scale, 1)); }
-    50% { transform: scale(calc(var(--scale, 1) * 1.1)); }
+    50% { transform: scale(calc(var(--scale, 1) * 1.3)); }
 }
 
 #overlay {
@@ -692,35 +693,36 @@ form button:hover {
     bottom: 0;
     width: 100%;
     max-width: 550px;
-    background: linear-gradient(to right, #8b7355 0%, #8b7355 20px, #f9f7f1 20px);
+    background: linear-gradient(to right, #8b7355 0%, #8b7355 20px, #f4e8d0 20px);
     box-shadow: -10px 0 30px rgba(0,0,0,0.3);
     z-index: 150;
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
 }
 
+#notebook::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 25px;
+    background: linear-gradient(to right, 
+        transparent 0%, 
+        #f4e8d0 40%
+    );
+    box-shadow: 
+        inset 3px 0 5px rgba(139,115,85,0.3),
+        inset -2px 3px 3px rgba(0,0,0,0.1),
+        inset -1px -3px 3px rgba(0,0,0,0.1);
+    pointer-events: none;
+    z-index: 1;
+}
+
 #notebook.open {
     right: 0;
 }
 
-#notebook::before {
-    content: '';
-    position: absolute;
-    left: 8px;
-    top: 40px;
-    bottom: 40px;
-    width: 12px;
-    background: repeating-linear-gradient(
-        to bottom,
-        transparent 0px,
-        transparent 15px,
-        #6b5d4f 15px,
-        #6b5d4f 20px,
-        transparent 20px,
-        transparent 35px
-    );
-    border-radius: 2px;
-}
 
 #notebookContent {
     margin-left: 30px;
@@ -734,8 +736,10 @@ form button:hover {
             #e8dcc8 31px,
             #e8dcc8 32px
         ),
-        #f9f7f1;
+        #f4e8d0;
     box-sizing: border-box;
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
 }
 
 #closeNotebook {
@@ -831,8 +835,8 @@ form button:hover {
 }
 
 .water-btn {
-    background: white;
-    border: 2px solid #6fa58c;
+    background: transparent;
+    border: none;
     padding: 12px 20px;
     border-radius: 30px;
     cursor: pointer;
@@ -1477,7 +1481,7 @@ function getEmpilagePosition() {
     var row = Math.floor(count / 5);
     var col = count % 5;
     var baseX = 15 + col * 15;
-    var baseY = 92 - row * 8;
+    var baseY = 90 - row * 8;
     var x = baseX + (Math.random() * 4 - 2);
     var y = baseY + (Math.random() * 3 - 1);
     return { x: x, y: y };
@@ -1656,7 +1660,7 @@ function renderNotebook() {
     
     notebookContent.innerHTML = '<div class="notebook-page"><div class="page-header"><div class="page-date">📅 ' + p.date + ' • ' + (p.categorieEmoji || '') + ' ' + (p.categorieNom || 'Expérience') + '</div></div>' +
         itemsHTML + forcesHTML + valeursHTML +
-        '<div class="interaction-stats"><div class="stat-item">💋 Bisous : ' + (p.bisous || 0) + '</div><div class="stat-item">🙏 Merci : ' + (p.merci || 0) + '</div><div class="stat-item">✨ Étoiles : ' + (p.etoile || 0) + '</div><div class="stat-item">📊 Appréciation : ' + pourcentage + '%</div></div>' +
+        '<div class="interaction-stats"><div class="stat-item">💋 ' + (p.bisous || 0) + '</div><div class="stat-item">🙏 ' + (p.merci || 0) + '</div><div class="stat-item">✨ ' + (p.etoile || 0) + '</div><div class="stat-item">📊 Appréciation : ' + pourcentage + '%</div></div>' +
         '<div class="water-actions"><button class="water-btn ' + (sessionWatered[bisousKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'bisous\')" ' + (sessionWatered[bisousKey] ? 'disabled' : '') + ' aria-label="Envoyer un bisou">💋</button>' +
         '<button class="water-btn ' + (sessionWatered[merciKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'merci\')" ' + (sessionWatered[merciKey] ? 'disabled' : '') + ' aria-label="Remercier">🙏</button>' +
         '<button class="water-btn ' + (sessionWatered[etoileKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'etoile\')" ' + (sessionWatered[etoileKey] ? 'disabled' : '') + ' aria-label="Étoile scintillante">✨</button></div></div>';
