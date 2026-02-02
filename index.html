@@ -1511,19 +1511,18 @@ for (var i = 1; i <= 41; i++) {
 }
 
 function getRandomSize() {
-    return 20 + Math.floor(Math.random() * 30);
+    return 20 + Math.floor(Math.random() * 40);
 }
 function getEmpilagePosition() {
     var count = data.filter(function(p) { return !p.type; }).length;
     var row = Math.floor(count / 8);
-    var col = count % 8;
-    var baseX = 5 + col * 11;
-    var baseY = 90 - row * 5;
+    var col = count % 6;
+    var baseX = 10 + col * 13;
+    var baseY = 90 - row * 6;
     var x = baseX + (Math.random() * 1.5 - 0.75);
     var y = baseY + (Math.random() * 1.5 - 0.75);
     return { x: x, y: y };
 }
-
 form.addEventListener("submit", function(e) {
     e.preventDefault();
     var f = new FormData(form);
