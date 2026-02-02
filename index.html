@@ -549,6 +549,7 @@ h1,h2,h3 {
     animation: halo-pulse 3s ease-in-out infinite;
     pointer-events: none;
     filter: blur(4px);
+    z-index: -1;
 }
 @keyframes halo-pulse {
     0%, 100% {
@@ -1616,7 +1617,7 @@ function renderGarden() {
         container.className = "plant-container";
         container.style.left = p.x + "%";
         container.style.setProperty('--final-top', p.y + '%');
-        container.style.top = p.y + '%';
+        container.style.top = (i === 0) ? '-300px' : p.y + '%';
         
         const zIndex = (i === 0) ? 100 : Math.round((100 - p.y) / 5);
         container.style.zIndex = zIndex;
