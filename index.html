@@ -1752,7 +1752,7 @@ function renderNotebook() {
     
     notebookContent.innerHTML = '<div class="notebook-page"><div class="page-header"><img src="' + p.img + '" class="notebook-icon"><div class="page-date">📅 ' + p.date + ' • ' + (p.categorieEmoji || '') + ' ' + (p.categorieNom || 'Expérience') + '</div></div>' +
         itemsHTML + forcesHTML + valeursHTML +
-        '<div class="interaction-stats" style="text-align:center;"><div class="stat-item">💋 ' + (p.bisous || 0) + '</div><div class="stat-item">🙏 ' + (p.merci || 0) + '</div><div class="stat-item">✨ ' + (p.etoile || 0) + '</div></div>'
+        '<div class="interaction-stats" style="text-align:center;"><div class="stat-item">💋 ' + (p.bisous || 0) + '</div><div class="stat-item">🙏 ' + (p.merci || 0) + '</div><div class="stat-item">✨ ' + (p.etoile || 0) + '</div></div>' +
         '<div class="water-actions"><button class="water-btn ' + (sessionWatered[bisousKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'bisous\')" ' + (sessionWatered[bisousKey] ? 'disabled' : '') + ' aria-label="Envoyer un bisou">💋</button>' +
         '<button class="water-btn ' + (sessionWatered[merciKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'merci\')" ' + (sessionWatered[merciKey] ? 'disabled' : '') + ' aria-label="Remercier">🙏</button>' +
         '<button class="water-btn ' + (sessionWatered[etoileKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'etoile\')" ' + (sessionWatered[etoileKey] ? 'disabled' : '') + ' aria-label="Étoile scintillante">✨</button></div></div>';
