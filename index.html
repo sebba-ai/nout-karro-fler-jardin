@@ -516,7 +516,7 @@ h1,h2,h3 {
 }
 
 .plant.falling {
-    animation: fall 6s cubic-bezier(0.2, 0, 0.3, 1) forwards, breathe 10s ease-in-out infinite 2s;
+  animation: fall 8s cubic-bezier(0.2, 0, 0.3, 1) forwards, breathe 10s ease-in-out infinite 6s;
 }
 
 @keyframes fall {
@@ -1601,9 +1601,9 @@ form.addEventListener("submit", function(e) {
 
     setTimeout(function() {
     showThankYouMessage();
-}, 5500);
+}, 9000);
 });
-    
+
 function renderGarden() {
     garden.innerHTML = "";
     var newObjects = data.filter(function(p) { return !p.type; });
