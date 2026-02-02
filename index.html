@@ -1631,10 +1631,10 @@ function renderGarden() {
             fond.id = 'fond-objets';
             fond.style.cssText = 'position:absolute; bottom:0; left:0; right:0; height:15%; z-index:4; pointer-events:none; overflow:hidden;';
             
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 30; i++) {
                 const obj = document.createElement('img');
                 obj.src = objets[Math.floor(Math.random() * objets.length)];
-                obj.style.cssText = 'position:absolute; width:' + (15 + Math.random() * 15) + 'px; opacity:0.4; bottom:' + (Math.random() * 20 - 5) + '%; left:' + (Math.random() * 95) + '%;';
+                obj.style.cssText = 'position:absolute; width:' + (25 + Math.random() * 35) + 'px; opacity:0.4; bottom:' + (Math.random() * 20 - 5) + '%; left:' + (Math.random() * 95) + '%;';
                 fond.appendChild(obj);
             }
             
