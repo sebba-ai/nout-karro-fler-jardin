@@ -411,13 +411,31 @@ h1,h2,h3 {
     }
 }
 
-.highlight-circle {
+.halo-effect {
     position: absolute;
-    border: 4px solid #ffd782;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
+    background: radial-gradient(circle, 
+        rgba(255,215,130,0.4) 0%, 
+        rgba(255,215,130,0.2) 40%,
+        transparent 70%
+    );
+    animation: halo-pulse 3s ease-in-out infinite;
     pointer-events: none;
-    box-shadow: 0 0 20px rgba(255,215,130,0.8);
+    filter: blur(8px);
+}
+
+@keyframes halo-pulse {
+    0%, 100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.15);
+    }
 }
 
 @keyframes pulse {
@@ -1419,69 +1437,66 @@ form.addEventListener("submit", function(e) {
     cat.items.forEach(function(item) {
         items[item.name] = f.get(item.name) || '';
     });
-    
-    const newPlant = {
-      id: Date.now(),
-      categorie: selectedCategory,
-      categorieNom: cat.nom,
-      categorieEmoji: cat.emoji,
-      items: items,
-      forces: selectedForces,
-      valeurs: selectedValeurs,
-      type: type,
-      img: randomImg,
-      x: position.x,
-      y: position.y,
-      eau: 0,
-      soleil: 0,
-      date: new Date().toLocaleDateString("fr-FR")
-    };
-    plantsRef.push(newPlant);
-    overlay.style.display = "none";
-    form.reset();
-    backToCategories();
-    showThankYouMessage();
-  });
 
-  function renderGarden() {
+    const newPlant = {
+    id: Date.now(),
+    categorie: selectedCategory,
+    categorieNom: cat.nom,
+    categorieEmoji: cat.emoji,
+    items: items,
+    forces: selectedForces,
+    valeurs: selectedValeurs,
+    img: randomImg,
+    size: size,
+    x: position.x,
+    y: position.y,
+    bisous: 0,
+    merci: 0,
+    etoile: 0,
+    date: new Date().toLocaleDateString("fr-FR")
+};
+plantsRef.push(newPlant);
+overlay.style.display = "none";
+form.reset();
+backToCategories();
+showThankYouMessage();
+});
+
+function renderGarden() {
     garden.innerHTML = "";
     if (data.length === 0) {
-      garden.innerHTML = "<div class='loading'>🌱 Le jardin est vide… Plante la première expérience !</div>";
-      return;
+        garden.innerHTML = "<div class='loading'>💰 Le coffre est vide… Ajoute le premier trésor !</div>";
+        return;
     }
     data.forEach(function(p, i) {
-      const container = document.createElement("div");
-      container.className = "plant-container";
-      container.style.left = p.x + "%";
-      container.style.top = p.y + "%";
-      const maxGrowth = (p.type === 'arbre' || p.type === 'arbuste') ? 10 : 5;
-      const growthFactor = Math.min((p.eau || 0) + (p.soleil || 0), maxGrowth);
-      const maxScale = (p.type === 'arbre' || p.type === 'arbuste') ? 2.0 : 1.5;
-      const scale = 1 + (growthFactor / maxGrowth) * (maxScale - 1);
-      const baseSize = 90;
-      const size = baseSize * scale;
-      const zIndex = i === 0 ? 20 : Math.round((100 - p.y) / 5);
-      container.style.zIndex = zIndex;
-      const img = document.createElement("img");
-      img.src = p.img;
-      img.alt = "Plante " + p.type;
-      img.className = "plant " + (p.type || 'fleur');
-      img.style.width = size + "px";
-      img.style.setProperty('--scale', scale);
-      img.onclick = function() { openNotebook(i); };
-      container.appendChild(img);
-      if (i === 0 && scale < 1.3) {
-        const circle = document.createElement("div");
-        circle.className = "highlight-circle";
-        circle.style.width = (size + 20) + "px";
-        circle.style.height = (size + 20) + "px";
-        circle.style.left = "-10px";
-        circle.style.top = "-10px";
-        container.appendChild(circle);
-      }
-      garden.appendChild(container);
+        const container = document.createElement("div");
+        container.className = "plant-container";
+        container.style.left = p.x + "%";
+        container.style.setProperty('--final-top', p.y + '%');
+        
+        const zIndex = Math.round((100 - p.y) / 5);
+        container.style.zIndex = zIndex;
+        
+        const img = document.createElement("img");
+        img.src = p.img;
+        img.alt = "Objet " + i;
+        img.className = "plant";
+        img.style.width = (p.size || 200) + "px";
+        img.onclick = function() { openNotebook(i); };
+        
+        if (i === 0) {
+            img.classList.add("falling");
+            const halo = document.createElement("div");
+            halo.className = "halo-effect";
+            halo.style.width = ((p.size || 200) + 40) + "px";
+            halo.style.height = ((p.size || 200) + 40) + "px";
+            container.appendChild(halo);
+        }
+        
+        container.appendChild(img);
+        garden.appendChild(container);
     });
-  }
+}
 
   function openNotebook(index) {
     currentPage = index;
@@ -1504,57 +1519,70 @@ form.addEventListener("submit", function(e) {
     if (sessionWatered[sessionKey]) return;
     const plant = data.find(function(p) { return p.firebaseId === plantId; });
     if (!plant) return;
-    if (type === 'water') {
-      plant.eau = (plant.eau || 0) + 1;
-    } else {
-      plant.soleil = (plant.soleil || 0) + 1;
+    
+    if (type === 'bisous') {
+        plant.bisous = (plant.bisous || 0) + 1;
+    } else if (type === 'merci') {
+        plant.merci = (plant.merci || 0) + 1;
+    } else if (type === 'etoile') {
+        plant.etoile = (plant.etoile || 0) + 1;
     }
+    
     sessionWatered[sessionKey] = true;
-    database.ref('plants/' + plantId).update({ eau: plant.eau, soleil: plant.soleil });
+    database.ref('plants/' + plantId).update({ 
+        bisous: plant.bisous, 
+        merci: plant.merci, 
+        etoile: plant.etoile 
+    });
     renderNotebook();
-    renderGarden();
-  }
+}
 
-  window.waterPlant = waterPlant;
+window.waterPlant = waterPlant;
 
-  function renderNotebook() {
+function renderNotebook() {
     if (data.length === 0) {
-      notebookContent.innerHTML = "<p style='text-align:center; padding:40px;'>Aucune expérience plantée pour l'instant…</p>";
-      return;
+        notebookContent.innerHTML = "<p style='text-align:center; padding:40px;'>Aucun trésor dans le coffre pour l'instant…</p>";
+        return;
     }
     const p = data[currentPage];
-    const waterKey = p.firebaseId + '_water';
-    const sunKey = p.firebaseId + '_sun';
-    const maxGrowth = (p.type === 'arbre' || p.type === 'arbuste') ? 200 : 150;
-    const maxInteractions = maxGrowth === 200 ? 10 : 5;
-    const currentGrowth = Math.min(100 + (((p.eau || 0) + (p.soleil || 0)) / maxInteractions) * (maxGrowth - 100), maxGrowth);
+    const bisousKey = p.firebaseId + '_bisous';
+    const merciKey = p.firebaseId + '_merci';
+    const etoileKey = p.firebaseId + '_etoile';
+    
+    const totalInteractions = (p.bisous || 0) + (p.merci || 0) + (p.etoile || 0);
+    const pourcentage = Math.min(100, totalInteractions * 10);
+    
     let itemsHTML = '';
     if (p.items) {
-      const cat = categories[p.categorie];
-      if (cat) {
-        cat.items.forEach(function(item) {
-          const value = p.items[item.name];
-          if (value) {
-            itemsHTML += '<div class="notebook-section"><div class="section-label">' + item.label + '</div><div class="section-content">' + value + '</div></div>';
-          }
-        });
-      }
+        const cat = categories[p.categorie];
+        if (cat) {
+            cat.items.forEach(function(item) {
+                const value = p.items[item.name];
+                if (value) {
+                    itemsHTML += '<div class="notebook-section"><div class="section-label">' + item.label + '</div><div class="section-content">' + value + '</div></div>';
+                }
+            });
+        }
     }
+    
     let forcesHTML = '';
     if (p.forces && p.forces.length > 0) {
-      forcesHTML = '<div class="notebook-section"><div class="section-label">💪 Forces mobilisées</div><div class="section-content">' + p.forces.join(', ') + '</div></div>';
+        forcesHTML = '<div class="notebook-section"><div class="section-label">💪 Forces mobilisées</div><div class="section-content">' + p.forces.join(', ') + '</div></div>';
     }
+    
     let valeursHTML = '';
     if (p.valeurs && p.valeurs.length > 0) {
-      valeursHTML = '<div class="notebook-section"><div class="section-label">⭐ Valeurs en jeu</div><div class="section-content">' + p.valeurs.join(', ') + '</div></div>';
+        valeursHTML = '<div class="notebook-section"><div class="section-label">⭐ Valeurs en jeu</div><div class="section-content">' + p.valeurs.join(', ') + '</div></div>';
     }
+    
     notebookContent.innerHTML = '<div class="notebook-page"><div class="page-header"><div class="page-date">📅 ' + p.date + ' • ' + (p.categorieEmoji || '') + ' ' + (p.categorieNom || 'Expérience') + '</div></div>' +
-      itemsHTML + forcesHTML + valeursHTML +
-      '<div class="interaction-stats"><div class="stat-item">💧 Eau : ' + (p.eau || 0) + '</div><div class="stat-item">☀️ Soleil : ' + (p.soleil || 0) + '</div><div class="stat-item">🌱 Croissance : ' + Math.round(currentGrowth) + '%</div></div>' +
-      '<div class="water-actions"><button class="water-btn ' + (sessionWatered[waterKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'water\')" ' + (sessionWatered[waterKey] ? 'disabled' : '') + ' aria-label="Arroser la plante">💧</button>' +
-      '<button class="water-btn ' + (sessionWatered[sunKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'sun\')" ' + (sessionWatered[sunKey] ? 'disabled' : '') + ' aria-label="Donner du soleil à la plante">☀️</button></div></div>';
+        itemsHTML + forcesHTML + valeursHTML +
+        '<div class="interaction-stats"><div class="stat-item">💋 Bisous : ' + (p.bisous || 0) + '</div><div class="stat-item">🙏 Merci : ' + (p.merci || 0) + '</div><div class="stat-item">✨ Étoiles : ' + (p.etoile || 0) + '</div><div class="stat-item">📊 Appréciation : ' + pourcentage + '%</div></div>' +
+        '<div class="water-actions"><button class="water-btn ' + (sessionWatered[bisousKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'bisous\')" ' + (sessionWatered[bisousKey] ? 'disabled' : '') + ' aria-label="Envoyer un bisou">💋</button>' +
+        '<button class="water-btn ' + (sessionWatered[merciKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'merci\')" ' + (sessionWatered[merciKey] ? 'disabled' : '') + ' aria-label="Remercier">🙏</button>' +
+        '<button class="water-btn ' + (sessionWatered[etoileKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'etoile\')" ' + (sessionWatered[etoileKey] ? 'disabled' : '') + ' aria-label="Étoile scintillante">✨</button></div></div>';
     updatePageNav();
-  }
+}
 
   function updatePageNav() {
     prevBtn.disabled = currentPage === 0;
