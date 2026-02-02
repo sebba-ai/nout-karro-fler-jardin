@@ -769,7 +769,15 @@ form button:hover {
         #f4e8d0;
     box-sizing: border-box;
     font-family: 'Caveat', cursive;
-    font-size: 18px;
+    font-size: 20px;
+}
+
+.notebook-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin: 0 auto 10px;
+    display: block;
 }
 
 #closeNotebook {
@@ -1503,7 +1511,7 @@ for (var i = 1; i <= 41; i++) {
 }
 
 function getRandomSize() {
-    return 50 + Math.floor(Math.random() * 30);
+    return 40 + Math.floor(Math.random() * 50);
 }
 function getEmpilagePosition() {
     var count = data.filter(function(p) { return !p.type; }).length;
@@ -1687,7 +1695,7 @@ function renderNotebook() {
         valeursHTML = '<div class="notebook-section"><div class="section-label">⭐ Valeurs en jeu</div><div class="section-content">' + p.valeurs.join(', ') + '</div></div>';
     }
     
-    notebookContent.innerHTML = '<div class="notebook-page"><div class="page-header"><div class="page-date">📅 ' + p.date + ' • ' + (p.categorieEmoji || '') + ' ' + (p.categorieNom || 'Expérience') + '</div></div>' +
+    notebookContent.innerHTML = '<div class="notebook-page"><div class="page-header"><img src="' + p.img + '" class="notebook-icon"><div class="page-date">📅 ' + p.date + ' • ' + (p.categorieEmoji || '') + ' ' + (p.categorieNom || 'Expérience') + '</div></div>' +
         itemsHTML + forcesHTML + valeursHTML +
         '<div class="interaction-stats"><div class="stat-item">💋 ' + (p.bisous || 0) + '</div><div class="stat-item">🙏 ' + (p.merci || 0) + '</div><div class="stat-item">✨ ' + (p.etoile || 0) + '</div><div class="stat-item">📊 Appréciation : ' + pourcentage + '%</div></div>' +
         '<div class="water-actions"><button class="water-btn ' + (sessionWatered[bisousKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'bisous\')" ' + (sessionWatered[bisousKey] ? 'disabled' : '') + ' aria-label="Envoyer un bisou">💋</button>' +
