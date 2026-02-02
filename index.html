@@ -307,13 +307,18 @@ h1,h2,h3 {
 }
 
 .title-quote-container {
-    background: rgba(255,255,255,0.85);
+    background: radial-gradient(circle, 
+        rgba(255,215,130,0.85) 0%, 
+        rgba(255,215,130,0.6) 60%,
+        rgba(255,215,130,0.3) 100%
+    );
     padding: 20px;
     border-radius: 15px;
     margin: 20px auto;
     max-width: 600px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 0 30px rgba(255,215,130,0.6);
     text-align: center;
+    animation: halo-pulse 3s ease-in-out infinite;
 }
 
 .title-quote-container h2 {
@@ -502,19 +507,21 @@ h1,h2,h3 {
 }
 
 .plant.falling {
-    animation: fall 4s cubic-bezier(0.2, 0, 0.3, 1) forwards, breathe 10s ease-in-out infinite 2s;
+    animation: fall 6s cubic-bezier(0.2, 0, 0.3, 1) forwards, breathe 10s ease-in-out infinite 2s;
 }
 
 @keyframes fall {
     0% {
-        top: -200px;
+        top: -300px;
         opacity: 0;
+        transform: scale(1.2);
     }
-    20% {
+    10% {
         opacity: 1;
     }
     100% {
         top: var(--final-top);
+        transform: scale(1);
     }
 }
 
@@ -787,15 +794,20 @@ form button:hover {
         #f4e8d0;
     box-sizing: border-box;
     font-family: 'Caveat', cursive;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .notebook-icon {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
-    margin: 0 auto 10px;
+    margin: 0 auto 15px;
     display: block;
+}
+
+.page-date {
+    font-size: 20px;
+    font-weight: bold;
 }
 
 #closeNotebook {
@@ -1574,11 +1586,14 @@ form.addEventListener("submit", function(e) {
     etoile: 0,
     date: new Date().toLocaleDateString("fr-FR")
 };
-plantsRef.push(newPlant);
-overlay.style.display = "none";
-form.reset();
-backToCategories();
-showThankYouMessage();
+plantsRef.push(newPlant).then(function() {
+    overlay.style.display = "none";
+    form.reset();
+    backToCategories();
+    
+    setTimeout(function() {
+        showThankYouMessage();
+    }, 2500);
 });
 
 function renderGarden() {
@@ -1737,10 +1752,11 @@ function renderNotebook() {
     
     notebookContent.innerHTML = '<div class="notebook-page"><div class="page-header"><img src="' + p.img + '" class="notebook-icon"><div class="page-date">📅 ' + p.date + ' • ' + (p.categorieEmoji || '') + ' ' + (p.categorieNom || 'Expérience') + '</div></div>' +
         itemsHTML + forcesHTML + valeursHTML +
-        '<div class="interaction-stats"><div class="stat-item">💋 ' + (p.bisous || 0) + '</div><div class="stat-item">🙏 ' + (p.merci || 0) + '</div><div class="stat-item">✨ ' + (p.etoile || 0) + '</div><div class="stat-item">📊 Appréciation : ' + pourcentage + '%</div></div>' +
+        '<div class="interaction-stats" style="text-align:center;"><div class="stat-item">💋 ' + (p.bisous || 0) + '</div><div class="stat-item">🙏 ' + (p.merci || 0) + '</div><div class="stat-item">✨ ' + (p.etoile || 0) + '</div></div>'
         '<div class="water-actions"><button class="water-btn ' + (sessionWatered[bisousKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'bisous\')" ' + (sessionWatered[bisousKey] ? 'disabled' : '') + ' aria-label="Envoyer un bisou">💋</button>' +
         '<button class="water-btn ' + (sessionWatered[merciKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'merci\')" ' + (sessionWatered[merciKey] ? 'disabled' : '') + ' aria-label="Remercier">🙏</button>' +
         '<button class="water-btn ' + (sessionWatered[etoileKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'etoile\')" ' + (sessionWatered[etoileKey] ? 'disabled' : '') + ' aria-label="Étoile scintillante">✨</button></div></div>';
+        notebookContent.innerHTML += '<img src="assets/objets/objet26.png" style="width:100%; margin-top:30px; opacity:0.6;">'; 
     updatePageNav();
 }
 
