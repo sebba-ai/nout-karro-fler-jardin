@@ -1515,12 +1515,12 @@ function getRandomSize() {
 }
 function getEmpilagePosition() {
     var count = data.filter(function(p) { return !p.type; }).length;
-    var row = Math.floor(count / 5);
-    var col = count % 5;
-    var baseX = 15 + col * 15;
-    var baseY = 90 - row * 8;
-    var x = baseX + (Math.random() * 4 - 2);
-    var y = baseY + (Math.random() * 3 - 1);
+    var row = Math.floor(count / 8);
+    var col = count % 8;
+    var baseX = 5 + col * 11;
+    var baseY = 90 - row * 5;
+    var x = baseX + (Math.random() * 1.5 - 0.75);
+    var y = baseY + (Math.random() * 1.5 - 0.75);
     return { x: x, y: y };
 }
 
