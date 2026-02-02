@@ -303,6 +303,24 @@ h1,h2,h3 {
     }
 }
 
+.title-quote-container {
+    background: rgba(255,255,255,0.85);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px auto;
+    max-width: 600px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.title-quote-container h2 {
+    margin: 0 0 10px 0;
+}
+
+.title-quote-container #quote {
+    margin: 0;
+}
+
 #main h2 {
     font-size: 1.1rem; 
     line-height: 1.5;
@@ -416,7 +434,7 @@ h1,h2,h3 {
 }
 
 .plant.falling {
-    animation: fall 2s cubic-bezier(0.2, 0, 0.3, 1) forwards, breathe 10s ease-in-out infinite 2s;
+    animation: fall 4s cubic-bezier(0.2, 0, 0.3, 1) forwards, breathe 10s ease-in-out infinite 2s;
 }
 
 @keyframes fall {
@@ -439,13 +457,14 @@ h1,h2,h3 {
     transform: translate(-50%, -50%);
     border-radius: 50%;
     background: radial-gradient(circle, 
-        rgba(255,215,130,0.4) 0%, 
-        rgba(255,215,130,0.2) 40%,
-        transparent 70%
-    );
+    rgba(255,215,130,0.8) 0%, 
+    rgba(255,215,130,0.5) 40%,
+    rgba(255,215,130,0.2) 70%,
+    transparent 100%
+); 
     animation: halo-pulse 3s ease-in-out infinite;
     pointer-events: none;
-    filter: blur(8px);
+    filter: blur(4px);
 }
 
 @keyframes halo-pulse {
@@ -926,9 +945,10 @@ form button:hover {
         <div id="thermo-label">📞 881</div>
     </div>
 
-    <h2 id="random-title"></h2>
-
-    <div id="quote"></div>
+    <div class="title-quote-container">
+      <h2 id="random-title"></h2>
+      <div id="quote"></div>
+  </div>
 
     <button id="addBtn">➕ Notre Coffre 💰</button>
 
@@ -1438,7 +1458,7 @@ function getEmpilagePosition() {
     var row = Math.floor(count / 5);
     var col = count % 5;
     var baseX = 15 + col * 15;
-    var baseY = 95 - row * 8;
+    var baseY = 92 - row * 8;
     var x = baseX + (Math.random() * 4 - 2);
     var y = baseY + (Math.random() * 3 - 1);
     return { x: x, y: y };
