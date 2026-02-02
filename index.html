@@ -1576,7 +1576,7 @@ function renderGarden() {
         container.style.setProperty('--final-top', p.y + '%');
         container.style.top = p.y + '%';
         
-        const zIndex = Math.round((100 - p.y) / 5);
+        const zIndex = (i === 0) ? 100 : Math.round((100 - p.y) / 5);        container.style.zIndex = zIndex;
         container.style.zIndex = zIndex;
         
         const img = document.createElement("img");
