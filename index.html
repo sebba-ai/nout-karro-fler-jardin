@@ -1417,7 +1417,7 @@ for (var i = 1; i <= 41; i++) {
 }
 
 function getRandomSize() {
-    return 100 + Math.floor(Math.random() * 301);
+    return 10 + Math.floor(Math.random() * 30);
 }
 function getEmpilagePosition() {
     var count = data.filter(function(p) { return !p.type; }).length;
@@ -1481,6 +1481,7 @@ function renderGarden() {
         container.className = "plant-container";
         container.style.left = p.x + "%";
         container.style.setProperty('--final-top', p.y + '%');
+        container.style.top = p.y + '%';
         
         const zIndex = Math.round((100 - p.y) / 5);
         container.style.zIndex = zIndex;
