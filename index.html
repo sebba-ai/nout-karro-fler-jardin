@@ -363,15 +363,23 @@ h1,h2,h3 {
         inset 0 -30px 60px rgba(101,67,33,0.4),
         0 6px 20px rgba(0,0,0,0.3);
     background: 
-        linear-gradient(135deg, 
-            transparent 0%,
-            rgba(255,255,255,0.1) 30%,
-            transparent 60%
-        ),
-        radial-gradient(ellipse at center bottom,
-          #a0826d 0%,
-          #8b7355 40%,
-          #6b5942 100%            
+    repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 40px,
+        rgba(0,0,0,0.05) 40px,
+        rgba(0,0,0,0.05) 42px
+    ),
+    linear-gradient(135deg, 
+        transparent 0%,
+        rgba(255,255,255,0.1) 30%,
+        transparent 60%
+    ),
+    radial-gradient(ellipse at center bottom,
+        #8b6f47 0%,
+        #6b5539 40%,
+        #4a3a28 100%
+    );
         );
     opacity: 0;
     filter: blur(15px);
@@ -1006,7 +1014,8 @@ form button:hover {
         <div id="thermo-label">📞2512/☎881</div>
     </div>
 
-    <div class="title-quote-container" onclick="document.getElementById('infoPopup').style.display='flex'" style="cursor:pointer;">      <h2 id="random-title"></h2>
+    <div class="title-quote-container" onclick="document.getElementById('infoPopup').style.display='flex'" style="cursor:pointer;"></div>
+      <h2 id="random-title"></h2>
       <div id="quote"></div>
   </div>
 
