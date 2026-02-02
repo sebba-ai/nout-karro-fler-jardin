@@ -338,6 +338,20 @@ h1,h2,h3 {
     animation: fadeInVaporeux 4s ease-out 1s forwards;
 }
 
+#garden {
+    border: 4px solid #8b4513;
+    border-top: none;
+    border-radius: 0 0 40px 40px;
+    box-shadow: 
+        inset 0 -20px 40px rgba(101,67,33,0.3),
+        0 4px 15px rgba(0,0,0,0.3);
+    background: linear-gradient(to bottom, 
+        transparent 0%, 
+        rgba(101,67,33,0.1) 80%,
+        rgba(101,67,33,0.2) 100%
+    );
+}
+
 #addBtn {
     display: block;
     margin: 20px auto;
@@ -1424,7 +1438,7 @@ function getEmpilagePosition() {
     var row = Math.floor(count / 5);
     var col = count % 5;
     var baseX = 15 + col * 15;
-    var baseY = 85 - row * 8;
+    var baseY = 95 - row * 8;
     var x = baseX + (Math.random() * 4 - 2);
     var y = baseY + (Math.random() * 3 - 1);
     return { x: x, y: y };
@@ -1493,7 +1507,7 @@ function renderGarden() {
         img.style.width = (p.size || 200) + "px";
         img.onclick = function() { openNotebook(i); };
         
-        if (i === 0) {
+        if (i === 0 && !p.type) {
             img.classList.add("falling");
             const halo = document.createElement("div");
             halo.className = "halo-effect";
@@ -1549,6 +1563,21 @@ function renderGarden() {
 }
 
 window.waterPlant = waterPlant;
+
+var thermoLabel = document.getElementById('thermo-label');
+var isZoomed = false;
+
+thermoLabel.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    isZoomed = !isZoomed;
+    if (isZoomed) {
+        this.style.transform = 'scale(1.8)';
+        this.style.fontSize = '14px';
+    } else {
+        this.style.transform = 'scale(1)';
+        this.style.fontSize = '11px';
+    }
+});
 
 function renderNotebook() {
     if (data.length === 0) {
