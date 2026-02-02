@@ -1602,8 +1602,8 @@ form.addEventListener("submit", function(e) {
     setTimeout(function() {
     showThankYouMessage();
 }, 5500);
-
-
+});
+    
 function renderGarden() {
     garden.innerHTML = "";
     var newObjects = data.filter(function(p) { return !p.type; });
