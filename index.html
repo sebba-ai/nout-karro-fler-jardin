@@ -1625,6 +1625,7 @@ form.addEventListener("submit", function(e) {
     var cat = categories[selectedCategory];
     var randomImg = getRandomObjet();
     var size = getRandomSize();
+    var rotation = Math.floor(Math.random() * 60 - 30);
     var position = getEmpilagePosition();
     var items = {};
     cat.items.forEach(function(item) {
@@ -1632,30 +1633,39 @@ form.addEventListener("submit", function(e) {
     });
 
     const newPlant = {
-    id: Date.now(),
-    categorie: selectedCategory,
-    categorieNom: cat.nom,
-    categorieEmoji: cat.emoji,
-    items: items,
-    forces: selectedForces,
-    valeurs: selectedValeurs,
-    img: randomImg,
-    size: size,
-    x: position.x,
-    y: position.y,
-    bisous: 0,
-    merci: 0,
-    etoile: 0,
-    date: new Date().toLocaleDateString("fr-FR")
-};
+        id: Date.now(),
+        categorie: selectedCategory,
+        categorieNom: cat.nom,
+        categorieEmoji: cat.emoji,
+        items: items,
+        forces: selectedForces,
+        valeurs: selectedValeurs,
+        img: randomImg,
+        size: size,
+        rotation: rotation,
+        x: position.x,
+        y: position.y,
+        bisous: 0,
+        merci: 0,
+        etoile: 0,
+        date: new Date().toLocaleDateString("fr-FR"),
+        firebaseId: 'temp-' + Date.now()
+    };
+
+    // Affichage immédiat
+    data.unshift(newPlant);
+    renderGarden();
+    
+    // Sauvegarde Firebase en arrière-plan
     plantsRef.push(newPlant);
+    
     overlay.style.display = "none";
     form.reset();
     backToCategories();
 
     setTimeout(function() {
-    showThankYouMessage();
-}, 2000);
+        showThankYouMessage();
+    }, 2000);
 });
 
 function renderGarden() {
@@ -1679,8 +1689,8 @@ function renderGarden() {
         img.src = p.img;
         img.alt = "Objet " + i;
         img.className = "plant";
-        img.style.width = (p.size || 200) + "px";
-        img.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+        img.style.width = (p.size || 50) + "px";
+        img.style.transform = 'rotate(' + (p.rotation || 0) + 'deg)'; // ← UTILISE LA ROTATION SAUVEGARDÉE
         
         const objIndex = data.indexOf(p);
         img.onclick = function() { openNotebook(objIndex); };
