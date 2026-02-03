@@ -1602,13 +1602,13 @@ for (var i = 1; i <= 41; i++) {
 }
 
 function getRandomSize() {
-    return 30 + Math.floor(Math.random() * 40);
+    return 50 + Math.floor(Math.random() * 70);
 }
 function getEmpilagePosition() {
     var count = data.filter(function(p) { return !p.type; }).length;
-    var row = Math.floor(count / 8);
-    var col = count % 6;
-    var baseX = 10 + col * 13;
+    var row = Math.floor(count / 10); // 10 par rangée au lieu de 8
+    var col = count % 10;
+    var baseX = 5 + col * 9.5; // Espacement 9.5% au lieu de 13%
     var baseY = 90 - row * 6;
     var x = baseX + (Math.random() * 1.5 - 0.75);
     var y = baseY + (Math.random() * 1.5 - 0.75);
@@ -1680,11 +1680,15 @@ function renderGarden() {
         img.alt = "Objet " + i;
         img.className = "plant";
         img.style.width = (p.size || 200) + "px";
+        img.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
         
         const objIndex = data.indexOf(p);
         img.onclick = function() { openNotebook(objIndex); };
         
         if (i === 0) {
+        console.log("Création étoile pour objet:", p.img); 
+        console.log("Position départ:", container.style.top);
+        console.log("Position finale:", container.style.getPropertyValue('--final-top'));
         img.classList.add("falling");
         const halo = document.createElement("div");
         halo.className = "halo-effect";
