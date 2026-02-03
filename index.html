@@ -1133,6 +1133,27 @@ form button:hover {
   const database = firebase.database();
   const plantsRef = database.ref('plants');
 
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    // ... ta config actuelle ...
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+  const plantsRef = database.ref('plants');
+  
+  // AJOUTE CETTE PARTIE pour l'auth anonyme
+  firebase.auth().signInAnonymously()
+    .then(() => {
+      console.log("Connecté anonymement !");
+    })
+    .catch((error) => {
+      console.error("Erreur d'authentification:", error);
+    });
+</script>
+    
   const PASSWORD = "jardin";
   const NIVEAU_ENERGIE = 75;
 
