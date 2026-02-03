@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -11,8 +10,7 @@
 
 <style>
 /* ----------------- AMBIANCE GÉNÉRALE ----------------- */
-body 
-{
+body {
     margin: 0;
     font-family: "Georgia", serif;
     background-size: cover;
@@ -22,7 +20,7 @@ body
     overflow-x: hidden;
 }
 
-h1,h2,h3 {
+h1, h2, h3 {
     font-weight: normal;
 }
 
@@ -246,7 +244,6 @@ h1,h2,h3 {
     }
 }
 
-
 #thermo-label {
     font-family: "Georgia", serif;
     font-size: 11px;
@@ -324,12 +321,18 @@ h1,h2,h3 {
     transform-origin: center center;
     position: relative;
 }
+
 .title-quote-container h2 {
     margin: 0 0 10px 0;
+    padding: 0 !important;
     font-family: 'Cinzel', serif;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 3px;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
 }
 
 .title-quote-container #quote {
@@ -353,13 +356,6 @@ h1,h2,h3 {
     color: #2f3e34;
     opacity: 0;
     animation: fadeInTitle 3.5s ease-out 1.5s forwards;
-}
-.title-quote-container h2 {
-    padding: 0 !important;
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
 }
 
 #garden {
@@ -443,11 +439,6 @@ h1,h2,h3 {
     opacity: 0.7;
 }
 
-@keyframes sparkle {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.85; }
-}
-
 #addBtn {
     display: block;
     margin: 20px auto;
@@ -462,13 +453,15 @@ h1,h2,h3 {
     color: black;
     font-size: 16px;
     font-family: 'Cinzel', serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     cursor: pointer;
     transition: transform 0.2s;
     opacity: 0;
     animation: fadeIn 2s ease-in-out 1.5s forwards;
     box-shadow: 0 0 30px rgba(255,215,130,0.6);
 }
-
 
 #addBtn:hover {
     background: linear-gradient(135deg, #b8956a, #d4b896);
@@ -521,7 +514,7 @@ h1,h2,h3 {
 }
 
 .plant.falling {
-  animation: fall 8s cubic-bezier(0.2, 0, 0.3, 1) forwards, breathe 10s ease-in-out infinite 6s;
+    animation: fall 8s cubic-bezier(0.2, 0, 0.3, 1) forwards, breathe 10s ease-in-out infinite 6s;
 }
 
 @keyframes fall {
@@ -544,7 +537,7 @@ h1,h2,h3 {
     left: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    z-index: 10;
+    z-index: 999 !important;
 }
 
 .halo-effect::before {
@@ -584,40 +577,41 @@ h1,h2,h3 {
 }
 
 @keyframes star-pulse {
-    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+    0%, 100% { 
+        opacity: 0.6; 
+        transform: translate(-50%, -50%) scale(1); 
+    }
+    50% { 
+        opacity: 1; 
+        transform: translate(-50%, -50%) scale(1.2); 
+    }
 }
 
 @keyframes star-rotate {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
+    0% { 
+        transform: translate(-50%, -50%) rotate(0deg); 
+    }
+    100% { 
+        transform: translate(-50%, -50%) rotate(360deg); 
+    }
 }
 
 @keyframes halo-pulse {
     0%, 100% {
         opacity: 0.6;
-        transform: scale(1);
     }
     50% {
         opacity: 1;
-        transform: scale(1.05);
-    }
-}
-
-@keyframes pulse {
-    0%, 100% { 
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% { 
-        transform: scale(1.15);
-        opacity: 0.7;
     }
 }
 
 @keyframes breathe {
-    0%,100% { transform: scale(var(--scale, 1)); }
-    50% { transform: scale(calc(var(--scale, 1) * 1.3)); }
+    0%, 100% { 
+        transform: scale(var(--scale, 1)); 
+    }
+    50% { 
+        transform: scale(calc(var(--scale, 1) * 1.3)); 
+    }
 }
 
 #overlay {
@@ -732,7 +726,6 @@ form button:hover {
     color: #6b5d4f;
 }
 
-
 .multi-select {
     width: 100%;
     padding: 10px;
@@ -828,7 +821,6 @@ form button:hover {
 #notebook.open {
     right: 0;
 }
-
 
 #notebookContent {
     margin-left: 30px;
@@ -926,22 +918,6 @@ form button:hover {
     padding-left: 10px;
 }
 
-.interaction-stats {
-    display: flex;
-    gap: 15px;
-    margin-top: 15px;
-    padding: 10px;
-    background: rgba(139,191,159,0.1);
-    border-radius: 8px;
-}
-
-.stat-item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 14px;
-}
-
 .water-actions {
     display: flex;
     gap: 15px;
@@ -1032,12 +1008,12 @@ form button:hover {
 
     #main h2 {
         font-size: 0.95rem;
-        padding: 18px 18px 18px 65px;
+        padding: 18px;
     }
 
     #addBtn {
         padding: 12px 24px;
-        font-size: 16px;
+        font-size: 14px;
     }
 
     #thermo-container {
@@ -1058,11 +1034,9 @@ form button:hover {
     }
 }
 </style>
-
 </head>
 
 <body>
-
 <div id="login">
     <div id="loginBox">
         <h2>🌱 Le Facteur Humain</h2>
@@ -1087,14 +1061,14 @@ form button:hover {
     </div>
 
     <div class="title-quote-container" onclick="document.getElementById('infoPopup').style.display='flex'" style="cursor:pointer;">
-      <h2 id="random-title"></h2>
-      <div id="quote"></div>
-  </div>   
+        <h2 id="random-title"></h2>
+        <div id="quote"></div>
+    </div>   
 
-  <button id="addBtn">⚓ LARGUER L'ANCRE</button>
+    <button id="addBtn">🏴‍☠️ Larguer l'Ancre</button>
 
     <div id="garden">
-        <div class="loading">🌱 Chargement de la zar l'or...</div>
+        <div class="loading">💰 Chargement du coffre...</div>
     </div>
 </div>
 
@@ -1102,10 +1076,9 @@ form button:hover {
 
 <div id="overlay">
     <form id="form">
-        <button type="button" id="closeOverlay" style="position:absolute; top:12px; right:12px; background:none; border:none; font-size:28px; color:#333; cursor:pointer; z-index:10;">×</button>
+        <button type="button" id="closeOverlay">×</button>
         <div id="categorySelection" class="form-step">
             <h3>🌿 Planter une expérience</h3>
-
             <label style="font-weight: bold; margin-top: 15px; display: block;">Choisir une catégorie :</label>
             <select id="categorySelect">
                 <option value="">-- Sélectionner --</option>
@@ -1134,11 +1107,11 @@ form button:hover {
             </div>
 
             <label style="font-weight: bold; margin-top: 20px; display: block;">Forces mobilisées (max 3) <span onclick="document.getElementById('forcesInfo').style.display='flex'" style="cursor:pointer; color:#6fa58c; font-size:14px;">ⓘ</span></label>
-            <select id="forcesSelect" multiple class="multi-select"size="5"></select>
+            <select id="forcesSelect" multiple class="multi-select" size="5"></select>
             <div id="forcesChips" class="chips-container"></div>
 
             <label style="font-weight: bold; margin-top: 20px; display: block;">Valeurs en jeu (max 3) <span onclick="document.getElementById('valeursInfo').style.display='flex'" style="cursor:pointer; color:#6fa58c; font-size:14px;">ⓘ</span></label>
-            <select id="valeursSelect" multiple class="multi-select"size="5"></select>
+            <select id="valeursSelect" multiple class="multi-select" size="5"></select>
             <div id="valeursChips" class="chips-container"></div>
 
             <button type="submit">🌸 Planter</button>
@@ -1157,13 +1130,12 @@ form button:hover {
     </div>
 </div>
 
-<!-- Firebase compat SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
 <script>
-  const firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyADBlPY8lK_52mFTWWHdoEBcPXa4Dk3FVA",
     authDomain: "jardin-3f127.firebaseapp.com",
     databaseURL: "https://jardin-3f127-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -1171,238 +1143,233 @@ form button:hover {
     storageBucket: "jardin-3f127.firebasestorage.app",
     messagingSenderId: "371927426307",
     appId: "1:371927426307:web:dba165b1aaf4b8179e3536"
-  };
+};
 
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-  const plantsRef = database.ref('plants');
-  
-  // Authentification anonyme automatique
-  firebase.auth().signInAnonymously()
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+const plantsRef = database.ref('plants');
+
+firebase.auth().signInAnonymously()
     .then(() => {
-      console.log("Connecté anonymement !");
-    loadPlants();
+        console.log("Connecté anonymement !");
+        loadPlants();
     })
     .catch((error) => {
-      console.error("Erreur d'authentification:", error);
+        console.error("Erreur d'authentification:", error);
         alert("Erreur de connexion à la base de données");
     });
-    
-  const PASSWORD = "jardin";
-  const NIVEAU_ENERGIE = 75;
 
-  const titles = [
-  "Qui commande sans ouïr l’équipage, mène droit au naufrage.",
-  "Capitaine sourd, navire perdu",
-  "Le pouvoir qui n’écoute point alourdit la coque.",
-  "Nul ne rame vaillant s’il y est mené à coups.",
-  "Mieux vaut un homme qui choisit la rame que dix forcés.",
-  "La peur fait avancer d’un bord, la volonté mène jusqu’au port.",
-  "Celui qui sait la mer mène la barre, non celui qui crie le plus fort.",
-  "Le bon chef montre la voie, le mauvais montre le fouet.",
-  "La voix forte ne vaut point la main sûre.",
-  "Ce qui n’est point dit pourrit entre les planches.",
-  "Les non-dits font mutinerie.",
-  "Règles claires tiennent l’équipage droit.",
-  "Mieux vaut pavillon connu que sabre tiré.",
-  "Le renom gagne des prises que l’acier perd.",
-  "Un nom craint évite bien des combats.",
-  "Nul ne survit seul en mer longue.",
-  "Frères de bord vivent, loups solitaires coulent.",
-  "Qui abandonne les siens sera bientôt abandonné.",
-  "Si nou sèm brinzell nou sa pa kéyir babafig /si nou plant' banann' nou sa pa manz' kaviar ! Alé tir in feuye / récolt leu tempo !",
+const PASSWORD = "jardin";
+const NIVEAU_ENERGIE = 75;
+
+const titles = [
+    "Qui commande sans ouïr l'équipage, mène droit au naufrage.",
+    "Capitaine sourd, navire perdu",
+    "Le pouvoir qui n'écoute point alourdit la coque.",
+    "Nul ne rame vaillant s'il y est mené à coups.",
+    "Mieux vaut un homme qui choisit la rame que dix forcés.",
+    "La peur fait avancer d'un bord, la volonté mène jusqu'au port.",
+    "Celui qui sait la mer mène la barre, non celui qui crie le plus fort.",
+    "Le bon chef montre la voie, le mauvais montre le fouet.",
+    "La voix forte ne vaut point la main sûre.",
+    "Ce qui n'est point dit pourrit entre les planches.",
+    "Les non-dits font mutinerie.",
+    "Règles claires tiennent l'équipage droit.",
+    "Mieux vaut pavillon connu que sabre tiré.",
+    "Le renom gagne des prises que l'acier perd.",
+    "Un nom craint évite bien des combats.",
+    "Nul ne survit seul en mer longue.",
+    "Frères de bord vivent, loups solitaires coulent.",
+    "Qui abandonne les siens sera bientôt abandonné.",
+    "Si nou sèm brinzell nou sa pa kéyir babafig /si nou plant' banann' nou sa pa manz' kaviar ! Alé tir in feuye / récolt leu tempo !",
 ];
 
-  const quotes = [
-      "Ce à quoi tu prêtes attention grandit.",
-      "Chaque geste nourrit une racine invisible.",
-      "Le vivant se cultive par la présence.",
-      "Un jardin est une mémoire qui respire.",
-      "Voir, c’est laisser le monde entrer.",
-      "Dans les détails ordinaires dorment les grandes découvertes.",
-      "Ce que l’on regarde avec soin s’enracine en nous.",
-      "La gratitude est une main tendue vers la joie.",
-      "Quand le temps s’efface, l’âme travaille.",
-      "Là où l’attention se dissout, naît la justesse.",
-      "Nos forces sont des braises : il suffit d’en souffler une.",
-      "Ce que tu fais avec aisance éclaire ce que tu deviens.",
-      "Un sourire sincère agrandit l’horizon.",
-      "Les liens vrais portent plus loin que les victoires seules.",
-      "Le sens n’est pas trouvé, il est choisi.",
-      "Quand le cœur a un nord, les pas savent où aller.",
-  ];
+const quotes = [
+    "Ce à quoi tu prêtes attention grandit.",
+    "Chaque geste nourrit une racine invisible.",
+    "Le vivant se cultive par la présence.",
+    "Un jardin est une mémoire qui respire.",
+    "Voir, c'est laisser le monde entrer.",
+    "Dans les détails ordinaires dorment les grandes découvertes.",
+    "Ce que l'on regarde avec soin s'enracine en nous.",
+    "La gratitude est une main tendue vers la joie.",
+    "Quand le temps s'efface, l'âme travaille.",
+    "Là où l'attention se dissout, naît la justesse.",
+    "Nos forces sont des braises : il suffit d'en souffler une.",
+    "Ce que tu fais avec aisance éclaire ce que tu deviens.",
+    "Un sourire sincère agrandit l'horizon.",
+    "Les liens vrais portent plus loin que les victoires seules.",
+    "Le sens n'est pas trouvé, il est choisi.",
+    "Quand le cœur a un nord, les pas savent où aller.",
+];
 
-  const thankYouMessages = [
-      "🌱 Une nouvelle graine prend racine dans notre jardin collectif !",
-      "✨ Merci pour cette belle contribution, elle fera grandir notre écosystème !",
-      "🌸 Quelle fierté de voir le jardin s'épanouir grâce à toi !",
-      "🌿 Ta plantation enrichit la biodiversité de notre espace partagé !",
-      "🌳 Chaque expérience plantée nourrit la forêt de nos apprentissages !",
-      "💚 Gratitude pour ce don à la terre commune, il portera ses fruits !",
-      "🌾 Ta contribution s'enracine et inspirera d'autres jardiniers !",
-      "🪴 Merci de cultiver avec nous cet espace de croissance mutuelle !",
-      "🌺 Belle plantation ! Le jardin te remercie de ta présence attentive !",
-      "🍃 Chaque plante ajoutée tisse un peu plus notre écosystème vivant !"
-  ];
+const thankYouMessages = [
+    "🌱 Une nouvelle graine prend racine dans notre jardin collectif !",
+    "✨ Merci pour cette belle contribution, elle fera grandir notre écosystème !",
+    "🌸 Quelle fierté de voir le jardin s'épanouir grâce à toi !",
+    "🌿 Ta plantation enrichit la biodiversité de notre espace partagé !",
+    "🌳 Chaque expérience plantée nourrit la forêt de nos apprentissages !",
+    "💚 Gratitude pour ce don à la terre commune, il portera ses fruits !",
+    "🌾 Ta contribution s'enracine et inspirera d'autres jardiniers !",
+    "🪴 Merci de cultiver avec nous cet espace de croissance mutuelle !",
+    "🌺 Belle plantation ! Le jardin te remercie de ta présence attentive !",
+    "🍃 Chaque plante ajoutée tisse un peu plus notre écosystème vivant !"
+];
 
-  const objets = [];
+const objets = [];
 for (var i = 1; i <= 41; i++) {
     objets.push("assets/objets/objet" + i + ".png");
 }
- 
-  const backgrounds = ["assets/bg-paper.jpg", "assets/bg1.jpg", "assets/bg2.jpg", "assets/bg3.jpg", "assets/bg4.jpg"];
 
-  const categories = {
+const backgrounds = ["assets/bg-paper.jpg", "assets/bg1.jpg", "assets/bg2.jpg", "assets/bg3.jpg", "assets/bg4.jpg"];
+
+const categories = {
     aide: {
-      emoji: "🤝", nom: "Aide & soutien",
-      question: "Qu'est-ce qui a facilité le travail ou le vécu de quelqu'un ?",
-      exemple: "« Cette semaine, Paul a pris 20 minutes pour m'expliquer une procédure que je ne comprenais pas. J'ai pu avancer sans stress et éviter une erreur. »",
-      mecanismes: ["Reconnaissance du prosocial", "Renforcement du sentiment d'appartenance", "Diminution du stress perçu"],
-      sources: ["<strong>Adam Grant – Give and Take</strong><br>→ Voir l'impact concret de son aide augmente la motivation et l'engagement.", "<strong>Baumeister & Leary</strong><br>→ Le besoin d'appartenance est un besoin psychologique fondamental.", "<strong>Thompson & Bolino (2018)</strong><br>→ La reconnaissance de l'aide renforce la coopération future."],
-      impact: "plus d'entraide spontanée, moins d'isolement.",
-      items: [
-        { label: "Qu'a fait la personne ?", placeholder: "Fait concret, observable", type: "textarea", name: "item1", required: true },
-        { label: "En quoi cela a aidé ?", placeholder: "Impact immédiat", type: "textarea", name: "item2", required: true },
-        { label: "(optionnel) Pour qui cela a compté ?", placeholder: "Personne ou groupe concerné", type: "input", name: "item3", required: false }
-      ]
+        emoji: "🤝", nom: "Aide & soutien",
+        question: "Qu'est-ce qui a facilité le travail ou le vécu de quelqu'un ?",
+        exemple: "« Cette semaine, Paul a pris 20 minutes pour m'expliquer une procédure que je ne comprenais pas. J'ai pu avancer sans stress et éviter une erreur. »",
+        mecanismes: ["Reconnaissance du prosocial", "Renforcement du sentiment d'appartenance", "Diminution du stress perçu"],
+        sources: ["<strong>Adam Grant – Give and Take</strong><br>→ Voir l'impact concret de son aide augmente la motivation et l'engagement.", "<strong>Baumeister & Leary</strong><br>→ Le besoin d'appartenance est un besoin psychologique fondamental.", "<strong>Thompson & Bolino (2018)</strong><br>→ La reconnaissance de l'aide renforce la coopération future."],
+        impact: "plus d'entraide spontanée, moins d'isolement.",
+        items: [
+            { label: "Qu'a fait la personne ?", placeholder: "Fait concret, observable", type: "textarea", name: "item1", required: true },
+            { label: "En quoi cela a aidé ?", placeholder: "Impact immédiat", type: "textarea", name: "item2", required: true },
+            { label: "(optionnel) Pour qui cela a compté ?", placeholder: "Personne ou groupe concerné", type: "input", name: "item3", required: false }
+        ]
     },
     apprentissage: {
-      emoji: "🧠", nom: "Apprentissage",
-      question: "Qu'avons-nous compris de mieux ?",
-      exemple: "« J'ai compris que lorsque je prépare mes réponses à l'avance, l'échange devient rigide. En laissant plus de place à l'écoute, la discussion est plus fluide. »",
-      mecanismes: ["Transformation de l'erreur en ressource", "Développement du sentiment de compétence", "Mentalité de croissance"],
-      sources: ["<strong>Carol Dweck – Growth Mindset</strong><br>→ Apprendre = moteur de motivation durable.", "<strong>Kolb – Apprentissage expérientiel</strong><br>→ Le sens émerge de l'expérience réfléchie.", "<strong>Edmondson</strong><br>→ Les équipes apprenantes performent mieux à long terme."],
-      impact: "moins de peur de se tromper, plus d'adaptation.",
-      items: [
-        { label: "Situation / expérience", placeholder: "Décris le contexte...", type: "textarea", name: "item1", required: true },
-        { label: "Ce que j'ai compris ou appris", placeholder: "Ta découverte...", type: "textarea", name: "item2", required: true },
-        { label: "Ce que je ferai différemment", placeholder: "Action future...", type: "textarea", name: "item3", required: true }
-      ]
+        emoji: "🧠", nom: "Apprentissage",
+        question: "Qu'avons-nous compris de mieux ?",
+        exemple: "« J'ai compris que lorsque je prépare mes réponses à l'avance, l'échange devient rigide. En laissant plus de place à l'écoute, la discussion est plus fluide. »",
+        mecanismes: ["Transformation de l'erreur en ressource", "Développement du sentiment de compétence", "Mentalité de croissance"],
+        sources: ["<strong>Carol Dweck – Growth Mindset</strong><br>→ Apprendre = moteur de motivation durable.", "<strong>Kolb – Apprentissage expérientiel</strong><br>→ Le sens émerge de l'expérience réfléchie.", "<strong>Edmondson</strong><br>→ Les équipes apprenantes performent mieux à long terme."],
+        impact: "moins de peur de se tromper, plus d'adaptation.",
+        items: [
+            { label: "Situation / expérience", placeholder: "Décris le contexte...", type: "textarea", name: "item1", required: true },
+            { label: "Ce que j'ai compris ou appris", placeholder: "Ta découverte...", type: "textarea", name: "item2", required: true },
+            { label: "Ce que je ferai différemment", placeholder: "Action future...", type: "textarea", name: "item3", required: true }
+        ]
     },
     amelioration: {
-      emoji: "🔧", nom: "Amélioration concrète",
-      question: "Qu'est-ce qui fonctionne mieux qu'avant ?",
-      exemple: "« Avant, on passait 15 minutes à chercher l'info. Maintenant, elle est centralisée, on gagne du temps chaque jour. »",
-      mecanismes: ["Sentiment d'efficacité collective", "Perception de progrès (même petit)"],
-      sources: ["<strong>Teresa Amabile – Progress Principle</strong><br>→ Le sentiment de progrès est le plus puissant moteur de motivation au travail.", "<strong>Lean / Kaizen</strong><br>→ Les petites améliorations répétées ont un impact cumulatif majeur."],
-      impact: "redonne prise sur le réel, combat l'impuissance.",
-      items: [
-        { label: "Avant / après", placeholder: "Très court, l'essentiel...", type: "textarea", name: "item1", required: true },
-        { label: "Ce qui a changé", placeholder: "La modification apportée...", type: "textarea", name: "item2", required: true },
-        { label: "Bénéfice principal", placeholder: "Impact positif...", type: "textarea", name: "item3", required: true }
-      ]
+        emoji: "🔧", nom: "Amélioration concrète",
+        question: "Qu'est-ce qui fonctionne mieux qu'avant ?",
+        exemple: "« Avant, on passait 15 minutes à chercher l'info. Maintenant, elle est centralisée, on gagne du temps chaque jour. »",
+        mecanismes: ["Sentiment d'efficacité collective", "Perception de progrès (même petit)"],
+        sources: ["<strong>Teresa Amabile – Progress Principle</strong><br>→ Le sentiment de progrès est le plus puissant moteur de motivation au travail.", "<strong>Lean / Kaizen</strong><br>→ Les petites améliorations répétées ont un impact cumulatif majeur."],
+        impact: "redonne prise sur le réel, combat l'impuissance.",
+        items: [
+            { label: "Avant / après", placeholder: "Très court, l'essentiel...", type: "textarea", name: "item1", required: true },
+            { label: "Ce qui a changé", placeholder: "La modification apportée...", type: "textarea", name: "item2", required: true },
+            { label: "Bénéfice principal", placeholder: "Impact positif...", type: "textarea", name: "item3", required: true }
+        ]
     },
     effort: {
-      emoji: "🎯", nom: "Effort invisible",
-      question: "Qu'est-ce qui a été tenu malgré la difficulté ?",
-      exemple: "« Malgré une semaine émotionnellement lourde, j'ai maintenu la qualité de l'accueil des usagers. »",
-      mecanismes: ["Reconnaissance de la charge invisible", "Justice symbolique", "Prévention de l'épuisement"],
-      sources: ["<strong>Axel Honneth – Théorie de la reconnaissance</strong><br>→ Le manque de reconnaissance est une source majeure de souffrance au travail.", "<strong>Siegrist – Effort / Récompense</strong><br>→ Le déséquilibre effort-reconnaissance génère stress et burnout."],
-      impact: "réparation morale, baisse du ressentiment.",
-      items: [
-        { label: "Ce qui était difficile", placeholder: "La difficulté rencontrée...", type: "textarea", name: "item1", required: true },
-        { label: "Ce qui a été maintenu / assuré", placeholder: "Malgré tout, tu as tenu...", type: "textarea", name: "item2", required: true },
-        { label: "Pourquoi c'était important", placeholder: "Le sens de cet effort...", type: "textarea", name: "item3", required: true }
-      ]
+        emoji: "🎯", nom: "Effort invisible",
+        question: "Qu'est-ce qui a été tenu malgré la difficulté ?",
+        exemple: "« Malgré une semaine émotionnellement lourde, j'ai maintenu la qualité de l'accueil des usagers. »",
+        mecanismes: ["Reconnaissance de la charge invisible", "Justice symbolique", "Prévention de l'épuisement"],
+        sources: ["<strong>Axel Honneth – Théorie de la reconnaissance</strong><br>→ Le manque de reconnaissance est une source majeure de souffrance au travail.", "<strong>Siegrist – Effort / Récompense</strong><br>→ Le déséquilibre effort-reconnaissance génère stress et burnout."],
+        impact: "réparation morale, baisse du ressentiment.",
+        items: [
+            { label: "Ce qui était difficile", placeholder: "La difficulté rencontrée...", type: "textarea", name: "item1", required: true },
+            { label: "Ce qui a été maintenu / assuré", placeholder: "Malgré tout, tu as tenu...", type: "textarea", name: "item2", required: true },
+            { label: "Pourquoi c'était important", placeholder: "Le sens de cet effort...", type: "textarea", name: "item3", required: true }
+        ]
     },
     initiative: {
-      emoji: "🌱", nom: "Initiative",
-      question: "Qu'est-ce qui a été tenté ?",
-      exemple: "« J'ai proposé un nouvel outil, même si tout n'est pas encore en place, ça a ouvert la discussion. »",
-      mecanismes: ["Autonomie", "Droit à l'essai", "Innovation psychologiquement sûre"],
-      sources: ["<strong>Deci & Ryan – Autodétermination</strong><br>→ L'autonomie est un pilier de la motivation intrinsèque.", "<strong>Edmondson</strong><br>→ Sans droit à l'initiative, pas d'innovation durable."],
-      impact: "plus d'idées, moins de conformisme passif.",
-      items: [
-        { label: "L'idée ou l'initiative", placeholder: "Ce que tu as proposé/tenté...", type: "textarea", name: "item1", required: true },
-        { label: "Pourquoi elle a été lancée", placeholder: "La motivation...", type: "textarea", name: "item2", required: true },
-        { label: "Ce que cela a permis (même partiellement)", placeholder: "Résultat, même partiel...", type: "textarea", name: "item3", required: true }
-      ]
+        emoji: "🌱", nom: "Initiative",
+        question: "Qu'est-ce qui a été tenté ?",
+        exemple: "« J'ai proposé un nouvel outil, même si tout n'est pas encore en place, ça a ouvert la discussion. »",
+        mecanismes: ["Autonomie", "Droit à l'essai", "Innovation psychologiquement sûre"],
+        sources: ["<strong>Deci & Ryan – Autodétermination</strong><br>→ L'autonomie est un pilier de la motivation intrinsèque.", "<strong>Edmondson</strong><br>→ Sans droit à l'initiative, pas d'innovation durable."],
+        impact: "plus d'idées, moins de conformisme passif.",
+        items: [
+            { label: "L'idée ou l'initiative", placeholder: "Ce que tu as proposé/tenté...", type: "textarea", name: "item1", required: true },
+            { label: "Pourquoi elle a été lancée", placeholder: "La motivation...", type: "textarea", name: "item2", required: true },
+            { label: "Ce que cela a permis (même partiellement)", placeholder: "Résultat, même partiel...", type: "textarea", name: "item3", required: true }
+        ]
     },
     collectif: {
-      emoji: "👥", nom: "Réussite collective",
-      question: "Quand avons-nous mieux fonctionné ensemble ?",
-      exemple: "« Lors de ce projet, les informations ont bien circulé et les décisions ont été prises ensemble. »",
-      mecanismes: ["Identité collective", "Cohésion", "Intelligence collective"],
-      sources: ["<strong>Weick – Sensemaking</strong><br>→ Le sens est co-construit dans l'action collective.", "<strong>Hackman</strong><br>→ Les équipes efficaces se définissent par leurs processus, pas seulement leurs résultats."],
-      impact: "moins de silos, plus de coopération.",
-      items: [
-        { label: "Moment / contexte", placeholder: "Quand ? Dans quel cadre ?", type: "textarea", name: "item1", required: true },
-        { label: "Ce qui a bien circulé", placeholder: "Info, décision, entraide...", type: "textarea", name: "item2", required: true },
-        { label: "Effet sur le travail ou le climat", placeholder: "Impact ressenti...", type: "textarea", name: "item3", required: true }
-      ]
+        emoji: "👥", nom: "Réussite collective",
+        question: "Quand avons-nous mieux fonctionné ensemble ?",
+        exemple: "« Lors de ce projet, les informations ont bien circulé et les décisions ont été prises ensemble. »",
+        mecanismes: ["Identité collective", "Cohésion", "Intelligence collective"],
+        sources: ["<strong>Weick – Sensemaking</strong><br>→ Le sens est co-construit dans l'action collective.", "<strong>Hackman</strong><br>→ Les équipes efficaces se définissent par leurs processus, pas seulement leurs résultats."],
+        impact: "moins de silos, plus de coopération.",
+        items: [
+            { label: "Moment / contexte", placeholder: "Quand ? Dans quel cadre ?", type: "textarea", name: "item1", required: true },
+            { label: "Ce qui a bien circulé", placeholder: "Info, décision, entraide...", type: "textarea", name: "item2", required: true },
+            { label: "Effet sur le travail ou le climat", placeholder: "Impact ressenti...", type: "textarea", name: "item3", required: true }
+        ]
     },
     sens: {
-      emoji: "🧭", nom: "Sens & valeurs",
-      question: "Quand avons-nous agi de façon alignée ?",
-      exemple: "« Nous avons pris plus de temps pour respecter la situation de la personne, même si c'était plus lent. »",
-      mecanismes: ["Alignement valeurs–actions", "Motivation morale", "Prévention du cynisme"],
-      sources: ["<strong>Viktor Frankl</strong><br>→ Le sens protège face à l'adversité.", "<strong>Rosso, Dekas & Wrzesniewski (2010)</strong><br>→ Le sens au travail augmente engagement et résilience."],
-      impact: "résistance à l'usure et à la perte de sens.",
-      items: [
-        { label: "Situation", placeholder: "Le contexte...", type: "textarea", name: "item1", required: true },
-        { label: "Valeur ou principe respecté", placeholder: "Ce qui a été honoré...", type: "textarea", name: "item2", required: true },
-        { label: "Pourquoi c'était important", placeholder: "Le sens profond...", type: "textarea", name: "item3", required: true }
-      ]
+        emoji: "🧭", nom: "Sens & valeurs",
+        question: "Quand avons-nous agi de façon alignée ?",
+        exemple: "« Nous avons pris plus de temps pour respecter la situation de la personne, même si c'était plus lent. »",
+        mecanismes: ["Alignement valeurs–actions", "Motivation morale", "Prévention du cynisme"],
+        sources: ["<strong>Viktor Frankl</strong><br>→ Le sens protège face à l'adversité.", "<strong>Rosso, Dekas & Wrzesniewski (2010)</strong><br>→ Le sens au travail augmente engagement et résilience."],
+        impact: "résistance à l'usure et à la perte de sens.",
+        items: [
+            { label: "Situation", placeholder: "Le contexte...", type: "textarea", name: "item1", required: true },
+            { label: "Valeur ou principe respecté", placeholder: "Ce qui a été honoré...", type: "textarea", name: "item2", required: true },
+            { label: "Pourquoi c'était important", placeholder: "Le sens profond...", type: "textarea", name: "item3", required: true }
+        ]
     }
-  };
+};
 
-  const forcesVIA = [
+const forcesVIA = [
     { group: "🧠 SAGESSE ET CONNAISSANCE", items: ["Curiosité", "Amour de l'apprentissage", "Jugement / Pensée critique", "Ingéniosité / Créativité", "Perspective / Sagesse"] },
     { group: "💪 COURAGE", items: ["Bravoure", "Persévérance", "Intégrité / Honnêteté", "Enthousiasme"] },
     { group: "❤️ HUMANITÉ", items: ["Amour", "Gentillesse", "Intelligence sociale / Empathie"] },
     { group: "⚖️ JUSTICE", items: ["Équité", "Leadership", "Travail d'équipe / Esprit de citoyenneté"] },
     { group: "🧘 TEMPÉRANCE", items: ["Pardon / Indulgence", "Humilité / Modestie", "Prudence / Prévenance", "Autocontrôle / Régulation de soi"] },
     { group: "✨ TRANSCENDANCE", items: ["Appréciation de la beauté et de l'excellence", "Gratitude", "Espoir / Optimisme", "Humour", "Spiritualité / Foi"] }
-  ];
+];
 
-  const valeursSchwartz = [
+const valeursSchwartz = [
     { group: "🌍 OUVERTURE AU CHANGEMENT", items: ["Autodétermination-pensée", "Autodétermination-action", "Stimulation", "Hédonisme"] },
     { group: "🎯 CROISSANCE PERSONNELLE", items: ["Réalisation", "Pouvoir-dominance", "Pouvoir-ressources"] },
     { group: "🛡️ CONSERVATION", items: ["Image publique", "Sécurité-personnel", "Tradition", "Conformité-règles", "Conformité-interpersonnelle", "Humilité"] },
     { group: "💗 DÉPASSEMENT DE SOI", items: ["Bienveillance-soins", "Bienveillance-fiabilité", "Universalisme-préoccupation", "Universalisme-nature", "Universalisme-tolérance"] }
-  ];
+];
 
-  let data = [];
-  let currentPage = 0;
-  let sessionWatered = {};
-  let selectedCategory = null;
-  let selectedForces = [];
-  let selectedValeurs = [];
+let data = [];
+let currentPage = 0;
+let sessionWatered = {};
+let selectedCategory = null;
+let selectedForces = [];
+let selectedValeurs = [];
 
-  const overlay = document.getElementById('overlay');
-  const form = document.getElementById('form');
-  const garden = document.getElementById('garden');
-  const notebook = document.getElementById('notebook');
-  const notebookContent = document.getElementById('notebookContent');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const pageInfo = document.getElementById('pageInfo');
+const overlay = document.getElementById('overlay');
+const form = document.getElementById('form');
+const garden = document.getElementById('garden');
+const notebook = document.getElementById('notebook');
+const notebookContent = document.getElementById('notebookContent');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const pageInfo = document.getElementById('pageInfo');
 
-  function setRandomBackground() {
+function setRandomBackground() {
     const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
     document.body.style.backgroundImage = 'url("' + randomBg + '")';
-  }
+}
 
-  function setRandomTitle() {
+function setRandomTitle() {
     const titleEl = document.getElementById('random-title');
     if (!titleEl) return;
-
     const randomIndex = Math.floor(Math.random() * titles.length);
     titleEl.innerText = titles[randomIndex];
 }
 
-  function showThankYouMessage() {
+function showThankYouMessage() {
     const msg = thankYouMessages[Math.floor(Math.random() * thankYouMessages.length)];
     const msgEl = document.getElementById('thankYouMsg');
     msgEl.textContent = msg;
     msgEl.classList.add('show');
     setTimeout(function() { msgEl.classList.remove('show'); }, 4000);
-  }
+}
 
-  // ===== FIX MOT DE PASSE =====
-  // .trim() élimine les espaces/caractères invisibles avant et après la saisie
-  // .toLowerCase() permet d'accepter peu importe la casse (Jardin, JARDIN, jardin…)
-  function checkPassword() {
+function checkPassword() {
     const pwd = document.getElementById('pwd');
     const login = document.getElementById('login');
     const main = document.getElementById('main');
@@ -1424,28 +1391,27 @@ for (var i = 1; i <= 41; i++) {
     } else {
         alert("Mot de passe incorrect");
     }
-  }
-  // ===== FIN FIX =====
+}
 
-  document.getElementById('loginBtn').addEventListener('click', checkPassword);
-  document.getElementById('pwd').addEventListener('keypress', function(e) {
+document.getElementById('loginBtn').addEventListener('click', checkPassword);
+document.getElementById('pwd').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') checkPassword();
-  });
+});
 
-  document.getElementById('addBtn').addEventListener('click', function() {
-      document.getElementById('thermo-container').style.opacity = '0';
-      document.getElementById('thermo-container').style.visibility = 'hidden';
-      document.getElementById('categorySelection').style.display = 'block';
-      document.getElementById('categoryPreview').style.display = 'none';
-      document.getElementById('itemsForm').style.display = 'none';
-      document.getElementById('categorySelect').value = '';
-      selectedCategory = null;
-      selectedForces = [];
-      selectedValeurs = [];
-      overlay.style.display = "flex";
-  });
+document.getElementById('addBtn').addEventListener('click', function() {
+    document.getElementById('thermo-container').style.opacity = '0';
+    document.getElementById('thermo-container').style.visibility = 'hidden';
+    document.getElementById('categorySelection').style.display = 'block';
+    document.getElementById('categoryPreview').style.display = 'none';
+    document.getElementById('itemsForm').style.display = 'none';
+    document.getElementById('categorySelect').value = '';
+    selectedCategory = null;
+    selectedForces = [];
+    selectedValeurs = [];
+    overlay.style.display = "flex";
+});
 
-  document.getElementById('categorySelect').addEventListener('change', function() {
+document.getElementById('categorySelect').addEventListener('change', function() {
     const categoryKey = this.value;
     if (!categoryKey) {
         document.getElementById('categoryPreview').style.display = 'none';
@@ -1454,41 +1420,41 @@ for (var i = 1; i <= 41; i++) {
     selectedCategory = categoryKey;
     const cat = categories[categoryKey];
     const previewHTML = '<h3>' + cat.emoji + ' ' + cat.nom + '</h3>' +
-      '<div class="preview-section"><h4>🎯 Question centrale</h4><p>' + cat.question + '</p></div>' +
-      '<div class="preview-section"><h4>🎬 Exemple</h4><p>' + cat.exemple + '</p></div>' +
-      '<div class="preview-section"><h4>🧠 Mécanismes activés</h4><ul>' + cat.mecanismes.map(function(m) { return '<li>' + m + '</li>'; }).join('') + '</ul></div>' +
-      '<div class="preview-section"><h4>🔬 Sources & idées fortes</h4><ul>' + cat.sources.map(function(s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
-      '<div class="preview-section"><h4>👉 Impact clé</h4><p>' + cat.impact + '</p></div>';
+        '<div class="preview-section"><h4>🎯 Question centrale</h4><p>' + cat.question + '</p></div>' +
+        '<div class="preview-section"><h4>🎬 Exemple</h4><p>' + cat.exemple + '</p></div>' +
+        '<div class="preview-section"><h4>🧠 Mécanismes activés</h4><ul>' + cat.mecanismes.map(function(m) { return '<li>' + m + '</li>'; }).join('') + '</ul></div>' +
+        '<div class="preview-section"><h4>🔬 Sources & idées fortes</h4><ul>' + cat.sources.map(function(s) { return '<li>' + s + '</li>'; }).join('') + '</ul></div>' +
+        '<div class="preview-section"><h4>👉 Impact clé</h4><p>' + cat.impact + '</p></div>';
     document.getElementById('previewContent').innerHTML = previewHTML;
     document.getElementById('categorySelection').style.display = 'none';
     document.getElementById('categoryPreview').style.display = 'block';
-  });
+});
 
-  document.getElementById('validateBtn').addEventListener('click', function() {
+document.getElementById('validateBtn').addEventListener('click', function() {
     if (!selectedCategory) return;
     const cat = categories[selectedCategory];
     document.getElementById('itemsFormTitle').textContent = cat.emoji + ' ' + cat.nom;
     let itemsHTML = '';
     cat.items.forEach(function(item) {
-      if (item.type === 'textarea') {
-        itemsHTML += '<label style="font-weight: bold; margin-top: 15px; display: block;">' + item.label + (item.required ? ' *' : '') + '</label>' +
-          '<textarea name="' + item.name + '" placeholder="' + item.placeholder + '" ' + (item.required ? 'required' : '') + '></textarea>';
-      } else {
-        itemsHTML += '<label style="font-weight: bold; margin-top: 15px; display: block;">' + item.label + (item.required ? ' *' : '') + '</label>' +
-          '<input name="' + item.name + '" placeholder="' + item.placeholder + '" ' + (item.required ? 'required' : '') + '>';
-      }
+        if (item.type === 'textarea') {
+            itemsHTML += '<label style="font-weight: bold; margin-top: 15px; display: block;">' + item.label + (item.required ? ' *' : '') + '</label>' +
+                '<textarea name="' + item.name + '" placeholder="' + item.placeholder + '" ' + (item.required ? 'required' : '') + '></textarea>';
+        } else {
+            itemsHTML += '<label style="font-weight: bold; margin-top: 15px; display: block;">' + item.label + (item.required ? ' *' : '') + '</label>' +
+                '<input name="' + item.name + '" placeholder="' + item.placeholder + '" ' + (item.required ? 'required' : '') + '>';
+        }
     });
     document.getElementById('itemsFormContent').innerHTML = itemsHTML;
     createForcesSelector();
     createValeursSelector();
     document.getElementById('categoryPreview').style.display = 'none';
     document.getElementById('itemsForm').style.display = 'block';
-  });
+});
 
-  document.getElementById('backBtn1').addEventListener('click', backToCategories);
-  document.getElementById('backBtn2').addEventListener('click', backToCategories);
+document.getElementById('backBtn1').addEventListener('click', backToCategories);
+document.getElementById('backBtn2').addEventListener('click', backToCategories);
 
-  function backToCategories() {
+function backToCategories() {
     document.getElementById('categorySelection').style.display = 'block';
     document.getElementById('categoryPreview').style.display = 'none';
     document.getElementById('itemsForm').style.display = 'none';
@@ -1497,126 +1463,120 @@ for (var i = 1; i <= 41; i++) {
     selectedValeurs = [];
     document.getElementById('forcesChips').innerHTML = '';
     document.getElementById('valeursChips').innerHTML = '';
-  }
+}
 
-  function createForcesSelector() {
+function createForcesSelector() {
     const select = document.getElementById('forcesSelect');
     select.innerHTML = '';
     select.appendChild(createEmptyOption('— Choisir une force —'));
     forcesVIA.forEach(function(group) {
-      const optgroup = document.createElement('optgroup');
-      optgroup.label = group.group;
-      group.items.forEach(function(force) {
-        const opt = document.createElement('option');
-        opt.value = force;
-        opt.textContent = force;
-        optgroup.appendChild(opt);
-      });
-      select.appendChild(optgroup);
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = group.group;
+        group.items.forEach(function(force) {
+            const opt = document.createElement('option');
+            opt.value = force;
+            opt.textContent = force;
+            optgroup.appendChild(opt);
+        });
+        select.appendChild(optgroup);
     });
     select.addEventListener('change', function() {
-      const chosen = this.value;
-      if (!chosen) return;
-      this.value = '';
-      if (selectedForces.indexOf(chosen) === -1) {
-        if (selectedForces.length < 3) {
-          selectedForces.push(chosen);
-          renderChips('forcesChips', selectedForces, 'forces');
+        const chosen = this.value;
+        if (!chosen) return;
+        this.value = '';
+        if (selectedForces.indexOf(chosen) === -1) {
+            if (selectedForces.length < 3) {
+                selectedForces.push(chosen);
+                renderChips('forcesChips', selectedForces, 'forces');
+            }
         }
-      }
     });
-  }
+}
 
-  function createValeursSelector() {
+function createValeursSelector() {
     const select = document.getElementById('valeursSelect');
     select.innerHTML = '';
     select.appendChild(createEmptyOption('— Choisir une valeur —'));
     valeursSchwartz.forEach(function(group) {
-      const optgroup = document.createElement('optgroup');
-      optgroup.label = group.group;
-      group.items.forEach(function(valeur) {
-        const opt = document.createElement('option');
-        opt.value = valeur;
-        opt.textContent = valeur;
-        optgroup.appendChild(opt);
-      });
-      select.appendChild(optgroup);
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = group.group;
+        group.items.forEach(function(valeur) {
+            const opt = document.createElement('option');
+            opt.value = valeur;
+            opt.textContent = valeur;
+            optgroup.appendChild(opt);
+        });
+        select.appendChild(optgroup);
     });
     select.addEventListener('change', function() {
-      const chosen = this.value;
-      if (!chosen) return;
-      this.value = '';
-      if (selectedValeurs.indexOf(chosen) === -1) {
-        if (selectedValeurs.length < 3) {
-          selectedValeurs.push(chosen);
-          renderChips('valeursChips', selectedValeurs, 'valeurs');
+        const chosen = this.value;
+        if (!chosen) return;
+        this.value = '';
+        if (selectedValeurs.indexOf(chosen) === -1) {
+            if (selectedValeurs.length < 3) {
+                selectedValeurs.push(chosen);
+                renderChips('valeursChips', selectedValeurs, 'valeurs');
+            }
         }
-      }
     });
-  }
+}
 
-  function createEmptyOption(text) {
+function createEmptyOption(text) {
     const opt = document.createElement('option');
     opt.value = '';
     opt.textContent = text;
     return opt;
-  }
+}
 
-  function renderChips(containerId, items, type) {
+function renderChips(containerId, items, type) {
     const container = document.getElementById(containerId);
     container.innerHTML = '';
     items.forEach(function(item, index) {
-      const chip = document.createElement('div');
-      chip.className = 'chip';
-      chip.innerHTML = item + ' <span class="chip-remove" onclick="removeChip(\'' + type + '\', ' + index + ')">×</span>';
-      container.appendChild(chip);
+        const chip = document.createElement('div');
+        chip.className = 'chip';
+        chip.innerHTML = item + ' <span class="chip-remove" onclick="removeChip(\'' + type + '\', ' + index + ')">×</span>';
+        container.appendChild(chip);
     });
-  }
+}
 
-  function removeChip(type, index) {
+function removeChip(type, index) {
     if (type === 'forces') {
-      selectedForces.splice(index, 1);
-      renderChips('forcesChips', selectedForces, 'forces');
+        selectedForces.splice(index, 1);
+        renderChips('forcesChips', selectedForces, 'forces');
     } else {
-      selectedValeurs.splice(index, 1);
-      renderChips('valeursChips', selectedValeurs, 'valeurs');
+        selectedValeurs.splice(index, 1);
+        renderChips('valeursChips', selectedValeurs, 'valeurs');
     }
-  }
+}
 
-  window.removeChip = removeChip;
+window.removeChip = removeChip;
 
-  function loadPlants() {
+function loadPlants() {
     plantsRef.on('value', function(snapshot) {
-        const newData = [];
+        data = [];
         snapshot.forEach(function(childSnapshot) {
             const plant = childSnapshot.val();
             plant.firebaseId = childSnapshot.key;
-            newData.push(plant);
+            data.push(plant);
         });
-        newData.sort(function(a, b) { return b.id - a.id; });
-        
-        // Évite le double render si l'objet temp existe déjà
-        if (data.length > 0 && data[0].firebaseId && data[0].firebaseId.startsWith('temp-')) {
-            return;
-        }
-        
-        data = newData;
+        data.sort(function(a, b) { return b.id - a.id; });
         renderGarden();
     });
 }
 
-  function getRandomObjet() {
+function getRandomObjet() {
     return objets[Math.floor(Math.random() * objets.length)];
 }
 
 function getRandomSize() {
     return 50 + Math.floor(Math.random() * 70);
 }
+
 function getEmpilagePosition() {
     var count = data.filter(function(p) { return !p.type; }).length;
-    var row = Math.floor(count / 10); // 10 par rangée au lieu de 8
+    var row = Math.floor(count / 10);
     var col = count % 10;
-    var baseX = 5 + col * 9.5; // Espacement 9.5% au lieu de 13%
+    var baseX = 5 + col * 9.5;
     var baseY = 90 - row * 6;
     var x = baseX + (Math.random() * 1.5 - 0.75);
     var y = baseY + (Math.random() * 1.5 - 0.75);
@@ -1656,16 +1616,10 @@ form.addEventListener("submit", function(e) {
         bisous: 0,
         merci: 0,
         etoile: 0,
-        date: new Date().toLocaleDateString("fr-FR"),
-        firebaseId: 'temp-' + Date.now()
+        date: new Date().toLocaleDateString("fr-FR")
     };
 
-   // Sauvegarde dans Firebase (le render se fera automatiquement via loadPlants)
-    plantsRef.push(newPlant); 
-    
-    // Sauvegarde Firebase en arrière-plan
     plantsRef.push(newPlant);
-    
     overlay.style.display = "none";
     form.reset();
     backToCategories();
@@ -1697,23 +1651,20 @@ function renderGarden() {
         img.alt = "Objet " + i;
         img.className = "plant";
         img.style.width = (p.size || 50) + "px";
-        img.style.transform = 'rotate(' + (p.rotation || 0) + 'deg)'; // ← UTILISE LA ROTATION SAUVEGARDÉE
+        img.style.transform = 'rotate(' + (p.rotation || 0) + 'deg)';
         
         const objIndex = data.indexOf(p);
         img.onclick = function() { openNotebook(objIndex); };
         
         if (i === 0) {
-        console.log("Création étoile pour objet:", p.img); 
-        console.log("Position départ:", container.style.top);
-        console.log("Position finale:", container.style.getPropertyValue('--final-top'));
-        img.classList.add("falling");
-        const halo = document.createElement("div");
-        halo.className = "halo-effect";
-        halo.style.width = ((p.size || 50) + 120) + "px";
-        halo.style.height = ((p.size || 50) + 120) + "px";
-        halo.style.zIndex = "200"; 
-        container.appendChild(halo);
-    }        
+            img.classList.add("falling");
+            const halo = document.createElement("div");
+            halo.className = "halo-effect";
+            halo.style.width = ((p.size || 50) + 120) + "px";
+            halo.style.height = ((p.size || 50) + 120) + "px";
+            container.appendChild(halo);
+        }
+        
         container.appendChild(img);
         garden.appendChild(container);
     });
@@ -1723,41 +1674,42 @@ function renderGarden() {
     }
     renderFondObjets();
 }
-        
-        function renderFondObjets() {
-            const fond = document.createElement('div');
-            fond.id = 'fond-objets';
-            fond.style.cssText = 'position:absolute; bottom:0; left:0; right:0; height:35%; z-index:4; pointer-events:none; overflow:hidden;';
-            
-            for (let i = 0; i < 30; i++) {
-                const obj = document.createElement('img');
-                obj.src = objets[Math.floor(Math.random() * objets.length)];
-                obj.style.cssText = 'position:absolute; width:' + (25 + Math.random() * 35) + 'px; opacity:0.4; bottom:' + (Math.random() * 40 - 10) + '%; left:' + (Math.random() * 95) + '%;';
-                fond.appendChild(obj);
-            }
-            
-            document.getElementById('garden').appendChild(fond);
-        }
 
-  function openNotebook(index) {
+function renderFondObjets() {
+    const fond = document.createElement('div');
+    fond.id = 'fond-objets';
+    fond.style.cssText = 'position:absolute; bottom:0; left:0; right:0; height:35%; z-index:4; pointer-events:none; overflow:hidden;';
+    
+    for (let i = 0; i < 30; i++) {
+        const obj = document.createElement('img');
+        obj.src = objets[Math.floor(Math.random() * objets.length)];
+        obj.style.cssText = 'position:absolute; width:' + (25 + Math.random() * 35) + 'px; opacity:0.4; bottom:' + (Math.random() * 40 - 10) + '%; left:' + (Math.random() * 95) + '%;';
+        fond.appendChild(obj);
+    }
+    
+    document.getElementById('garden').appendChild(fond);
+}
+
+function openNotebook(index) {
     currentPage = index;
     notebook.classList.remove("open");
     setTimeout(function() {
-      renderNotebook();
-      notebook.classList.add("open");
+        renderNotebook();
+        notebook.classList.add("open");
     }, 40);
-  }
+}
 
-  document.getElementById('closeOverlay').addEventListener('click', function() {
+document.getElementById('closeOverlay').addEventListener('click', function() {
     overlay.style.display = "none";
     document.getElementById('thermo-container').style.opacity = '1';
     document.getElementById('thermo-container').style.visibility = 'visible';
-  });
-  document.getElementById('closeNotebook').addEventListener('click', function() {
-    notebook.classList.remove("open");
-  });
+});
 
-  function waterPlant(plantId, type) {
+document.getElementById('closeNotebook').addEventListener('click', function() {
+    notebook.classList.remove("open");
+});
+
+function waterPlant(plantId, type) {
     const sessionKey = plantId + '_' + type;
     if (sessionWatered[sessionKey]) return;
     const plant = data.find(function(p) { return p.firebaseId === plantId; });
@@ -1807,9 +1759,6 @@ function renderNotebook() {
     const merciKey = p.firebaseId + '_merci';
     const etoileKey = p.firebaseId + '_etoile';
     
-    const totalInteractions = (p.bisous || 0) + (p.merci || 0) + (p.etoile || 0);
-    const pourcentage = Math.min(100, totalInteractions * 10);
-    
     let itemsHTML = '';
     if (p.items) {
         const cat = categories[p.categorie];
@@ -1838,66 +1787,53 @@ function renderNotebook() {
         '<div class="water-actions"><button class="water-btn ' + (sessionWatered[bisousKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'bisous\')" ' + (sessionWatered[bisousKey] ? 'disabled' : '') + ' aria-label="Envoyer un bisou">💋 <span style="margin-left:8px; font-size:14px;">(' + (p.bisous || 0) + ')</span></button>' +
         '<button class="water-btn ' + (sessionWatered[merciKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'merci\')" ' + (sessionWatered[merciKey] ? 'disabled' : '') + ' aria-label="Remercier">🙏 <span style="margin-left:8px; font-size:14px;">(' + (p.merci || 0) + ')</span></button>' +
         '<button class="water-btn ' + (sessionWatered[etoileKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'etoile\')" ' + (sessionWatered[etoileKey] ? 'disabled' : '') + ' aria-label="Étoile scintillante">✨ <span style="margin-left:8px; font-size:14px;">(' + (p.etoile || 0) + ')</span></button></div></div>';
-        notebookContent.innerHTML += '<img src="assets/objets/objet26.png" style="width:100%; margin-top:30px; opacity:0.6;">'; 
+    notebookContent.innerHTML += '<img src="assets/objets/objet26.png" style="width:100%; margin-top:30px; opacity:0.6;">'; 
     updatePageNav();
 }
 
-  function updatePageNav() {
+function updatePageNav() {
     prevBtn.disabled = currentPage === 0;
     nextBtn.disabled = currentPage === data.length - 1;
     pageInfo.textContent = (currentPage + 1) + ' / ' + data.length;
-  }
+}
 
-  prevBtn.addEventListener('click', function() {
+prevBtn.addEventListener('click', function() {
     if (currentPage > 0) {
-      currentPage--;
-      renderNotebook();
+        currentPage--;
+        renderNotebook();
     }
-  });
+});
 
-  nextBtn.addEventListener('click', function() {
+nextBtn.addEventListener('click', function() {
     if (currentPage < data.length - 1) {
-      currentPage++;
-      renderNotebook();
+        currentPage++;
+        renderNotebook();
     }
-  });
+});
 </script>
+
 <div id="infoPopup" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; align-items:center; justify-content:center;">
-  <div style="background:white; padding:30px; border-radius:20px; max-width:500px; position:relative;">
-      <button onclick="document.getElementById('infoPopup').style.display='none'" style="position:absolute; top:10px; right:15px; background:none; border:none; font-size:28px; cursor:pointer;">×</button>
-      <h3>Pourquoi utiliser cette application</h3>
-      <p>Ce coffre a été conçue pour renforcer ce qui fait réellement la performance d’une équipe :
-        le facteur humain.
-        Au-delà des résultats chiffrés, elle permet de rendre visibles :
-        les expériences vécues,
-        les apprentissages,
-        les forces mobilisées,
-        les valeurs incarnées au quotidien.
-        Elle est pensée pour être utilisée avant, pendant et après les temps collectifs,
-        comme un support à l’échange, au partage d’expériences et à la construction du sens.
-        Son inspiration est simple :
-        les pirates, souvent réduits à une image caricaturale, étaient en réalité des organisations humaines très avancées.
-        Leur efficacité reposait sur la confiance, des règles claires, une gouvernance partagée et un fort sens du collectif.
-        Cette application s’inscrit dans cette logique :
-        liberté d’expression, cadre clair, apprentissage commun.
-        Parce qu’une équipe performe dans la durée
-        quand elle prend soin des humains qui la composent./p>
-  </div>
+    <div style="background:white; padding:30px; border-radius:20px; max-width:500px; position:relative;">
+        <button onclick="document.getElementById('infoPopup').style.display='none'" style="position:absolute; top:10px; right:15px; background:none; border:none; font-size:28px; cursor:pointer;">×</button>
+        <h3>Pourquoi utiliser cette application</h3>
+        <p>Ce coffre a été conçu pour renforcer ce qui fait réellement la performance d'une équipe : le facteur humain. Au-delà des résultats chiffrés, il permet de rendre visibles les expériences vécues, les apprentissages, les forces mobilisées et les valeurs incarnées au quotidien. Pensé pour être utilisé avant, pendant et après les temps collectifs, comme un support à l'échange, au partage d'expériences et à la construction du sens. Son inspiration est simple : les pirates, souvent réduits à une image caricaturale, étaient en réalité des organisations humaines très avancées. Leur efficacité reposait sur la confiance, des règles claires, une gouvernance partagée et un fort sens du collectif. Cette application s'inscrit dans cette logique : liberté d'expression, cadre clair, apprentissage commun. Parce qu'une équipe performe dans la durée quand elle prend soin des humains qui la composent.</p>
+    </div>
 </div>
+
 <div id="forcesInfo" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; align-items:center; justify-content:center;">
-  <div style="background:white; padding:30px; border-radius:20px; max-width:500px; position:relative;">
-      <button onclick="document.getElementById('forcesInfo').style.display='none'" style="position:absolute; top:10px; right:15px; background:none; border:none; font-size:28px; cursor:pointer;">×</button>
-      <h3>💪 Forces VIA</h3>
-      <p>Les forces de caractère sont des qualités positives qui reflètent ce qu'il y a de meilleur en nous. Choisis jusqu'à 3 forces que tu as mobilisées dans cette expérience.</p>
-  </div>
+    <div style="background:white; padding:30px; border-radius:20px; max-width:500px; position:relative;">
+        <button onclick="document.getElementById('forcesInfo').style.display='none'" style="position:absolute; top:10px; right:15px; background:none; border:none; font-size:28px; cursor:pointer;">×</button>
+        <h3>💪 Forces VIA</h3>
+        <p>Les forces de caractère sont des qualités positives qui reflètent ce qu'il y a de meilleur en nous. Choisis jusqu'à 3 forces que tu as mobilisées dans cette expérience.</p>
+    </div>
 </div>
 
 <div id="valeursInfo" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; align-items:center; justify-content:center;">
-  <div style="background:white; padding:30px; border-radius:20px; max-width:500px; position:relative;">
-      <button onclick="document.getElementById('valeursInfo').style.display='none'" style="position:absolute; top:10px; right:15px; background:none; border:none; font-size:28px; cursor:pointer;">×</button>
-      <h3>⭐ Valeurs de Schwartz</h3>
-      <p>Les valeurs représentent ce qui est important pour toi dans la vie. Identifie jusqu'à 3 valeurs qui étaient en jeu dans cette situation.</p>
-  </div>
+    <div style="background:white; padding:30px; border-radius:20px; max-width:500px; position:relative;">
+        <button onclick="document.getElementById('valeursInfo').style.display='none'" style="position:absolute; top:10px; right:15px; background:none; border:none; font-size:28px; cursor:pointer;">×</button>
+        <h3>⭐ Valeurs de Schwartz</h3>
+        <p>Les valeurs représentent ce qui est important pour toi dans la vie. Identifie jusqu'à 3 valeurs qui étaient en jeu dans cette situation.</p>
+    </div>
 </div>
 </body>
 </html>
