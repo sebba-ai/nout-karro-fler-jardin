@@ -580,7 +580,7 @@ h1,h2,h3 {
         linear-gradient(90deg, transparent 48%, white 49%, white 51%, transparent 52%),
         linear-gradient(135deg, transparent 48%, white 49%, white 51%, transparent 52%);
     animation: star-rotate 4s linear infinite;
-    opacity: 0.8;
+    opacity: 1;
 }
 
 @keyframes star-pulse {
@@ -1091,10 +1091,10 @@ form button:hover {
       <div id="quote"></div>
   </div>   
 
-  <button id="addBtn">⚓ LARGUER L'OR/button>
+  <button id="addBtn">⚓ LARGUER L'ANCRE</button>
 
     <div id="garden">
-        <div class="loading">🌱 Chargement Zarl'or...</div>
+        <div class="loading">🌱 Chargement de la zar l'or...</div>
     </div>
 </div>
 
@@ -1660,9 +1660,8 @@ form.addEventListener("submit", function(e) {
         firebaseId: 'temp-' + Date.now()
     };
 
-    // Affichage immédiat
-    data.unshift(newPlant);
-    renderGarden();
+   // Sauvegarde dans Firebase (le render se fera automatiquement via loadPlants)
+    plantsRef.push(newPlant); 
     
     // Sauvegarde Firebase en arrière-plan
     plantsRef.push(newPlant);
@@ -1710,8 +1709,9 @@ function renderGarden() {
         img.classList.add("falling");
         const halo = document.createElement("div");
         halo.className = "halo-effect";
-        halo.style.width = ((p.size || 200) + 80) + "px";
-        halo.style.height = ((p.size || 200) + 80) + "px";
+        halo.style.width = ((p.size || 50) + 120) + "px";
+        halo.style.height = ((p.size || 50) + 120) + "px";
+        halo.style.zIndex = "200"; 
         container.appendChild(halo);
     }        
         container.appendChild(img);
