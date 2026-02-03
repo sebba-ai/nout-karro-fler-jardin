@@ -1139,9 +1139,11 @@ form button:hover {
   firebase.auth().signInAnonymously()
     .then(() => {
       console.log("Connecté anonymement !");
+    loadPlants();
     })
     .catch((error) => {
       console.error("Erreur d'authentification:", error);
+        alert("Erreur de connexion à la base de données");
     });
     
   const PASSWORD = "jardin";
@@ -1370,7 +1372,6 @@ for (var i = 1; i <= 41; i++) {
 
     if (saisi === PASSWORD) {
         setRandomBackground();
-        loadPlants();
         quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
         setRandomTitle();
         main.style.display = "flex";
