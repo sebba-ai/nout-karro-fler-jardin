@@ -543,7 +543,7 @@ h1,h2,h3 {
     left: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    z-index: -1;
+    z-index: 10;
 }
 
 .halo-effect::before {
@@ -1586,16 +1586,23 @@ for (var i = 1; i <= 41; i++) {
 
   function loadPlants() {
     plantsRef.on('value', function(snapshot) {
-      data = [];
-      snapshot.forEach(function(childSnapshot) {
-        const plant = childSnapshot.val();
-        plant.firebaseId = childSnapshot.key;
-        data.push(plant);
-      });
-      data.sort(function(a, b) { return b.id - a.id; });
-      renderGarden();
+        const newData = [];
+        snapshot.forEach(function(childSnapshot) {
+            const plant = childSnapshot.val();
+            plant.firebaseId = childSnapshot.key;
+            newData.push(plant);
+        });
+        newData.sort(function(a, b) { return b.id - a.id; });
+        
+        // Évite le double render si l'objet temp existe déjà
+        if (data.length > 0 && data[0].firebaseId && data[0].firebaseId.startsWith('temp-')) {
+            return;
+        }
+        
+        data = newData;
+        renderGarden();
     });
-  }
+}
 
   function getRandomObjet() {
     return objets[Math.floor(Math.random() * objets.length)];
