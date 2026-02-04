@@ -1645,16 +1645,6 @@ form.addEventListener("submit", function(e) {
     }, 2000);
 });
 
-    plantsRef.push(newPlant);
-    overlay.style.display = "none";
-    form.reset();
-    backToCategories();
-
-    setTimeout(function() {
-        showThankYouMessage();
-    }, 2000);
-});
-
 function renderGarden() {
     garden.innerHTML = "";
     var newObjects = data.filter(function(p) { return !p.type; });
