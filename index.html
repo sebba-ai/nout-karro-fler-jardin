@@ -68,6 +68,42 @@ h1, h2, h3 {
     cursor: pointer;
 }
 
+.info-popup {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-popup.hidden {
+    display: none;
+}
+
+.info-content {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 650px;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    line-height: 1.8;
+}
+
+.close-popup {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
+    color: #999;
+}
+
 /* ----------------- THERMOMÈTRE D'ÉNERGIE AMÉLIORÉ ----------------- */
 #thermo-container {
     position: absolute;
@@ -1043,8 +1079,7 @@ form button:hover {
             <h2>🌱 Le Facteur Humain</h2>
             <p>Rejoins le bivouac des pirates 🏴‍☠️</p>
             <p style="font-size:14px; margin:15px 0;">
-                <a href="#" onclick="document.getElementById('infoPopup').style.visibility='visible'; return false;" style="color:#6fa58c; text-decoration:underline;">ℹ️ Pourquoi cette application ?</a>   
-            </p>
+                <a href="#" onclick="openInfoPopup(); return false;" style="color:#6fa58c; text-decoration:underline;">ℹ️ Pourquoi cette application ?</a> 
             
             <div style="background:rgba(255,215,130,0.15); padding:15px; border-radius:10px; margin:20px 0; text-align:left;">
                 <label style="display:flex; align-items:start; cursor:pointer; font-size:14px; line-height:1.6;">
@@ -1072,7 +1107,7 @@ form button:hover {
         <div id="thermo-label">📞2512/☎881</div>
     </div>
 
-    <div class="title-quote-container" onclick="document.getElementById('infoPopup').style.display='flex'" style="cursor:pointer;">
+    <div class="title-quote-container" onclick="openInfoPopup()" style="cursor:pointer;"></div>
         <h2 id="random-title"></h2>
         <div id="quote"></div>
     </div>   
@@ -1403,6 +1438,14 @@ function checkPassword() {
     } else {
         alert("Mot de passe incorrect");
     }
+}
+
+function closeInfoPopup() {
+    document.getElementById('infoPopup').classList.add('hidden');
+}
+
+function openInfoPopup() {
+    document.getElementById('infoPopup').classList.remove('hidden');
 }
 
 document.getElementById('loginBtn').addEventListener('click', checkPassword);
@@ -1841,9 +1884,9 @@ nextBtn.addEventListener('click', function() {
 });
 </script>
 
-<div id="infoPopup" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; align-items:center; justify-content:center;">
-    <div style="background:white; padding:40px; border-radius:20px; max-width:650px; max-height:85vh; overflow-y:auto; position:relative; line-height:1.8;">
-        <button onclick="document.getElementById('infoPopup').style.visibility='hidden'" style="position:absolute; top:15px; right:20px; background:none; border:none; font-size:32px; cursor:pointer; color:#999;">×</button>
+<div id="infoPopup" class="info-popup">
+    <div class="info-content">
+        <button onclick="closeInfoPopup()" class="close-popup">×</button>
         
         <h2 style="font-family:'Cinzel',serif; color:#3d2817; margin-top:0; margin-bottom:25px; text-align:center; font-size:24px;">Pourquoi utiliser cette application</h2>
         
@@ -1895,23 +1938,24 @@ nextBtn.addEventListener('click', function() {
         <p style="margin-bottom:15px; color:#2f3e34;">Cet outil ne crée pas la confiance à lui seul. Il la cultive, lorsque les bases sont posées.</p>
         
         <p style="margin-bottom:15px; color:#2f3e34;">Chacun est libre de partager à son rythme, dans les limites qui lui semblent justes.</p>
+        
         <hr style="border:none; border-top:2px solid #d4b896; margin:30px 0;">
-
+        
         <h3 style="font-family:'Cinzel',serif; color:#3d2817; margin-bottom:20px; font-size:20px;">Confidentialité et responsabilité</h3>
-
+        
         <p style="margin-bottom:15px; color:#2f3e34;">Cet outil est destiné à un <strong>usage professionnel</strong>.</p>
-
+        
         <p style="background:rgba(231,76,60,0.1); padding:15px; border-left:4px solid #e74c3c; border-radius:5px; margin-bottom:20px; color:#2f3e34;">
             ⚠️ <strong>Secret professionnel :</strong><br>
             Tout ce qui est partagé dans cette application est soumis au secret professionnel et à la confidentialité. Les expériences partagées ne doivent en aucun cas être divulguées à l'extérieur du cadre défini.
         </p>
-
+        
         <p style="background:rgba(231,76,60,0.1); padding:15px; border-left:4px solid #e74c3c; border-radius:5px; margin-bottom:20px; color:#2f3e34;">
             🚫 <strong>Protection des données personnelles :</strong><br>
             Aucune donnée personnelle identifiable (noms, prénoms, informations privées) ne doit être partagée dans les récits d'expérience. Privilégiez les descriptions anonymisées et les situations générales.
         </p>
-
-<p style="margin-bottom:15px; color:#2f3e34; font-style:italic;">Chaque utilisateur est responsable du respect de ces règles fondamentales.</p>
+        
+        <p style="margin-bottom:15px; color:#2f3e34; font-style:italic;">Chaque utilisateur est responsable du respect de ces règles fondamentales.</p>
         
         <p style="background:rgba(255,215,130,0.2); padding:15px; border-radius:10px; margin-bottom:30px; color:#3d2817; font-weight:bold;">👉 Une règle simple guide les échanges : on parle en "je", jamais au nom des autres.</p>
         
