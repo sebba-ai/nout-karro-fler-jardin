@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -537,6 +537,10 @@ h1, h2, h3 {
     z-index: 1;
 }
 
+.plant-container.falling {
+    animation: fall 8s cubic-bezier(0.2, 0, 0.3, 1) forwards;
+}
+
 .plant {
     animation: breathe 10s ease-in-out infinite;
     cursor: pointer;
@@ -547,10 +551,6 @@ h1, h2, h3 {
 
 .plant:hover {
     filter: brightness(1.1) drop-shadow(0 0 15px rgba(139,191,159,0.6));
-}
-
-.plant.falling {
-    animation: fall 8s cubic-bezier(0.2, 0, 0.3, 1) forwards, breathe 10s ease-in-out infinite 6s;
 }
 
 @keyframes fall {
@@ -1619,8 +1619,10 @@ function loadPlants() {
         });
         newData.sort(function(a, b) { return b.id - a.id; });
         
+        // Si on a un objet temp, on ne re-render pas (évite le double affichage)
         if (data.length > 0 && data[0].firebaseId && data[0].firebaseId.startsWith('temp-')) {
-            data = newData;
+            // Remplace juste l'ID temp par le vrai ID Firebase
+            data[0].firebaseId = newData[0].firebaseId;
             return;
         }
         
@@ -1709,11 +1711,32 @@ function renderGarden() {
         const container = document.createElement("div");
         container.className = "plant-container";
         container.style.left = p.x + "%";
-        container.style.setProperty('--final-top', p.y + '%');
-        container.style.top = (i === 0) ? '-300px' : p.y + '%';
+        container.style.position = "absolute";
+        
+        // Définir la position finale
+        const finalTop = p.y + '%';
+        container.style.setProperty('--final-top', finalTop);
+        
+        // Position initiale AVANT d'ajouter au DOM
+        if (i === 0) {
+            container.style.top = '-300px';
+        } else {
+            container.style.top = finalTop;
+        }
         
         const zIndex = (i === 0) ? 100 : Math.round((100 - p.y) / 5);
         container.style.zIndex = zIndex;
+        
+        // Créer le halo AVANT l'image pour qu'il soit derrière
+        if (i === 0) {
+            const halo = document.createElement("div");
+            halo.className = "halo-effect";
+            halo.style.width = ((p.size || 50) + 120) + "px";
+            halo.style.height = ((p.size || 50) + 120) + "px";
+            halo.style.position = "absolute";
+            halo.style.zIndex = "1";
+            container.appendChild(halo);
+        }
         
         const img = document.createElement("img");
         img.src = p.img;
@@ -1721,21 +1744,23 @@ function renderGarden() {
         img.className = "plant";
         img.style.width = (p.size || 50) + "px";
         img.style.transform = 'rotate(' + (p.rotation || 0) + 'deg)';
+        img.style.position = "relative";
+        img.style.zIndex = "2";
         
         const objIndex = data.indexOf(p);
         img.onclick = function() { openNotebook(objIndex); };
         
-        if (i === 0) {
-            img.classList.add("falling");
-            const halo = document.createElement("div");
-            halo.className = "halo-effect";
-            halo.style.width = ((p.size || 50) + 120) + "px";
-            halo.style.height = ((p.size || 50) + 120) + "px";
-            container.appendChild(halo);
-        }
-        
         container.appendChild(img);
         garden.appendChild(container);
+        
+        // FORCER le reflow puis lancer l'animation sur le CONTAINER
+        if (i === 0) {
+            void container.offsetHeight;
+            
+            requestAnimationFrame(function() {
+                container.classList.add("falling");
+            });
+        }
     });
     
     if (document.getElementById('fond-objets')) {
