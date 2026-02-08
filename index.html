@@ -1076,7 +1076,7 @@ form button:hover {
 <div id="login">
     <div id="loginBox">
         <h2>🌱 Le Facteur Humain</h2>
-        <p>🏴‍☠️ Approche moussaillon ! </p>
+        <p>🏴‍☠️ nous moussaillon ! </p>
         
         <div style="background:rgba(255,215,130,0.15); padding:15px; border-radius:10px; margin:20px 0; text-align:left;">
             <label style="display:flex; align-items:start; cursor:pointer; font-size:14px; line-height:1.6;">
@@ -1898,8 +1898,9 @@ function renderNotebook() {
         itemsHTML + forcesHTML + valeursHTML +
         '<div class="water-actions"><button class="water-btn ' + (sessionWatered[bisousKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'bisous\')" ' + (sessionWatered[bisousKey] ? 'disabled' : '') + ' aria-label="Envoyer un bisou">💋 <span style="margin-left:8px; font-size:14px;">(' + (p.bisous || 0) + ')</span></button>' +
         '<button class="water-btn ' + (sessionWatered[merciKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'merci\')" ' + (sessionWatered[merciKey] ? 'disabled' : '') + ' aria-label="Remercier">🙏 <span style="margin-left:8px; font-size:14px;">(' + (p.merci || 0) + ')</span></button>' +
-        '<button class="water-btn ' + (sessionWatered[etoileKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'etoile\')" ' + (sessionWatered[etoileKey] ? 'disabled' : '') + ' aria-label="Étoile scintillante">✨ <span style="margin-left:8px; font-size:14px;">(' + (p.etoile || 0) + ')</span></button></div></div>';
-        '<button class="water-btn" onclick="waterPlant(\'' + p.firebaseId + '\', \'supprimer\')" aria-label="Admin" style="font-size:14px; opacity:0.6;">🔧</button></div></div>';
+        '<button class="water-btn ' + (sessionWatered[etoileKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'etoile\')" ' + (sessionWatered[etoileKey] ? 'disabled' : '') + ' aria-label="Étoile scintillante">✨ <span style="margin-left:8px; font-size:14px;">(' + (p.etoile || 0) + ')</span></button>' +
+'<button class="water-btn" onclick="waterPlant(\'' + p.firebaseId + '\', \'supprimer\')" style="font-size:24px; background:rgba(255,0,0,0.1);">🗑️</button>' +
+'</div></div>';
     notebookContent.innerHTML += '<img src="assets/objets/objet26.png" style="width:100%; margin-top:30px; opacity:0.6;">'; 
     updatePageNav();
 }
