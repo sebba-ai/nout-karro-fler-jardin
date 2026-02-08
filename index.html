@@ -1899,7 +1899,7 @@ function renderNotebook() {
         '<div class="water-actions"><button class="water-btn ' + (sessionWatered[bisousKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'bisous\')" ' + (sessionWatered[bisousKey] ? 'disabled' : '') + ' aria-label="Envoyer un bisou">💋 <span style="margin-left:8px; font-size:14px;">(' + (p.bisous || 0) + ')</span></button>' +
         '<button class="water-btn ' + (sessionWatered[merciKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'merci\')" ' + (sessionWatered[merciKey] ? 'disabled' : '') + ' aria-label="Remercier">🙏 <span style="margin-left:8px; font-size:14px;">(' + (p.merci || 0) + ')</span></button>' +
         '<button class="water-btn ' + (sessionWatered[etoileKey] ? 'used' : '') + '" onclick="waterPlant(\'' + p.firebaseId + '\', \'etoile\')" ' + (sessionWatered[etoileKey] ? 'disabled' : '') + ' aria-label="Étoile scintillante">✨ <span style="margin-left:8px; font-size:14px;">(' + (p.etoile || 0) + ')</span></button></div></div>';
-        '<button class="water-btn" onclick="waterPlant(\'' + p.firebaseId + '\', \'supprimer\')" aria-label="Admin" style="font-size:14px; opacity:0.3;">🔧</button></div></div>';
+        '<button class="water-btn" onclick="waterPlant(\'' + p.firebaseId + '\', \'supprimer\')" aria-label="Admin" style="font-size:14px; opacity:0.6;">🔧</button></div></div>';
     notebookContent.innerHTML += '<img src="assets/objets/objet26.png" style="width:100%; margin-top:30px; opacity:0.6;">'; 
     updatePageNav();
 }
