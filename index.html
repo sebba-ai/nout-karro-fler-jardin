@@ -1634,8 +1634,10 @@ function loadPlants() {
 function getRandomSize() {
     return 30 + Math.floor(Math.random() * 50);  // Entre 30px et 80px
 }
-
-function getEmpilagePosition() {
+function getRandomObjet() {
+    return objets[Math.floor(Math.random() * objets.length)];
+}
+    function getEmpilagePosition() {
     var count = data.filter(function(p) { return !p.type; }).length;
     var row = Math.floor(count / 10);
     var col = count % 10;
