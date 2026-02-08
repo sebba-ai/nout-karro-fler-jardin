@@ -1076,7 +1076,7 @@ form button:hover {
 <div id="login">
     <div id="loginBox">
         <h2>🌱 Le Facteur Humain</h2>
-        <p>🏴‍☠️ nous moussaillon ! </p>
+        <p>🏴‍☠️ Entrer moussaillon ! </p>
         
         <div style="background:rgba(255,215,130,0.15); padding:15px; border-radius:10px; margin:20px 0; text-align:left;">
             <label style="display:flex; align-items:start; cursor:pointer; font-size:14px; line-height:1.6;">
@@ -1644,7 +1644,14 @@ function getEmpilagePosition() {
     var row = Math.floor(count / 10);
     var col = count % 10;
     var baseX = 5 + col * 9.5;
-    var baseY = 100 - row * 6;
+    var baseY = 75 - row * 6;
+    
+    // CORRECTION POUR LA FORME OVALE : plus haut sur les bords
+    var centreX = 50; // Centre du coffre
+    var distanceDuCentre = Math.abs(baseX - centreX);
+    var correctionOvale = distanceDuCentre * 0.3; // Plus on s'éloigne du centre, plus on remonte
+    baseY = baseY - correctionOvale;
+    
     var x = baseX + (Math.random() * 1.5 - 0.75);
     var y = baseY + (Math.random() * 1.5 - 0.75);
     return { x: x, y: y };
