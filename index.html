@@ -601,17 +601,17 @@ h1, h2, h3 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 120%;
-    height: 120%;
+    width: 80%;  /* ← Plus court (était 120%) */
+    height: 80%; /* ← Plus court (était 120%) */
     background: 
-        linear-gradient(0deg, transparent 48%, white 49%, white 51%, transparent 52%),
-        linear-gradient(45deg, transparent 48%, white 49%, white 51%, transparent 52%),
-        linear-gradient(90deg, transparent 48%, white 49%, white 51%, transparent 52%),
-        linear-gradient(135deg, transparent 48%, white 49%, white 51%, transparent 52%);
+        linear-gradient(0deg, transparent 49%, white 49.5%, white 50.5%, transparent 51%),    /* ← Plus fin */
+        linear-gradient(45deg, transparent 49%, white 49.5%, white 50.5%, transparent 51%),   /* ← Plus fin */
+        linear-gradient(90deg, transparent 49%, white 49.5%, white 50.5%, transparent 51%),   /* ← Plus fin */
+        linear-gradient(135deg, transparent 49%, white 49.5%, white 50.5%, transparent 51%);  /* ← Plus fin */
     animation: star-rotate 4s linear infinite;
     opacity: 1;
+    filter: brightness(1.5) drop-shadow(0 0 4px rgba(255,255,255,0.8));  /* ← Brillant ! */
 }
-
 @keyframes star-pulse {
     0%, 100% { 
         opacity: 0.6; 
